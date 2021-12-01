@@ -1,17 +1,22 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
   mode: 'development',
-  entry: './index.web.js',
+  entry: './web/src/index.web.tsx',
   devtool: 'inline-source-map',
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
         exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            configFile: 'tsconfig.web.json',
+          },
+        },
       },
       {
         test: /\.txt$/,
@@ -20,11 +25,12 @@ module.exports = {
     ],
   },
   resolve: {
+    plugins: [new TsconfigPathsPlugin({configFile: './tsconfig.web.json'})],
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'web/dist'),
   },
-  plugins: [new HtmlWebpackPlugin({template: './index.html'})],
+  plugins: [new HtmlWebpackPlugin({template: './web/src/index.html'})],
 };
