@@ -27,6 +27,9 @@ module.exports = {
   resolve: {
     plugins: [new TsconfigPathsPlugin({configFile: './tsconfig.web.json'})],
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      'react-native$': 'react-native-web',
+    },
   },
   output: {
     filename: 'bundle.js',

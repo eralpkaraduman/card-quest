@@ -1,13 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {Counter} from './components/Counter';
+
+const styles: {[key in string]: React.CSSProperties} = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: 'black',
+    alignItems: 'center',
+  },
+  titleText: {
+    color: 'white',
+  },
+};
 
 export function App(): React.ReactElement {
-  const [num, setNum] = useState<number>(1);
-  const handleOnClick = () => setNum(prev => prev + 1);
   return (
-    <div>
-      <h1>Hi React Dom</h1>
-      <button onClick={handleOnClick}>click me</button>
-      <h2>{num}</h2>
+    <div style={styles.container}>
+      <h1 style={styles.titleText}>React Dom</h1>
+      <Counter />
     </div>
   );
 }
