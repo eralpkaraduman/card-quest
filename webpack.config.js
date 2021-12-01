@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
   mode: 'development',
-  entry: './web/src/index.web.tsx',
+  entry: './index.web.tsx',
   devtool: 'inline-source-map',
   module: {
     rules: [
@@ -30,7 +30,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'web/dist'),
+    path: path.resolve(__dirname, 'dist'),
   },
-  plugins: [new HtmlWebpackPlugin({template: './web/src/index.html'})],
+  plugins: [new HtmlWebpackPlugin({template: './src/index.html'})],
 };
