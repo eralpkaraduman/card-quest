@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, StatusBar, StyleSheet, Text} from 'react-native';
 import {colors} from './colors';
-import {Counter} from './components/Counter';
+import {Counter} from '@components/Counter';
 
 const App = () => {
   return (

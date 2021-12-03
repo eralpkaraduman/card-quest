@@ -1,23 +1,13 @@
 import React from 'react';
-import {Counter} from './components/Counter';
-
-const styles: {[key in string]: React.CSSProperties} = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: 'black',
-    alignItems: 'center',
-  },
-  titleText: {
-    color: 'white',
-  },
-};
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {Home} from '@screens/Home.web';
 
 export function App(): React.ReactElement {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.titleText}>React Dom</h1>
-      <Counter />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
