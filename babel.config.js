@@ -8,6 +8,7 @@ module.exports = {
         alias: {
           '@components': './src/components',
           '@screens': './src/screens',
+          '@controllers': './src/controllers',
           '@': './src',
         },
       },
