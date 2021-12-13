@@ -1,32 +1,35 @@
-import React from 'react';
-import {EventDispatcher, IEventListener} from './EventDispatcher';
+import {EventDispatcher} from './EventDispatcher';
+import {Deck, Card} from './Deck';
+import {DonsolCard} from './DonsolCard';
 
 export interface GameState {
-  room: never[];
-  hand: never[];
-  deck: never[];
+  room: DonsolCard[];
+  deck: Deck;
+  discard: Card[];
 }
 
-export interface GameEventListener extends IEventListener {
-  onGameStarted(gameState: GameState): void;
+export interface GameEventListener {
+  onEnterRoom(donsolCards: DonsolCard[]): void;
 }
 
 export class GameController extends EventDispatcher<GameEventListener> {
-  public start(): void {}
-}
+  private state!: GameState;
 
-const GameControllerContext = React.createContext<GameController>(
-  new GameController(),
-);
+  constructor() {
+    super();
+    this.reset();
+  }
 
-export function GameControllerProvider({
-  children,
-}: {
-  children?: React.ReactNode;
-}): React.ReactElement {
-  return React.createElement(GameControllerContext.Provider, null, children);
-}
+  public reset(): void {
+    this.state = {
+      room: [],
+      discard: [],
+      deck: new Deck(),
+    };
+  }
 
-export function useGameController(): GameController {
-  return React.useContext(GameControllerContext);
+  public enterRoom() {
+    this.state.room = this.state.deck.draw(4).map(card => new DonsolCard(card));
+    this._dispatchEvent('onEnterRoom', [...this.state.room]);
+  }
 }

@@ -1,8 +1,9 @@
-export type IEventListener = {[key in string]: Function};
-
 type RemoveEventListenerCallback = () => void;
 
-export class EventDispatcher<T extends IEventListener> {
+type Callback = (...args: any[]) => void;
+type FuncArgs<T> = Parameters<Extract<T, Callback>>;
+
+export class EventDispatcher<T> {
   private listeners: T[] = [];
 
   public addEventListener(listener: T): RemoveEventListenerCallback {
@@ -12,7 +13,15 @@ export class EventDispatcher<T extends IEventListener> {
     };
   }
 
-  _dispatchEvent<E extends keyof T>(event: E, ...args: never[]): void {
-    this.listeners.forEach(listener => listener[event](...args));
+  _dispatchEvent<E extends keyof T>(
+    eventKey: E,
+    ...args: FuncArgs<T[E]>
+  ): void {
+    this.listeners.forEach(listener => {
+      const callback = listener[eventKey];
+      if (callback instanceof Function) {
+        callback(...args);
+      }
+    });
   }
 }
