@@ -7,6 +7,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Icon} from 'react-native-vector-icons/Icon';
+import {defaultTheme} from './theme';
+import {ThemeProvider} from 'styled-components/native';
 
 const Tab = createBottomTabNavigator();
 const TabBarIcons: {
@@ -38,18 +40,20 @@ function getTabBarIcon(
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({route}) => ({
-          tabBarIcon: ({focused, color, size}) =>
-            getTabBarIcon(route.name, focused, color, size),
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-          headerShown: false,
-        })}>
-        <Tab.Screen name="HomeTab" component={HomeTabStackScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <ThemeProvider theme={defaultTheme}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({route}) => ({
+            tabBarIcon: ({focused, color, size}) =>
+              getTabBarIcon(route.name, focused, color, size),
+            tabBarActiveTintColor: 'tomato',
+            tabBarInactiveTintColor: 'gray',
+            headerShown: false,
+          })}>
+          <Tab.Screen name="HomeTab" component={HomeTabStackScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 };
 

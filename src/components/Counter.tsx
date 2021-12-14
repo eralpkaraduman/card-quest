@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
-import {styles} from './Counter.styles';
+import * as styles from './Counter.styles';
 
 export function Counter(): React.ReactElement {
   const [num, setNum] = useState<number>(1);
   const handleOnClick = () => setNum(prev => prev + 1);
   return (
-    <View style={styles.container}>
-      <Text style={styles.sectionTitle}>This component is shared</Text>
+    <styles.Container>
+      <styles.SectionTitle>This component is shared</styles.SectionTitle>
       <TouchableOpacity onPress={handleOnClick}>
-        <Text style={styles.buttonText}>Click Me</Text>
+        <styles.ButtonText>Click Me</styles.ButtonText>
       </TouchableOpacity>
-      <Text style={styles.numberText}>{num}</Text>
-    </View>
+      <styles.NumberText>{num}</styles.NumberText>
+    </styles.Container>
   );
 }
