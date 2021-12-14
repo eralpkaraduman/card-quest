@@ -6,6 +6,9 @@ module.exports = {
   mode: 'development',
   entry: './index.web.tsx',
   devtool: 'inline-source-map',
+  devServer: {
+    historyApiFallback: true,
+  },
   module: {
     rules: [
       {

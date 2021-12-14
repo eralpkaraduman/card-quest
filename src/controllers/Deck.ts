@@ -3,6 +3,7 @@ enum CardSuit {
   diamonds = '♦',
   clubs = '♣',
   spades = '♠',
+  joker = '★',
 }
 
 export type CardValue =
@@ -18,7 +19,8 @@ export type CardValue =
   | 10
   | 'J'
   | 'Q'
-  | 'K';
+  | 'K'
+  | '*';
 
 export type Card = {
   suit: CardSuit;
@@ -277,5 +279,13 @@ const cardList: Card[] = [
   {
     suit: CardSuit.spades,
     value: 'A',
+  },
+  {
+    suit: CardSuit.joker,
+    value: '*',
+  },
+  {
+    suit: CardSuit.joker,
+    value: '*',
   },
 ];
