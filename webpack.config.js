@@ -28,8 +28,16 @@ module.exports = {
         },
       },
       {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.txt$/,
-        use: 'raw-loader',
+        use: 'file-loader',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
       },
     ],
   },
@@ -38,6 +46,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       'react-native$': 'react-native-web',
+      '@': path.resolve(__dirname, './src/'),
     },
   },
   output: {

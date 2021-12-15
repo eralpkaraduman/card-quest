@@ -6,4 +6,6 @@
   - No need to separate code into modules
   - Easily have same versions of react, typescript etc
 
-  we use styled-components/native for web as well
+  we use styled-components/native for web as well not 'styled-components'
+
+  https://necolas.github.io/react-native-web/docs/accessibility/#links

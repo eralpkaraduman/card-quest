@@ -1,7 +1,5 @@
 import React from 'react';
 import {View, StatusBar, StyleSheet, Text} from 'react-native';
-import {colors} from './colors';
-import {Counter} from '@components/Counter';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -71,20 +69,19 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text style={styles.titleText}>React Native</Text>
       <StatusBar barStyle="light-content" />
-      <Counter />
     </View>
   );
 };
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.black,
+    backgroundColor: 'black',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
   titleText: {
-    color: colors.white,
+    color: 'white',
     fontSize: 34,
     fontWeight: '600',
     textAlign: 'center',

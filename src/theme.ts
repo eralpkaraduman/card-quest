@@ -6,17 +6,10 @@ const colors: Record<string, string> = {
   gray: 'gray',
 };
 
-declare module 'styled-components' {
-  export interface DefaultTheme {
-    colors: {
-      background: string;
-      main: string;
-      secondary: string;
-    };
-  }
-}
-
 const defaultTheme: DefaultTheme = {
+  fontSize: {
+    menuItem: '24px',
+  },
   colors: {
     background: colors.black,
     main: colors.white,

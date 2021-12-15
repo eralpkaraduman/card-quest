@@ -1,0 +1,11 @@
+@font-face {
+  src: url(../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf);
+  font-family: 'FontAwesome';
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: black;
+}
+
+

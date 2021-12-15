@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useGameController} from '@controllers/GameControllerProvider';
 import {DonsolCard} from '@controllers/DonsolCard';
 
-export function GameView(): React.ReactElement {
+export default function GameView(): React.ReactElement {
   const gameController = useGameController();
   const [roomCards, setRoomCards] = React.useState<DonsolCard[]>([]);
 
