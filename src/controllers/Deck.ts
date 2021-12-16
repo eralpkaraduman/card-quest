@@ -71,7 +71,7 @@ export class Deck {
   }
 }
 
-const cardList: Card[] = [
+export const cardList: Card[] = [
   {
     suit: CardSuit.hearts,
     value: 2,

@@ -22,5 +22,12 @@ declare module 'styled-components' {
       main: string;
       secondary: string;
     };
+    dimensions: {
+      padding: {
+        medium: number;
+        small: number;
+        xsmall: number;
+      };
+    };
   }
 }

@@ -1,23 +1,28 @@
 import React from 'react';
-import {CardList} from '@components/CardList';
-
-const styles: {[key in string]: React.CSSProperties} = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: 'black',
-    alignItems: 'center',
-  },
-  titleText: {
-    color: 'white',
-  },
-};
+import styled, {css} from 'styled-components/native';
+import {Card, cardList} from '@controllers/Deck';
+import {GameCard, GameCardSize} from '@components/GameCard';
+import {DonsolCard} from '@controllers/DonsolCard';
+const Container = styled.View`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  ${({theme}) => css`
+    gap: ${theme.dimensions.padding.medium}px;
+    padding: ${theme.dimensions.padding.medium}px;
+  `}
+`;
 
 export function CardsScreen(): React.ReactElement {
-  return (
-    <div style={styles.container}>
-      <h1 style={styles.titleText}>Cards</h1>
-      <CardList />
-    </div>
-  );
+  const renderCard = (card: Card) => {
+    const donsolCard = new DonsolCard(card);
+    return (
+      <GameCard
+        donsolCard={donsolCard}
+        size={GameCardSize.medium}
+        key={donsolCard.toString()}
+      />
+    );
+  };
+  return <Container>{cardList.map(renderCard)}</Container>;
 }

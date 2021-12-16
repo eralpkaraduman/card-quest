@@ -1,4 +1,5 @@
-import React, {ReactElement, PropsWithChildren} from 'react';
+import React, {ReactElement} from 'react';
+import {Outlet} from 'react-router-dom';
 import {Text} from 'react-native';
 import styled from 'styled-components/native';
 import Icons from '@/icons.web';
@@ -12,7 +13,6 @@ const SidebarContainer = styled.View`
   display: flex;
   flex-direction: column;
   border-right-width: 1px;
-  border-bottom-width: 1px;
   border-style: solid;
   border-color: ${({theme}) => theme.colors.main};
   padding: 10px;
@@ -31,9 +31,7 @@ const SidebarLink = styled(Text).attrs({accessibilityRole: 'link'})`
   font-size: ${({theme}) => theme.fontSize.menuItem};
 `;
 
-export function PageLayout({
-  children,
-}: PropsWithChildren<{}>): ReactElement | null {
+export function PageLayout(): ReactElement | null {
   return (
     <Container>
       <SidebarContainer>
@@ -44,7 +42,9 @@ export function PageLayout({
           <Icons.FontAwesomeIcon name="rocket" size={30} color="#900" />
         </SidebarLink>
       </SidebarContainer>
-      <ContentContainer>{children}</ContentContainer>
+      <ContentContainer>
+        <Outlet />
+      </ContentContainer>
     </Container>
   );
 }

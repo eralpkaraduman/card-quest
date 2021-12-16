@@ -15,6 +15,13 @@ const defaultTheme: DefaultTheme = {
     main: colors.white,
     secondary: colors.gray,
   },
+  dimensions: {
+    padding: {
+      medium: 10,
+      small: 5,
+      xsmall: 3,
+    },
+  },
 };
 
 export {defaultTheme};
