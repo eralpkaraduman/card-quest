@@ -10,10 +10,19 @@ declare module 'react-native' {
   }
 }
 
+declare interface WindowSize {
+  xlarge?: boolean;
+  large?: boolean;
+  medium?: boolean;
+  small?: boolean;
+  xsmall?: boolean;
+}
+
 // We declare theme interface so we get no type errors, also typesafe theme values
 // See: https://styled-components.com/docs/api#create-a-declarations-file
 declare module 'styled-components' {
   export interface DefaultTheme {
+    getWindowSize: (width: number) => WindowSize;
     fontSize: {
       menuItem: string;
     };
@@ -24,6 +33,7 @@ declare module 'styled-components' {
     };
     dimensions: {
       padding: {
+        large: number;
         medium: number;
         small: number;
         xsmall: number;

@@ -1,2 +1,2 @@
-import FontAwesomeIcon from 'react-native-vector-icons/dist/FontAwesome';
-export default {FontAwesomeIcon};
+import FontAwesome5Icon from 'react-native-vector-icons/dist/FontAwesome5';
+export default {FontAwesome5Icon};

@@ -7,6 +7,21 @@ const colors: Record<string, string> = {
 };
 
 const defaultTheme: DefaultTheme = {
+  getWindowSize: (width: number) => {
+    if (width > 1200) {
+      return {xlarge: true};
+    }
+    if (width > 1024) {
+      return {large: true};
+    }
+    if (width > 768) {
+      return {medium: true};
+    }
+    if (width > 480) {
+      return {small: true};
+    }
+    return {xsmall: true};
+  },
   fontSize: {
     menuItem: '24px',
   },
@@ -17,6 +32,7 @@ const defaultTheme: DefaultTheme = {
   },
   dimensions: {
     padding: {
+      large: 15,
       medium: 10,
       small: 5,
       xsmall: 3,

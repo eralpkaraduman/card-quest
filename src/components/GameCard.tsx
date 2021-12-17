@@ -6,6 +6,7 @@ const WHRatio: number = 2.5 / 3.5;
 
 export enum GameCardSize {
   medium = 120,
+  large = 190,
 }
 
 const Container = styled.View<{size: GameCardSize}>`

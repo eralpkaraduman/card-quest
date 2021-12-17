@@ -1,6 +1,10 @@
 @font-face {
-  src: url(../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf);
-  font-family: 'FontAwesome';
+  src: url(../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf);
+  font-family: 'FontAwesome5_Regular';
+}
+@font-face {
+  src: url(../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf);
+  font-family: 'FontAwesome5_Solid';
 }
 
 body {
