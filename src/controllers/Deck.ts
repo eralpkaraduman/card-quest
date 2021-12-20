@@ -1,4 +1,4 @@
-enum CardSuit {
+export enum CardSuit {
   hearts = '♥',
   diamonds = '♦',
   clubs = '♣',

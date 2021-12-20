@@ -16,7 +16,7 @@ const styles: {[key in string]: React.CSSProperties} = {
 export function HomeScreen(): React.ReactElement {
   return (
     <div style={styles.container}>
-      <h1 style={styles.titleText}>React Dom</h1>
+      <h1 style={styles.titleText}>Home</h1>
       <GameView />
     </div>
   );

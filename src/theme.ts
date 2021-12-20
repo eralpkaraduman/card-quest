@@ -1,9 +1,11 @@
 import {DefaultTheme} from 'styled-components/native';
 
 const colors: Record<string, string> = {
-  black: '#000000',
+  black: '#212121',
   white: '#ffffff',
-  gray: 'gray',
+  gray: '#757575',
+  red: '#FF5252',
+  yellow: '#FFC107',
 };
 
 const defaultTheme: DefaultTheme = {
@@ -29,6 +31,10 @@ const defaultTheme: DefaultTheme = {
     background: colors.black,
     main: colors.white,
     secondary: colors.gray,
+    white: colors.white,
+    red: colors.red,
+    gray: colors.gray,
+    yellow: colors.yellow,
   },
   dimensions: {
     padding: {

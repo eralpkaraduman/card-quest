@@ -30,6 +30,10 @@ declare module 'styled-components' {
       background: string;
       main: string;
       secondary: string;
+      white: string;
+      red: string;
+      gray: string;
+      yellow: string;
     };
     dimensions: {
       padding: {

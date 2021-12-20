@@ -7,6 +7,12 @@
   font-family: 'FontAwesome5_Solid';
 }
 
+@font-face {
+  src: url(../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf);
+  font-family: 'MaterialCommunityIcons';
+}
+
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: black;

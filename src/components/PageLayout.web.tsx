@@ -9,7 +9,7 @@ const SidebarContainer = styled.View`
   flex-direction: column;
   border-right-width: 1px;
   border-style: solid;
-  border-color: ${({theme}) => theme.colors.main};
+  border-color: ${({theme}) => theme.colors.secondary};
   padding: ${({theme}) => theme.dimensions.padding.large}px;
   gap: ${({theme}) => theme.dimensions.padding.medium}px;
 `;
@@ -44,20 +44,18 @@ const LinkIcon = styled(Icon.FontAwesome5Icon).attrs(({theme, $active}) => ({
   solid: true,
   size: 18,
   color: $active ? theme.colors.main : theme.colors.secondary,
-}))<{$active: boolean}>`
-  display: flex;
-  margin-right: ${({theme}) => theme.dimensions.padding.small}px;
-`;
+}))<{$active: boolean}>``;
 
 // We don't use `styled.Text` so we can get the redeclared Text with href prop, see global.d.ts
 const SidebarLink = styled(Text).attrs({accessibilityRole: 'link'})<{
   $active: boolean;
 }>`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   color: ${({theme, $active}) =>
     $active ? theme.colors.main : theme.colors.secondary};
   font-size: ${({theme}) => theme.fontSize.menuItem};
+  min-width: 98px;
 `;
 
 const sideBarLinks: [string, string, string][] = [
@@ -72,8 +70,8 @@ export function PageLayout(): ReactElement | null {
     const active = location.pathname === pathName;
     return (
       <SidebarLink href={pathName} $active={active} key={pathName}>
-        <LinkIcon name={iconName} $active={active} />
         {title}
+        <LinkIcon name={iconName} $active={active} />
       </SidebarLink>
     );
   };
