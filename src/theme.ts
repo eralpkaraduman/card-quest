@@ -6,6 +6,8 @@ const colors: Record<string, string> = {
   gray: '#757575',
   red: '#FF5252',
   yellow: '#FFC107',
+  blue: '#448AFF',
+  green: '#388E3C',
 };
 
 const defaultTheme: DefaultTheme = {
@@ -35,6 +37,11 @@ const defaultTheme: DefaultTheme = {
     red: colors.red,
     gray: colors.gray,
     yellow: colors.yellow,
+    blue: colors.blue,
+    green: colors.green,
+    potion: colors.red,
+    shield: colors.blue,
+    monster: colors.green,
   },
   dimensions: {
     padding: {

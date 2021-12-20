@@ -34,6 +34,11 @@ declare module 'styled-components' {
       red: string;
       gray: string;
       yellow: string;
+      blue: string;
+      green: string;
+      potion: string;
+      shield: string;
+      monster: string;
     };
     dimensions: {
       padding: {
