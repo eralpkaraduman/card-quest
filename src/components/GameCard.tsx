@@ -2,12 +2,14 @@ import React, {ReactElement} from 'react';
 import {DonsolCard, DonsolCardKind} from '@controllers/DonsolCard';
 import {CardSuit} from '@controllers/Deck';
 import * as Styles from './GameCard.styles';
+import {StyleProp, ViewStyle} from 'react-native';
 
 export {GameCardSize} from './GameCard.styles';
 
 export interface GameCard_Props {
   donsolCard: DonsolCard;
   size: Styles.GameCardSize;
+  style?: StyleProp<ViewStyle>;
 }
 
 const CardSuitIconMap: {[key in CardSuit]: ReactElement} = {
@@ -30,10 +32,14 @@ const CardKindIconNameMap: {[key in DonsolCardKind]: string} = {
   [DonsolCardKind.shield]: 'shield',
 };
 
-export function GameCard({donsolCard, size}: GameCard_Props): ReactElement {
+export function GameCard({
+  donsolCard,
+  size,
+  style,
+}: GameCard_Props): ReactElement {
   const {suit, value} = donsolCard.card;
   return (
-    <Styles.Container size={size}>
+    <Styles.Container size={size} style={style}>
       <Styles.CardHeader>
         {CardSuitIconMap[suit]}
         {suit !== CardSuit.joker && (

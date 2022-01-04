@@ -1,10 +1,3 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -13,5 +6,9 @@ module.exports = {
         inlineRequires: true,
       },
     }),
+  },
+  resolver: {
+    // Blocking web specific files prevents us from using them accidentally
+    blockList: [/\.web.tsx$/, /\.web.ts$/],
   },
 };

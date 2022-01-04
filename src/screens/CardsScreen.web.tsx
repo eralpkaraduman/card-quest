@@ -4,6 +4,7 @@ import {Card, cardList} from '@controllers/Deck';
 import {GameCard, GameCardSize} from '@components/GameCard';
 import {DonsolCard} from '@controllers/DonsolCard';
 import {useWindowDimensions} from 'react-native';
+
 const Container = styled.View`
   display: flex;
   flex-direction: row;

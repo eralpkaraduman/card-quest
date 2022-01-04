@@ -3,11 +3,20 @@ import {DonsolCardKind} from '@controllers/DonsolCard';
 import WebIcon from '@/icons.web';
 
 const suitIconSize = 17;
-const WHRatio: number = 2.5 / 3.5;
 
 export enum GameCardSize {
   medium = 120,
   large = 190,
+}
+
+export namespace GameCardSize {
+  const WHRatio: number = 2.5 / 3.5;
+  export function getWidth(size: GameCardSize) {
+    return WHRatio * size;
+  }
+  export function getHeight(size: GameCardSize) {
+    return size;
+  }
 }
 
 export const MaterialSuitIcon = styled(WebIcon.MaterialCommunityIcon).attrs(
@@ -39,8 +48,8 @@ export const Container = styled.View<{size: GameCardSize}>`
     border-color: ${theme.colors.gray};
     border-width: 2px;
     border-style: solid;
-    width: ${size * WHRatio}px;
-    height: ${size}px;
+    height: ${GameCardSize.getHeight(size)}px;
+    width: ${GameCardSize.getWidth(size)}px;
     padding: ${theme.dimensions.padding.xsmall}px;
   `};
 `;
