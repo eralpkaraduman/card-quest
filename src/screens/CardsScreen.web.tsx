@@ -1,9 +1,8 @@
 import React from 'react';
 import styled, {css, useTheme} from 'styled-components/native';
-import {Card, cardList} from '@controllers/Deck';
-import {GameCard, GameCardSize} from '@components/GameCard';
-import {DonsolCard} from '@controllers/DonsolCard';
+import {GameCardSize} from '@components/GameCard';
 import {useWindowDimensions} from 'react-native';
+import {CardList} from '@components/CardList';
 
 const Container = styled.View`
   display: flex;
@@ -22,18 +21,16 @@ export function CardsScreen(): React.ReactElement {
   const {width} = useWindowDimensions();
   const {getWindowSize} = useTheme();
   const size = getWindowSize(width);
-  const cardSize =
-    size.small || size.xsmall ? GameCardSize.large : GameCardSize.medium;
 
-  const renderCard = (card: Card, index: number) => {
-    const donsolCard = new DonsolCard(card);
-    return (
-      <GameCard
-        donsolCard={donsolCard}
-        size={cardSize}
-        key={donsolCard.toString() + index}
-      />
-    );
-  };
-  return <Container>{cardList.map(renderCard)}</Container>;
+  return (
+    <Container>
+      {size.xsmall && (
+        <CardList numColumns={2} cardSize={GameCardSize.medium} />
+      )}
+      {size.small && <CardList numColumns={3} cardSize={GameCardSize.medium} />}
+      {size.medium && <CardList numColumns={4} cardSize={GameCardSize.large} />}
+      {size.large && <CardList numColumns={6} cardSize={GameCardSize.large} />}
+      {size.xlarge && <CardList numColumns={8} cardSize={GameCardSize.large} />}
+    </Container>
+  );
 }

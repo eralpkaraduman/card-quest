@@ -12,6 +12,8 @@ const SidebarContainer = styled.View`
   border-color: ${({theme}) => theme.colors.secondary};
   padding: ${({theme}) => theme.dimensions.padding.large}px;
   gap: ${({theme}) => theme.dimensions.padding.medium}px;
+  background-color: ${({theme}) => theme.colors.background};
+  z-index: 1;
 `;
 
 const ContentContainer = styled.View`
@@ -38,6 +40,7 @@ const Container = styled.View<{windowHeight: number}>`
   display: flex;
   flex-direction: row;
   min-height: ${({windowHeight}) => windowHeight}px;
+  background-color: ${({theme}) => theme.colors.background};
 `;
 
 const LinkIcon = styled(Icon.FontAwesome5Icon).attrs(({theme, $active}) => ({

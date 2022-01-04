@@ -33,7 +33,13 @@ export function CardList({
   };
 
   const invisibleCards = Array.from(
-    {length: cardList.length % numColumns},
+    // Calculates how many empty cards needed to fill the grid.
+    {
+      length: Math.max(
+        0,
+        numColumns - (cardList.length % numColumns || numColumns),
+      ),
+    },
     () => InvisibleCard,
   );
 
