@@ -48,5 +48,5 @@ export const Button = styled(Text).attrs({accessibilityRole: 'link'})<{
   color: ${({theme, $active}) =>
     $active ? theme.colors.main : theme.colors.secondary};
   font-size: ${({theme}) => theme.fontSize.menuItem};
-  min-width: 98px;
+  min-height: 30px;
 `;

@@ -8,7 +8,11 @@ const Buttons: [path: string, title: string, Icon: Styles.IconType][] = [
   ['/game', 'Game', Styles.SwordIcon],
 ];
 
-export function Sidebar(): ReactElement {
+interface Sidebar_Props {
+  hideTitles: boolean;
+}
+
+export function Sidebar({hideTitles}: Sidebar_Props): ReactElement {
   const location = useLocation();
   const renderLink = (
     pathName: string,
@@ -18,7 +22,7 @@ export function Sidebar(): ReactElement {
     const active = location.pathname === pathName;
     return (
       <Styles.Button href={pathName} $active={active} key={pathName}>
-        {title}
+        {!hideTitles && title}
         <Icon $active={active} />
       </Styles.Button>
     );
