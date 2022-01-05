@@ -1,20 +1,12 @@
 import React from 'react';
-import styled, {css, useTheme} from 'styled-components/native';
+import styled, {useTheme} from 'styled-components/native';
 import {GameCardSize} from '@components/GameCard';
 import {useWindowDimensions} from 'react-native';
 import {CardList} from '@components/CardList';
 
 const Container = styled.View`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-
-  ${({theme}) => css`
-    gap: ${theme.dimensions.padding.medium}px;
-    padding: ${theme.dimensions.padding.medium}px;
-  `}
+  flex-direction: column;
 `;
 
 export function CardsScreen(): React.ReactElement {
