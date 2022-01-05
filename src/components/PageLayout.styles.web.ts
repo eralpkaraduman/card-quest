@@ -3,20 +3,20 @@ import styled, {css} from 'styled-components/native';
 export const Container = styled.View<{windowHeight: number}>`
   display: flex;
   flex-direction: row;
-  min-height: ${({windowHeight}) => windowHeight}px;
-  background-color: ${({theme}) => theme.colors.background};
+  height: ${({windowHeight}) => windowHeight}px;
 `;
 
 export const ContentContainer = styled.View`
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  flex: 1;
+  justify-content: center;
 `;
 
 export const ContentWrapper = styled.View<{windowWidth: number}>`
   display: flex;
-  flex-direction: column;
+  max-width: 100%;
+
   ${({windowWidth, theme}) => {
     const size = theme.getWindowSize(windowWidth);
     return css`
@@ -24,5 +24,5 @@ export const ContentWrapper = styled.View<{windowWidth: number}>`
       ${size.large && 'max-width: 820px'};
       ${size.medium && 'max-width: 620px'};
     `;
-  }}
+  }};
 `;
