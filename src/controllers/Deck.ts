@@ -1,3 +1,5 @@
+import {Observable, Observer} from './Observable';
+
 export enum CardSuit {
   hearts = '♥',
   diamonds = '♦',
@@ -27,10 +29,11 @@ export type Card = {
   value: CardValue;
 };
 
-export class Deck {
+export class Deck extends Observable<Deck> {
   private cards: Card[] = [...cardList];
 
-  constructor() {
+  constructor(observer: Observer<Deck>) {
+    super(observer);
     this.shuffle();
   }
 
@@ -67,11 +70,17 @@ export class Deck {
         drawnCards.push(card);
       }
     }
+    this.notifyObserver();
     return drawnCards;
+  }
+
+  reset() {
+    this.cards = [...cardList];
+    this.notifyObserver();
   }
 }
 
-export const cardList: Card[] = [
+export const cardList: Readonly<Card[]> = [
   {
     suit: CardSuit.hearts,
     value: 2,

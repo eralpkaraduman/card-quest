@@ -1,35 +1,57 @@
 import {EventDispatcher} from './EventDispatcher';
-import {Deck, Card} from './Deck';
+import {Card, Deck} from './Deck';
 import {DonsolCard} from './DonsolCard';
+import {ObservableValue} from './Observable';
 
-export interface GameState {
-  room: DonsolCard[];
-  deck: Deck;
-  discard: Card[];
-}
+type Room = Readonly<DonsolCard[]>;
+type DiscardPile = Readonly<Card[]>;
 
 export interface GameEventListener {
-  onEnterRoom(donsolCards: DonsolCard[]): void;
+  onEnterRoom?(room: Room): void;
+  onDeckUpdated?(numCards: number): void;
+  onDiscardPileUpdated?(): void;
+  onRoomUpdated?(room: Room): void;
 }
 
 export class GameController extends EventDispatcher<GameEventListener> {
-  private state!: GameState;
+  private room: ObservableValue<Room>;
+  private discardPile: ObservableValue<DiscardPile>;
+  private deck: Readonly<Deck>;
 
   constructor() {
     super();
-    this.reset();
+
+    const roomObserver = (room?: Room) => {
+      this.dispatchEvent('onRoomUpdated', room!);
+    };
+
+    const discardPileObserver = (_?: DiscardPile) => {
+      this.dispatchEvent('onDiscardPileUpdated');
+    };
+
+    const deckObsserver = () => {
+      this.dispatchEvent('onDeckUpdated', this.deck.count);
+    };
+
+    this.room = new ObservableValue<Room>([], roomObserver);
+    this.discardPile = new ObservableValue<DiscardPile>(
+      [],
+      discardPileObserver,
+    );
+    this.deck = new Deck(deckObsserver);
   }
 
   public reset(): void {
-    this.state = {
-      room: [],
-      discard: [],
-      deck: new Deck(),
-    };
+    this.room.update([]);
+    this.discardPile.update([]);
+    this.deck.reset();
   }
 
   public enterRoom() {
-    this.state.room = this.state.deck.draw(4).map(card => new DonsolCard(card));
-    this._dispatchEvent('onEnterRoom', [...this.state.room]);
+    const roomCards = this.deck.draw(4).map(card => new DonsolCard(card));
+    this.room.update(roomCards);
+    this.dispatchEvent('onEnterRoom', this.room.value);
   }
+
+  public playCard(_: DonsolCard) {}
 }

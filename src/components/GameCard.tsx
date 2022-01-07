@@ -10,6 +10,7 @@ export interface GameCard_Props {
   donsolCard: DonsolCard;
   size: Styles.GameCardSize;
   style?: StyleProp<ViewStyle>;
+  onPress?: () => void;
 }
 
 const CardSuitIconMap: {[key in CardSuit]: ReactElement} = {
@@ -36,25 +37,28 @@ export function GameCard({
   donsolCard,
   size,
   style,
+  onPress,
 }: GameCard_Props): ReactElement {
   const {suit, value} = donsolCard.card;
   return (
-    <Styles.Container size={size} style={style}>
-      <Styles.CardHeader>
-        {CardSuitIconMap[suit]}
-        {suit !== CardSuit.joker && (
-          <Styles.ValueText>{value}</Styles.ValueText>
-        )}
-      </Styles.CardHeader>
-      <Styles.CardContentContainer>
-        <Styles.CardKindIcon
-          kind={donsolCard.kind}
-          name={CardKindIconNameMap[donsolCard.kind]}
-        />
-        <Styles.CardEffectValueText kind={donsolCard.kind}>
-          {donsolCard.effect}
-        </Styles.CardEffectValueText>
-      </Styles.CardContentContainer>
+    <Styles.Container size={size} style={style} onPress={onPress}>
+      <>
+        <Styles.CardHeader>
+          {CardSuitIconMap[suit]}
+          {suit !== CardSuit.joker && (
+            <Styles.ValueText>{value}</Styles.ValueText>
+          )}
+        </Styles.CardHeader>
+        <Styles.CardContentContainer>
+          <Styles.CardKindIcon
+            kind={donsolCard.kind}
+            name={CardKindIconNameMap[donsolCard.kind]}
+          />
+          <Styles.CardEffectValueText kind={donsolCard.kind}>
+            {donsolCard.effect}
+          </Styles.CardEffectValueText>
+        </Styles.CardContentContainer>
+      </>
     </Styles.Container>
   );
 }

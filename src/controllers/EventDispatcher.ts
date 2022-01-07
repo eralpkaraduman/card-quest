@@ -13,10 +13,7 @@ export class EventDispatcher<T> {
     };
   }
 
-  _dispatchEvent<E extends keyof T>(
-    eventKey: E,
-    ...args: FuncArgs<T[E]>
-  ): void {
+  dispatchEvent<E extends keyof T>(eventKey: E, ...args: FuncArgs<T[E]>): void {
     this.listeners.forEach(listener => {
       const callback = listener[eventKey];
       if (callback instanceof Function) {

@@ -1,12 +1,6 @@
 import React, {ReactElement} from 'react';
-import styled from 'styled-components/native';
-
-const Container = styled.View`
-  display: flex;
-  flex-direction: column;
-`;
+import {GameView} from '@components/GameView';
 
 export function GameScreen(): ReactElement {
-  return <Container />;
+  return <GameView />;
 }
-

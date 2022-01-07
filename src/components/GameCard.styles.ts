@@ -41,7 +41,7 @@ export const CardKindIcon = styled(WebIcon.MaterialCommunityIcon).attrs(
   }),
 )<{kind: DonsolCardKind}>``;
 
-export const Container = styled.View<{size: GameCardSize}>`
+export const Container = styled.TouchableHighlight<{size: GameCardSize}>`
   ${({size, theme}) => css`
     display: flex;
     border-radius: ${size / 20}px;
