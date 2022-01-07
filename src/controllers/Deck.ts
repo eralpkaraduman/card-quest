@@ -70,13 +70,13 @@ export class Deck extends Observable<Deck> {
         drawnCards.push(card);
       }
     }
-    this.notifyObserver();
+    this.notifyObserver(this);
     return drawnCards;
   }
 
   reset() {
     this.cards = [...cardList];
-    this.notifyObserver();
+    this.notifyObserver(this);
   }
 }
 

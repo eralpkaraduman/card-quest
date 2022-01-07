@@ -17,28 +17,21 @@ export class GameController extends EventDispatcher<GameEventListener> {
   private room: ObservableValue<Room>;
   private discardPile: ObservableValue<DiscardPile>;
   private deck: Readonly<Deck>;
+  private isRoomClear: ObservableValue<boolean>;
 
   constructor() {
     super();
 
-    const roomObserver = (room?: Room) => {
-      this.dispatchEvent('onRoomUpdated', room!);
-    };
-
-    const discardPileObserver = (_?: DiscardPile) => {
-      this.dispatchEvent('onDiscardPileUpdated');
-    };
-
-    const deckObsserver = () => {
-      this.dispatchEvent('onDeckUpdated', this.deck.count);
-    };
-
-    this.room = new ObservableValue<Room>([], roomObserver);
+    this.deck = new Deck(this.onDeckChange.bind(this));
+    this.room = new ObservableValue<Room>([], this.onRoomChange.bind(this));
     this.discardPile = new ObservableValue<DiscardPile>(
       [],
-      discardPileObserver,
+      this.onDiscardPileChange.bind(this),
     );
-    this.deck = new Deck(deckObsserver);
+    this.isRoomClear = new ObservableValue<boolean>(
+      false,
+      this.onIsRoomClearChange.bind(this),
+    );
   }
 
   public reset(): void {
@@ -48,10 +41,30 @@ export class GameController extends EventDispatcher<GameEventListener> {
   }
 
   public enterRoom() {
-    const roomCards = this.deck.draw(4).map(card => new DonsolCard(card));
-    this.room.update(roomCards);
-    this.dispatchEvent('onEnterRoom', this.room.value);
+    if (this.isRoomClear) {
+      const roomCards = this.deck.draw(4).map(card => new DonsolCard(card));
+      this.room.update(roomCards);
+      this.dispatchEvent('onEnterRoom', this.room.value);
+    } else {
+      throw 'Current room is not clear';
+    }
   }
 
   public playCard(_: DonsolCard) {}
+
+  // Observers
+  private onRoomChange(room?: Room): void {
+    this.dispatchEvent('onRoomUpdated', room!);
+    this.isRoomClear.update(room?.length === 0);
+  }
+
+  private onDiscardPileChange(_?: DiscardPile) {
+    this.dispatchEvent('onDiscardPileUpdated');
+  }
+
+  private onDeckChange(deck: Deck) {
+    this.dispatchEvent('onDeckUpdated', deck.count);
+  }
+
+  private onIsRoomClearChange() {}
 }

@@ -1,4 +1,4 @@
-export type Observer<T> = (newValue?: T) => void;
+export type Observer<T> = (newValue: T) => void;
 
 export class Observable<T> {
   private _observer: Observer<T>;
@@ -7,7 +7,7 @@ export class Observable<T> {
     this._observer = observer;
   }
 
-  notifyObserver(change?: T) {
+  notifyObserver(change: T) {
     this._observer(change);
   }
 }
