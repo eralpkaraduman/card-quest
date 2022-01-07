@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useGameController} from '@controllers/GameControllerProvider';
 import {DonsolCard} from '@controllers/DonsolCard';
 import {GameCard} from './GameCard';
 import {GameCardSize} from './GameCard.styles';
 import styled from 'styled-components/native';
 import {TouchableHighlight} from 'react-native';
+import {GameState} from '@controllers/GameController';
 
 const Container = styled.View`
   display: flex;
@@ -25,26 +26,38 @@ const DebugText = styled.Text`
 `;
 
 export function GameView(): React.ReactElement {
-  const gameController = useGameController();
+  const game = useGameController();
   const [roomCards, setRoomCards] = React.useState<Readonly<DonsolCard[]>>(
-    gameController.state.room,
+    game.room,
   );
-  const [numCardsInDeck, setNumcardsInDeck] = React.useState<number>(0);
+  const [numCardsInDeck, setNumCardsInDeck] = useState<number>(game.deckCount);
+  const [gameState, setGameState] = React.useState<GameState>(game.state);
+  const [canEnterRoom, setCanEnterRoom] = React.useState<boolean>(
+    game.canEnterRoom,
+  );
 
   React.useEffect(() => {
-    const removeEventListener = gameController.addEventListener({
+    const removeEventListener = game.addEventListener({
       onEnterRoom(cards) {
         setRoomCards(cards);
       },
-      onDeckUpdated(numCards) {
-        setNumcardsInDeck(numCards);
+      onDeckUpdated(count) {
+        setNumCardsInDeck(count);
+      },
+      onRoomUpdated(cards) {
+        setRoomCards(cards);
+      },
+      onStateChange(state) {
+        setGameState(state);
+        setCanEnterRoom(game.canEnterRoom);
       },
     });
 
     return () => {
       removeEventListener();
     };
-  }, [gameController]);
+  }, [game]);
+
   return (
     <Container>
       {roomCards.map((roomCard, index) => (
@@ -57,9 +70,14 @@ export function GameView(): React.ReactElement {
       ))}
       <TempDebugContainer>
         <DebugText>{`Deck: ${numCardsInDeck}`}</DebugText>
-        <TouchableHighlight onPress={() => gameController.enterRoom()}>
-          <DebugText>Enter Room</DebugText>
-        </TouchableHighlight>
+        <DebugText>{`State: ${gameState}`}</DebugText>
+        {canEnterRoom && (
+          <TouchableHighlight
+            onPress={() => game.enterRoom()}
+            disabled={!canEnterRoom}>
+            <DebugText>Enter Room</DebugText>
+          </TouchableHighlight>
+        )}
       </TempDebugContainer>
     </Container>
   );

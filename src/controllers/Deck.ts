@@ -29,10 +29,10 @@ export type Card = {
   value: CardValue;
 };
 
-export class Deck extends Observable<Deck> {
+export class Deck extends Observable {
   private cards: Card[] = [...cardList];
 
-  constructor(observer: Observer<Deck>) {
+  constructor(observer: Observer) {
     super(observer);
     this.shuffle();
   }
@@ -70,13 +70,13 @@ export class Deck extends Observable<Deck> {
         drawnCards.push(card);
       }
     }
-    this.notifyObserver(this);
+    this.notifyObserver();
     return drawnCards;
   }
 
   reset() {
     this.cards = [...cardList];
-    this.notifyObserver(this);
+    this.notifyObserver();
   }
 }
 

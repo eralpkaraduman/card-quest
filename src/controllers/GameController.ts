@@ -6,69 +6,95 @@ import {ObservableValue} from './Observable';
 type Room = Readonly<DonsolCard[]>;
 type DiscardPile = Readonly<Card[]>;
 
+const NUM_CARDS_IN_ROOM = 4;
+
+export enum GameState {
+  Idle = 'Idle',
+  InRoom = 'InRoom',
+  RoomCleared = 'RoomCleared',
+  Lost = 'Lost',
+  Won = 'Won',
+}
+
 export interface GameEventListener {
   onEnterRoom?(room: Room): void;
   onDeckUpdated?(numCards: number): void;
-  onDiscardPileUpdated?(): void;
+  onDiscardPileUpdated?(pile: DiscardPile): void;
   onRoomUpdated?(room: Room): void;
+  onStateChange?(state: GameState): void;
 }
 
 export class GameController extends EventDispatcher<GameEventListener> {
-  private room: ObservableValue<Room>;
-  private discardPile: ObservableValue<DiscardPile>;
-  private deck: Readonly<Deck>;
-  private isRoomClear: ObservableValue<boolean>;
+  private _room: ObservableValue<Room>;
+  private _discardPile: ObservableValue<DiscardPile>;
+  private _deck: Readonly<Deck>;
+  private _state: ObservableValue<GameState>;
 
   constructor() {
     super();
 
-    this.deck = new Deck(this.onDeckChange.bind(this));
-    this.room = new ObservableValue<Room>([], this.onRoomChange.bind(this));
-    this.discardPile = new ObservableValue<DiscardPile>(
-      [],
-      this.onDiscardPileChange.bind(this),
+    this._deck = new Deck(() =>
+      this.dispatchEvent('onDeckUpdated', this.deckCount),
     );
-    this.isRoomClear = new ObservableValue<boolean>(
-      true,
-      this.onIsRoomClearChange.bind(this),
+    this._room = new ObservableValue<Room>([], () =>
+      this.dispatchEvent('onRoomUpdated', this.room),
+    );
+    this._discardPile = new ObservableValue<DiscardPile>([], () =>
+      this.dispatchEvent('onDiscardPileUpdated', this.discardPile),
+    );
+    this._state = new ObservableValue<GameState>(GameState.Idle, () =>
+      this.dispatchEvent('onStateChange', this.state),
     );
   }
 
   public reset(): void {
-    this.room.update([]);
-    this.discardPile.update([]);
-    this.deck.reset();
+    this._room.update([]);
+    this._discardPile.update([]);
+    this._deck.reset();
+    this._state.update(GameState.Idle);
+  }
+
+  public get canEnterRoom(): boolean {
+    return (
+      this.state === GameState.Idle || this.state === GameState.RoomCleared
+    );
+  }
+
+  public get room(): Room {
+    return this._room.value;
+  }
+
+  public get discardPile(): DiscardPile {
+    return this._discardPile.value;
+  }
+
+  public get deckCount(): number {
+    return this._deck.count;
+  }
+
+  public get state(): GameState {
+    return this._state.value;
+  }
+
+  public get roomCount(): number {
+    return Math.floor(this.discardPile.length / NUM_CARDS_IN_ROOM);
   }
 
   public enterRoom() {
-    if (this.isRoomClear.value) {
-      const roomCards = this.deck.draw(4).map(card => new DonsolCard(card));
-      this.room.update(roomCards);
-      this.dispatchEvent('onEnterRoom', this.room.value);
+    if (this.canEnterRoom) {
+      const roomCards = this._deck
+        .draw(NUM_CARDS_IN_ROOM)
+        .map(card => new DonsolCard(card));
+      this._room.update(roomCards);
+      this._state.update(GameState.InRoom);
     } else {
-      throw 'Current room is not clear';
+      throw 'Can not enter room';
     }
-  }
-
-  public get state(): {room: Room} {
-    return {room: this.room.value};
   }
 
   public playCard(_: DonsolCard) {}
 
-  // Observers
-  private onRoomChange(room?: Room): void {
-    this.dispatchEvent('onRoomUpdated', room!);
-    this.isRoomClear.update(room?.length === 0);
+  private onStateChange() {
+    this.dispatchEvent('onStateChange', this.state);
   }
-
-  private onDiscardPileChange(_?: DiscardPile) {
-    this.dispatchEvent('onDiscardPileUpdated');
-  }
-
-  private onDeckChange(deck: Deck) {
-    this.dispatchEvent('onDeckUpdated', deck.count);
-  }
-
-  private onIsRoomClearChange() {}
 }

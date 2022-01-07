@@ -1,21 +1,21 @@
-export type Observer<T> = (newValue: T) => void;
+export type Observer = () => void;
 
-export class Observable<T> {
-  private _observer: Observer<T>;
+export class Observable {
+  private _observer: Observer;
 
-  constructor(observer: Observer<T>) {
+  constructor(observer: Observer) {
     this._observer = observer;
   }
 
-  notifyObserver(change: T) {
-    this._observer(change);
+  notifyObserver() {
+    this._observer();
   }
 }
 
-export class ObservableValue<T> extends Observable<T> {
+export class ObservableValue<T> extends Observable {
   private _value: T;
 
-  constructor(readonly initialValue: T, observer: Observer<T>) {
+  constructor(readonly initialValue: T, observer: Observer) {
     super(observer);
     this._value = initialValue;
   }
@@ -30,6 +30,6 @@ export class ObservableValue<T> extends Observable<T> {
     } else {
       this._value = newValue;
     }
-    this.notifyObserver(this._value);
+    this.notifyObserver();
   }
 }
