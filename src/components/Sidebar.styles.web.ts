@@ -1,6 +1,8 @@
-import {Text} from 'react-native';
-import styled from 'styled-components/native';
+import React from 'react';
+import styled, {useTheme} from 'styled-components/native';
 import Icon from '@/icons.web';
+import {Link} from 'react-router-dom';
+import {useMatch} from 'react-router-dom';
 
 export const Container = styled.View`
   display: flex;
@@ -39,14 +41,31 @@ export const SwordIcon = createButtonIcon(
   26,
 );
 
-// We don't use `styled.Text` so we can get the redeclared Text with href prop, see global.d.ts
-export const Button = styled(Text).attrs({accessibilityRole: 'link'})<{
-  $active: boolean;
-}>`
-  display: flex;
-  justify-content: space-between;
-  color: ${({theme, $active}) =>
-    $active ? theme.colors.main : theme.colors.secondary};
-  font-size: ${({theme}) => theme.fontSize.menuItem};
-  min-height: 30px;
-`;
+export function Button({
+  to,
+  children,
+}: React.PropsWithChildren<{to: string}>): React.ReactElement {
+  const theme = useTheme();
+  const match = useMatch(`${to}/*`);
+  return React.createElement(
+    Link,
+    {
+      to,
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        color: match ? theme.colors.main : theme.colors.secondary,
+        fontSize: theme.fontSize.menuItem,
+        minHeight: `${30}px`,
+        textDecoration: 'none',
+      },
+    },
+    React.Children.map(children, child => {
+      if (React.isValidElement(child)) {
+        return React.cloneElement(child, {$active: match});
+      } else {
+        return child;
+      }
+    }),
+  );
+}
