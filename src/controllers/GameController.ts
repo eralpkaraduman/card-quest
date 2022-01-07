@@ -29,7 +29,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
       this.onDiscardPileChange.bind(this),
     );
     this.isRoomClear = new ObservableValue<boolean>(
-      false,
+      true,
       this.onIsRoomClearChange.bind(this),
     );
   }
@@ -41,13 +41,17 @@ export class GameController extends EventDispatcher<GameEventListener> {
   }
 
   public enterRoom() {
-    if (this.isRoomClear) {
+    if (this.isRoomClear.value) {
       const roomCards = this.deck.draw(4).map(card => new DonsolCard(card));
       this.room.update(roomCards);
       this.dispatchEvent('onEnterRoom', this.room.value);
     } else {
       throw 'Current room is not clear';
     }
+  }
+
+  public get state(): {room: Room} {
+    return {room: this.room.value};
   }
 
   public playCard(_: DonsolCard) {}

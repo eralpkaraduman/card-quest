@@ -4,6 +4,7 @@ import {DonsolCard} from '@controllers/DonsolCard';
 import {GameCard} from './GameCard';
 import {GameCardSize} from './GameCard.styles';
 import styled from 'styled-components/native';
+import {TouchableHighlight} from 'react-native';
 
 const Container = styled.View`
   display: flex;
@@ -25,7 +26,9 @@ const DebugText = styled.Text`
 
 export function GameView(): React.ReactElement {
   const gameController = useGameController();
-  const [roomCards, setRoomCards] = React.useState<Readonly<DonsolCard[]>>([]);
+  const [roomCards, setRoomCards] = React.useState<Readonly<DonsolCard[]>>(
+    gameController.state.room,
+  );
   const [numCardsInDeck, setNumcardsInDeck] = React.useState<number>(0);
 
   React.useEffect(() => {
@@ -37,8 +40,6 @@ export function GameView(): React.ReactElement {
         setNumcardsInDeck(numCards);
       },
     });
-
-    gameController.enterRoom();
 
     return () => {
       removeEventListener();
@@ -56,6 +57,9 @@ export function GameView(): React.ReactElement {
       ))}
       <TempDebugContainer>
         <DebugText>{`Deck: ${numCardsInDeck}`}</DebugText>
+        <TouchableHighlight onPress={() => gameController.enterRoom()}>
+          <DebugText>Enter Room</DebugText>
+        </TouchableHighlight>
       </TempDebugContainer>
     </Container>
   );
