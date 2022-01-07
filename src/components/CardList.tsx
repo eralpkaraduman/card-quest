@@ -1,5 +1,5 @@
 import React, {ReactElement, ElementType} from 'react';
-import {ListRenderItem, StyleProp, ViewStyle} from 'react-native';
+import {ListRenderItem, StyleProp, View, ViewStyle} from 'react-native';
 import {Card, cardList} from '@controllers/Deck';
 import {GameCardSize} from '@components/GameCard';
 import {DonsolCard} from '@controllers/DonsolCard';
@@ -20,7 +20,11 @@ export function CardList({
 }: CardList_Props): ReactElement {
   const renderCard: ListRenderItem<Card | typeof InvisibleCard> = ({item}) => {
     if (item === InvisibleCard) {
-      return <Styles.EmptyCard numColumns={numColumns} size={cardSize} />;
+      return (
+        <Styles.EmptyCard numColumns={numColumns} size={cardSize}>
+          <View />
+        </Styles.EmptyCard>
+      );
     }
     const donsolCard = new DonsolCard(item);
     return (

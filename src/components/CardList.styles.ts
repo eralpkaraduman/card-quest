@@ -18,7 +18,7 @@ export const StyledGameCard = styled(GameCard)<{numColumns: number}>`
   margin: ${({theme}) => theme.dimensions.padding.small}px;
 `;
 
-export const EmptyCard = styled(GameCardContainer)<{
+export const EmptyCard = styled(GameCardContainer).attrs({disabled: true})<{
   numColumns: number;
   size: number;
 }>`
