@@ -1,8 +1,8 @@
 import React, {ReactElement} from 'react';
 import {DonsolCard, DonsolCardKind} from '@controllers/DonsolCard';
 import {CardSuit} from '@controllers/Deck';
-import * as Styles from './GameCard.styles';
 import {StyleProp, ViewStyle} from 'react-native';
+import * as Styles from './GameCard.styles';
 
 export {GameCardSize} from './GameCard.styles';
 

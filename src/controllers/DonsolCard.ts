@@ -37,6 +37,11 @@ const CardKindValueMap: {
 export class DonsolCard {
   public card: Card;
 
+  private _roomOrder: number;
+  public get roomOrder(): number {
+    return this._roomOrder;
+  }
+
   public get kind(): DonsolCardKind {
     switch (this.card.suit) {
       case CardSuit.diamonds:
@@ -63,11 +68,16 @@ export class DonsolCard {
     return CardKindValueMap[this.kind][value];
   }
 
-  constructor(card: Card) {
+  constructor(card: Card, roomOrder: number) {
     this.card = card;
+    this._roomOrder = roomOrder;
+  }
+
+  public get id() {
+    return `${this.card.suit}${this.card.value}`;
   }
 
   public toString(): string {
-    return `${this.card.suit}${this.card.value}`;
+    return this.id;
   }
 }

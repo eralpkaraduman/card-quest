@@ -18,7 +18,10 @@ export function CardList({
   cardSize,
   style,
 }: CardList_Props): ReactElement {
-  const renderCard: ListRenderItem<Card | typeof InvisibleCard> = ({item}) => {
+  const renderCard: ListRenderItem<Card | typeof InvisibleCard> = ({
+    item,
+    index,
+  }) => {
     if (item === InvisibleCard) {
       return (
         <Styles.EmptyCard numColumns={numColumns} size={cardSize}>
@@ -26,7 +29,7 @@ export function CardList({
         </Styles.EmptyCard>
       );
     }
-    const donsolCard = new DonsolCard(item);
+    const donsolCard = new DonsolCard(item, index);
     return (
       <Styles.StyledGameCard
         donsolCard={donsolCard}

@@ -76,6 +76,7 @@ export class Deck extends Observable {
 
   reset() {
     this.cards = [...cardList];
+    this.shuffle();
     this.notifyObserver();
   }
 }
