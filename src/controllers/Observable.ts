@@ -1,23 +1,25 @@
-export type Observer = () => void;
+export type ChangeHandler = () => void;
 
-export class Observable {
-  private _observer: Observer;
+export abstract class ChangeNotifier {
+  private _changeHandler: ChangeHandler;
 
-  constructor(observer: Observer) {
-    this._observer = observer;
+  constructor(readonly changeHandler: ChangeHandler) {
+    this._changeHandler = changeHandler;
   }
 
   notifyObserver() {
-    this._observer();
+    this._changeHandler();
   }
+
+  abstract reset(): void;
 }
 
-export class ObservableValue<T> extends Observable {
+export class Observable<T> extends ChangeNotifier {
   private _value: T;
   private _initialValue: T;
 
-  constructor(readonly initialValue: T, observer: Observer) {
-    super(observer);
+  constructor(readonly initialValue: T, readonly changeHandler: ChangeHandler) {
+    super(changeHandler);
     this._initialValue = initialValue;
     this._value = initialValue;
   }

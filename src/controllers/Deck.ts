@@ -1,4 +1,4 @@
-import {Observable, Observer} from './Observable';
+import {ChangeNotifier, ChangeHandler} from './Observable';
 
 export enum CardSuit {
   hearts = '♥',
@@ -29,10 +29,10 @@ export type Card = {
   value: CardValue;
 };
 
-export class Deck extends Observable {
+export class Deck extends ChangeNotifier {
   private cards: Card[] = [...cardList];
 
-  constructor(observer: Observer) {
+  constructor(observer: ChangeHandler) {
     super(observer);
     this.shuffle();
   }
@@ -72,6 +72,13 @@ export class Deck extends Observable {
     }
     this.notifyObserver();
     return drawnCards;
+  }
+
+  shuffleWithCards(addCards: Card[]) {
+    if (addCards.length > 0) {
+      this.cards = [...this.cards, ...addCards];
+      this.shuffle();
+    }
   }
 
   reset() {

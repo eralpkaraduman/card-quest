@@ -3,6 +3,7 @@ import {
   useGameController,
   CardStack,
   Shield,
+  GameEvent,
 } from '@controllers/GameControllerProvider';
 import {GameCardSize} from './GameCard.styles';
 import styled from 'styled-components/native';
@@ -47,22 +48,25 @@ export function GameView(): React.ReactElement {
   );
   const [health, setHealth] = React.useState<number>(game.health);
   const [shieldCard, setShieldCard] = React.useState<Shield>(game.shield);
+  const [history, setHistory] = React.useState<GameEvent[]>(game.history);
+  const [canFlee, setCanFlee] = React.useState<boolean>(game.canFlee);
+  const [roomCount, setRoomCount] = React.useState<number>(game.roomCount);
+
   const canReset = true;
 
   React.useEffect(() => {
     const removeEventListener = game.addEventListener({
-      onEnterRoom(value) {
-        setRoomCards(value);
-      },
       onDeckUpdated(value) {
         setNumCardsInDeck(value);
       },
-      onRoomUpdated(value) {
+      onRoomUpdated(value, fleeable) {
         setRoomCards(value);
+        setCanFlee(fleeable);
       },
       onStateChange(updatedState, updatedCanEnterRoom) {
         setGameState(updatedState);
         setCanEnterRoom(updatedCanEnterRoom);
+        setCanFlee(game.canFlee);
       },
       onHealthChange(value) {
         setHealth(value);
@@ -72,6 +76,10 @@ export function GameView(): React.ReactElement {
       },
       onDiscardPileUpdated(value) {
         setDiscardPile(value);
+      },
+      onHistoryUpdated(value) {
+        setHistory(value);
+        setRoomCount(game.roomCount);
       },
     });
 
@@ -118,22 +126,39 @@ export function GameView(): React.ReactElement {
           card={shieldCard as DonsolCard}
         />
       </Room>
-      <TempDebugContainer>
-        <DebugText>{`Deck: ${numCardsInDeck}`}</DebugText>
-        <DebugText>{`State: ${gameState}`}</DebugText>
-        <DebugText>{`Health: ${health}`}</DebugText>
-        <DebugText>{`Shield: ${shieldCard?.effect ?? 0}`}</DebugText>
-        {canReset && (
-          <TouchableHighlight onPress={() => game.reset()}>
-            <DebugText>Reset</DebugText>
-          </TouchableHighlight>
-        )}
-        {canEnterRoom && (
-          <TouchableHighlight onPress={() => game.enterRoom()}>
-            <DebugText>Enter Room</DebugText>
-          </TouchableHighlight>
-        )}
-      </TempDebugContainer>
+      <Room>
+        <TempDebugContainer>
+          <DebugText>{`Deck: ${numCardsInDeck}`}</DebugText>
+          <DebugText>{`State: ${gameState}`}</DebugText>
+          <DebugText>{`Health: ${health}`}</DebugText>
+          <DebugText>{`Shield: ${shieldCard?.effect ?? 0}`}</DebugText>
+          <DebugText>{`Room: ${roomCount}`}</DebugText>
+        </TempDebugContainer>
+        <TempDebugContainer>
+          {canReset && (
+            <TouchableHighlight onPress={() => game.reset()}>
+              <DebugText>[ Reset ]</DebugText>
+            </TouchableHighlight>
+          )}
+          {canEnterRoom && (
+            <TouchableHighlight onPress={() => game.advance(false)}>
+              <DebugText>[ Advance ]</DebugText>
+            </TouchableHighlight>
+          )}
+          {canFlee && (
+            <TouchableHighlight onPress={() => game.advance(true)}>
+              <DebugText>[ Flee / Skip ] </DebugText>
+            </TouchableHighlight>
+          )}
+        </TempDebugContainer>
+        <TempDebugContainer>
+          {history.map((event, index) => (
+            <DebugText key={`${event.kind}-${index}`}>
+              {JSON.stringify(event)}
+            </DebugText>
+          ))}
+        </TempDebugContainer>
+      </Room>
     </Container>
   );
 }
