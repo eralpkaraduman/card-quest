@@ -13,19 +13,18 @@ const MAX_HEALTH = 21;
 export enum GameState {
   Idle = 'Idle',
   InRoom = 'InRoom',
-  RoomCleared = 'RoomCleared',
   Lost = 'Lost',
   Won = 'Won',
 }
 
 export interface GameEventListener {
-  onDeckUpdated?(numCards: number): void;
-  onDiscardPileUpdated?(pile: CardStack): void;
-  onRoomUpdated?(room: CardStack, canFlee: boolean): void;
-  onStateChange?(state: GameState, canEnterRoom: boolean): void;
-  onHealthChange?(health: number): void;
-  onShieldChange?(shield: Shield): void;
-  onHistoryUpdated?(event: GameEvent[]): void;
+  onDeckUpdated?(): void;
+  onDiscardPileUpdated?(): void;
+  onRoomUpdated?(): void;
+  onStateChange?(): void;
+  onHealthChange?(): void;
+  onShieldChange?(): void;
+  onHistoryUpdated?(): void;
 }
 
 export class GameController extends EventDispatcher<GameEventListener> {
@@ -41,30 +40,27 @@ export class GameController extends EventDispatcher<GameEventListener> {
     super();
 
     this._deck = new Deck(() => {
-      this.dispatchEvent('onDeckUpdated', this.deckCount);
+      this.dispatchEvent('onDeckUpdated');
       if (this.deckCount <= 0 && this.health > 0) {
         this._state.update(GameState.Won);
       }
     });
 
     this._room = new Observable<CardStack>([], () => {
-      if (this.room.length === 0 && !this.didFleeLastRoom) {
-        this._state.update(GameState.RoomCleared);
-      }
-      this.dispatchEvent('onRoomUpdated', this.room, this.canFlee);
+      this.dispatchEvent('onRoomUpdated');
     });
 
     this._discardPile = new Observable<CardStack>([], () =>
-      this.dispatchEvent('onDiscardPileUpdated', this.discardPile),
+      this.dispatchEvent('onDiscardPileUpdated'),
     );
 
     this._state = new Observable<GameState>(GameState.Idle, () => {
       this._history.add('StateChange', {state: this.state});
-      this.dispatchEvent('onStateChange', this.state, this.canEnterRoom);
+      this.dispatchEvent('onStateChange');
     });
 
     this._health = new Observable<number>(MAX_HEALTH, () => {
-      this.dispatchEvent('onHealthChange', this.health);
+      this.dispatchEvent('onHealthChange');
       if (this.health <= 0) {
         // Dead
         this._state.update(GameState.Lost);
@@ -72,11 +68,11 @@ export class GameController extends EventDispatcher<GameEventListener> {
     });
 
     this._shield = new Observable<Shield>(null, () => {
-      this.dispatchEvent('onShieldChange', this.shield);
+      this.dispatchEvent('onShieldChange');
     });
 
     this._history = new GameEventHistory(() => {
-      this.dispatchEvent('onHistoryUpdated', this.history);
+      this.dispatchEvent('onHistoryUpdated');
     });
   }
 
@@ -90,10 +86,9 @@ export class GameController extends EventDispatcher<GameEventListener> {
     this._history.reset();
   }
 
-  public get canEnterRoom(): boolean {
-    return (
-      this.state === GameState.Idle || this.state === GameState.RoomCleared
-    );
+  public get canAdvance(): boolean {
+    const inClearRoom = this.isRoomClear && this.state === GameState.InRoom;
+    return this.state === GameState.Idle || inClearRoom;
   }
 
   public get room(): CardStack {
@@ -143,7 +138,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
   }
 
   public advance(flee: boolean) {
-    if (!flee && this.canEnterRoom) {
+    if (!flee && this.canAdvance) {
       this._history.add('EnterRoom', {reason: 'Clear'});
       this.drawCards();
     } else if (flee && this.canFlee) {
@@ -212,8 +207,12 @@ export class GameController extends EventDispatcher<GameEventListener> {
     return this._history.lastEnterRoomReason === 'Flee';
   }
 
+  public get isRoomClear() {
+    return this.room.length === 0;
+  }
+
   public get canFlee(): boolean {
-    if (this.state === GameState.InRoom) {
+    if (this.state === GameState.InRoom && !this.isRoomClear) {
       return !this.didFleeLastRoom;
     }
     return false;

@@ -37,6 +37,7 @@ const Room = styled.View`
 
 export function GameView(): React.ReactElement {
   const game = useGameController();
+
   const [roomCards, setRoomCards] = React.useState<CardStack>(game.room);
   const [discardPile, setDiscardPile] = React.useState<CardStack>(
     game.discardPile,
@@ -44,7 +45,7 @@ export function GameView(): React.ReactElement {
   const [numCardsInDeck, setNumCardsInDeck] = useState<number>(game.deckCount);
   const [gameState, setGameState] = React.useState<GameState>(game.state);
   const [canEnterRoom, setCanEnterRoom] = React.useState<boolean>(
-    game.canEnterRoom,
+    game.canAdvance,
   );
   const [health, setHealth] = React.useState<number>(game.health);
   const [shieldCard, setShieldCard] = React.useState<Shield>(game.shield);
@@ -56,29 +57,30 @@ export function GameView(): React.ReactElement {
 
   React.useEffect(() => {
     const removeEventListener = game.addEventListener({
-      onDeckUpdated(value) {
-        setNumCardsInDeck(value);
+      onDeckUpdated() {
+        setNumCardsInDeck(game.deckCount);
       },
-      onRoomUpdated(value, fleeable) {
-        setRoomCards(value);
-        setCanFlee(fleeable);
+      onRoomUpdated() {
+        setRoomCards(game.room);
+        setCanFlee(game.canFlee);
+        setCanEnterRoom(game.canAdvance);
       },
-      onStateChange(updatedState, updatedCanEnterRoom) {
-        setGameState(updatedState);
-        setCanEnterRoom(updatedCanEnterRoom);
+      onStateChange() {
+        setGameState(game.state);
+        setCanEnterRoom(game.canAdvance);
         setCanFlee(game.canFlee);
       },
-      onHealthChange(value) {
-        setHealth(value);
+      onHealthChange() {
+        setHealth(game.health);
       },
-      onShieldChange(value) {
-        setShieldCard(value);
+      onShieldChange() {
+        setShieldCard(game.shield);
       },
-      onDiscardPileUpdated(value) {
-        setDiscardPile(value);
+      onDiscardPileUpdated() {
+        setDiscardPile(game.discardPile);
       },
-      onHistoryUpdated(value) {
-        setHistory(value);
+      onHistoryUpdated() {
+        setHistory(game.history);
         setRoomCount(game.roomCount);
       },
     });
