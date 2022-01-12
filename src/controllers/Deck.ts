@@ -22,7 +22,8 @@ export type CardValue =
   | 'J'
   | 'Q'
   | 'K'
-  | '*';
+  | '*0'
+  | '*1';
 
 export type Card = {
   suit: CardSuit;
@@ -299,10 +300,10 @@ export const cardList: Readonly<Card[]> = [
   },
   {
     suit: CardSuit.joker,
-    value: '*',
+    value: '*0',
   },
   {
     suit: CardSuit.joker,
-    value: '*',
+    value: '*1',
   },
 ];

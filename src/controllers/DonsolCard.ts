@@ -61,7 +61,7 @@ export class DonsolCard {
       return value;
     }
 
-    if (value === '*') {
+    if (value === '*0' || value === '*1') {
       return 21;
     }
 

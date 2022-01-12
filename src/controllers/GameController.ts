@@ -36,7 +36,10 @@ export class GameController extends EventDispatcher<GameEventListener> {
 
     this._deck = new Deck(() => {
       this.dispatchEvent('onDeckUpdated');
-      if (this.deckCount <= 0 && this.health > 0) {
+      const deckEnded = this.deckCount <= 0;
+      const roomEnded = this.room.length <= 0;
+      const notDead = this.health > 0;
+      if (roomEnded && deckEnded && notDead) {
         this._state.update(GameState.Won);
       }
     });
@@ -144,7 +147,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
   }
 
   /**
-   * @returns { number } amount gamage user gets after blocking
+   * @returns { number } amount damage user gets after blocking
    */
   private blockMonsterWithShield(monster: DonsolCard): number {
     const monsterDamage = monster.effect;
