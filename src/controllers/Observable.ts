@@ -24,7 +24,7 @@ export class Observable<T> extends ChangeNotifier {
     this._value = initialValue;
   }
 
-  get value(): Readonly<T> {
+  get value(): T {
     return this._value;
   }
 

@@ -2,13 +2,20 @@ import {DonsolCard} from './DonsolCard';
 import type {GameState} from './GameController';
 import {ChangeHandler, ChangeNotifier} from './Observable';
 
-type EnterRoomReason = 'Flee' | 'Clear';
+type EnterRoomReason = 'Begin' | 'Flee' | 'Clear';
 export type GameEvent =
   | {kind: 'EnterRoom'; reason: EnterRoomReason}
-  | {kind: 'Fight'; card: DonsolCard; totalDamage: number}
-  | {kind: 'ShieldAbsorb'; damage: number; broke: boolean}
-  | {kind: 'DrinkPotion'; health: number; sick: boolean}
+  | {kind: 'Fight'; monster: DonsolCard; hurt: number}
+  | {
+      kind: 'Block';
+      amount: number;
+      broke: boolean;
+      monster: DonsolCard;
+      shieldId?: string;
+    }
+  | {kind: 'DrinkPotion'; gainedHealth: number}
   | {kind: 'StateChange'; state: GameState}
+  | {kind: 'PlayCard'; card: DonsolCard}
   | {kind: 'PickShield'; card: DonsolCard};
 
 type GameEventKind = GameEvent['kind'];
@@ -39,28 +46,10 @@ export class GameEventHistory extends ChangeNotifier {
     this.notifyObserver();
   }
 
-  private findLastEventOfKind<
-    K extends GameEventKind,
-    D extends GameEventMap[K],
-  >(searchKind: K): D | undefined {
-    const event: GameEvent | undefined = this._history.find(
-      ({kind}) => kind === searchKind,
-    );
-    if (event) {
-      return event as D;
-    } else {
-      return undefined;
-    }
-  }
-
-  private findEventsOfKind<K extends GameEventKind, D extends GameEventMap[K]>(
+  public findEventsOfKind<K extends GameEventKind, D extends GameEventMap[K]>(
     searchKind: K,
   ): D[] {
     return this.history.filter(({kind}) => kind === searchKind) as D[];
-  }
-
-  public get lastEnterRoomReason(): EnterRoomReason | undefined {
-    return this.findLastEventOfKind('EnterRoom')?.reason;
   }
 
   public get roomCount(): number {

@@ -1,6 +1,5 @@
 import React from 'react';
 import {GameController} from './GameController';
-export type {Shield, CardStack} from './GameController';
 export type {GameEvent} from './GameEventHistory';
 
 const GameControllerContext = React.createContext<GameController>(

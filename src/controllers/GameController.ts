@@ -4,9 +4,6 @@ import {DonsolCard, DonsolCardKind} from './DonsolCard';
 import {Observable} from './Observable';
 import {GameEvent, GameEventHistory} from './GameEventHistory';
 
-export type CardStack = Readonly<DonsolCard[]>;
-export type Shield = Readonly<DonsolCard | null>;
-
 const NUM_CARDS_IN_ROOM = 4;
 const MAX_HEALTH = 21;
 
@@ -19,7 +16,6 @@ export enum GameState {
 
 export interface GameEventListener {
   onDeckUpdated?(): void;
-  onDiscardPileUpdated?(): void;
   onRoomUpdated?(): void;
   onStateChange?(): void;
   onHealthChange?(): void;
@@ -28,12 +24,11 @@ export interface GameEventListener {
 }
 
 export class GameController extends EventDispatcher<GameEventListener> {
-  private _room: Observable<CardStack>;
-  private _discardPile: Observable<CardStack>;
+  private _room: Observable<DonsolCard[]>;
   private _deck: Readonly<Deck>;
   private _state: Observable<GameState>;
   private _health: Observable<number>;
-  private _shield: Observable<Shield>;
+  private _shield: Observable<DonsolCard | undefined>;
   private _history: Readonly<GameEventHistory>;
 
   constructor() {
@@ -46,13 +41,9 @@ export class GameController extends EventDispatcher<GameEventListener> {
       }
     });
 
-    this._room = new Observable<CardStack>([], () => {
+    this._room = new Observable<DonsolCard[]>([], () => {
       this.dispatchEvent('onRoomUpdated');
     });
-
-    this._discardPile = new Observable<CardStack>([], () =>
-      this.dispatchEvent('onDiscardPileUpdated'),
-    );
 
     this._state = new Observable<GameState>(GameState.Idle, () => {
       this._history.add('StateChange', {state: this.state});
@@ -67,7 +58,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
       }
     });
 
-    this._shield = new Observable<Shield>(null, () => {
+    this._shield = new Observable<DonsolCard | undefined>(undefined, () => {
       this.dispatchEvent('onShieldChange');
     });
 
@@ -79,7 +70,6 @@ export class GameController extends EventDispatcher<GameEventListener> {
   public reset(): void {
     this._deck.reset();
     this._room.reset();
-    this._discardPile.reset();
     this._state.reset();
     this._health.reset();
     this._shield.reset();
@@ -91,12 +81,8 @@ export class GameController extends EventDispatcher<GameEventListener> {
     return this.state === GameState.Idle || inClearRoom;
   }
 
-  public get room(): CardStack {
+  public get room(): DonsolCard[] {
     return this._room.value;
-  }
-
-  public get discardPile(): CardStack {
-    return this._discardPile.value;
   }
 
   public get deckCount(): number {
@@ -111,7 +97,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
     return this._health.value;
   }
 
-  public get shield(): Shield {
+  public get shield(): DonsolCard | undefined {
     return this._shield.value;
   }
 
@@ -120,9 +106,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
   }
 
   public get prevCardWasPotion(): boolean {
-    const topCardInPile = this.discardPile.slice(-1)[0];
-
-    return topCardInPile?.kind === DonsolCardKind.potion;
+    return this.lastPlayedCard?.kind === DonsolCardKind.potion;
   }
 
   public get roomCount(): number {
@@ -139,7 +123,9 @@ export class GameController extends EventDispatcher<GameEventListener> {
 
   public advance(flee: boolean) {
     if (!flee && this.canAdvance) {
-      this._history.add('EnterRoom', {reason: 'Clear'});
+      this._history.add('EnterRoom', {
+        reason: this.state === GameState.Idle ? 'Begin' : 'Clear',
+      });
       this.drawCards();
     } else if (flee && this.canFlee) {
       this._history.add('EnterRoom', {reason: 'Flee'});
@@ -151,31 +137,58 @@ export class GameController extends EventDispatcher<GameEventListener> {
     }
   }
 
-  private fightMonster(card: DonsolCard) {
+  private fightMonster(monster: DonsolCard) {
+    const hurt = this.blockMonsterWithShield(monster);
+    this._health.update(prev => prev - hurt);
+    this._history.add('Fight', {monster, hurt});
+  }
+
+  /**
+   * @returns { number } amount gamage user gets after blocking
+   */
+  private blockMonsterWithShield(monster: DonsolCard): number {
+    const monsterDamage = monster.effect;
     const shieldValue = this.shield?.effect ?? 0;
-    const totalDamage = card.effect - shieldValue;
+    const shieldId = this.shield?.id;
 
-    const shieldAbsorb = shieldValue - card.effect;
-    const shieldBroke = shieldAbsorb <= 0;
-    if (shieldBroke) {
-      this._shield.update(null);
-    }
-
-    this._history.add('Fight', {
-      card,
-      totalDamage,
-    });
-
-    if (shieldValue > 0) {
-      this._history.add('ShieldAbsorb', {
-        damage: Math.min(shieldValue, card.effect),
-        broke: shieldBroke,
+    // if user's shield previously blocked a lower value than current monster damage, shield breaks. User gets full damage
+    if (
+      this.lastBlockedMonster &&
+      this.lastBlockedMonster.effect <= monsterDamage
+    ) {
+      this._shield.reset();
+      this._history.add('Block', {
+        amount: 0,
+        broke: true,
+        monster,
+        shieldId,
       });
+      return monsterDamage;
     }
 
-    if (totalDamage > 0) {
-      this._health.update(prevHealth => prevHealth - totalDamage);
+    this._history.add('Block', {
+      amount: shieldValue,
+      broke: false,
+      monster,
+      shieldId,
+    });
+    return Math.max(0, monsterDamage - shieldValue);
+  }
+
+  public get lastBlockedMonster(): DonsolCard | undefined {
+    const [block] = this._history.findEventsOfKind('Block');
+    if (block?.amount > 0) {
+      const {shieldId, monster, broke} = block;
+      if (this.shield?.id === shieldId && !broke) {
+        return monster;
+      }
     }
+    return undefined;
+  }
+
+  public get lastPlayedCard(): DonsolCard | undefined {
+    const [lastCardPlay] = this._history.findEventsOfKind('PlayCard');
+    return lastCardPlay?.card;
   }
 
   private pickShield(card: DonsolCard) {
@@ -186,25 +199,16 @@ export class GameController extends EventDispatcher<GameEventListener> {
   }
 
   private drinkPotion(card: DonsolCard) {
-    const didGetSick = this.prevCardWasPotion;
-    const health = didGetSick ? 0 : card.effect;
-
-    if (health > 0) {
-      this._health.update(prev => {
-        const newHealth = prev + card.effect;
-        if (newHealth > MAX_HEALTH) {
-          return MAX_HEALTH;
-        } else {
-          return newHealth;
-        }
-      });
-    }
-
-    this._history.add('DrinkPotion', {health, sick: didGetSick});
+    // if player drinks potions back to back, gets sick, potion doesn't effect
+    const gainedHealth = this.prevCardWasPotion ? 0 : card.effect;
+    // player can't gain more healt than max
+    this._health.update(prev => Math.min(MAX_HEALTH, prev + gainedHealth));
+    this._history.add('DrinkPotion', {gainedHealth});
   }
 
   public get didFleeLastRoom() {
-    return this._history.lastEnterRoomReason === 'Flee';
+    const [lastEnterRoom] = this._history.findEventsOfKind('EnterRoom');
+    return lastEnterRoom?.reason === 'Flee';
   }
 
   public get isRoomClear() {
@@ -218,17 +222,10 @@ export class GameController extends EventDispatcher<GameEventListener> {
     return false;
   }
 
-  private discard(card: DonsolCard) {
-    this._discardPile.update(prev => [...prev, card]);
-  }
-
   public playCard(card: DonsolCard) {
     if (this.state === GameState.Lost) {
       throw "Can't play when dead";
     }
-
-    // Remove card from room
-    this._room.update(prev => prev.filter(roomCard => card.id !== roomCard.id));
 
     // Apply effect
     switch (card.kind) {
@@ -243,6 +240,8 @@ export class GameController extends EventDispatcher<GameEventListener> {
         break;
     }
 
-    this.discard(card);
+    this._history.add('PlayCard', {card});
+    // Remove card from room
+    this._room.update(prev => prev.filter(roomCard => card.id !== roomCard.id));
   }
 }

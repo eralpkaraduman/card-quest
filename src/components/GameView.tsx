@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {
   useGameController,
-  CardStack,
-  Shield,
   GameEvent,
 } from '@controllers/GameControllerProvider';
 import {GameCardSize} from './GameCard.styles';
@@ -10,7 +8,7 @@ import styled from 'styled-components/native';
 import {TouchableHighlight} from 'react-native';
 import {GameState} from '@controllers/GameController';
 import {CardSlot} from './CardSlot';
-import {DonsolCard, DonsolCardKind} from '@controllers/DonsolCard';
+import {DonsolCard} from '@controllers/DonsolCard';
 
 const Container = styled.View`
   display: flex;
@@ -38,20 +36,25 @@ const Room = styled.View`
 export function GameView(): React.ReactElement {
   const game = useGameController();
 
-  const [roomCards, setRoomCards] = React.useState<CardStack>(game.room);
-  const [discardPile, setDiscardPile] = React.useState<CardStack>(
-    game.discardPile,
-  );
+  const [roomCards, setRoomCards] = React.useState<DonsolCard[]>(game.room);
   const [numCardsInDeck, setNumCardsInDeck] = useState<number>(game.deckCount);
   const [gameState, setGameState] = React.useState<GameState>(game.state);
   const [canEnterRoom, setCanEnterRoom] = React.useState<boolean>(
     game.canAdvance,
   );
   const [health, setHealth] = React.useState<number>(game.health);
-  const [shieldCard, setShieldCard] = React.useState<Shield>(game.shield);
+  const [shieldCard, setShieldCard] = React.useState<DonsolCard | undefined>(
+    game.shield,
+  );
   const [history, setHistory] = React.useState<GameEvent[]>(game.history);
   const [canFlee, setCanFlee] = React.useState<boolean>(game.canFlee);
   const [roomCount, setRoomCount] = React.useState<number>(game.roomCount);
+  const [lastBlockedMonster, setLastBlockedMonster] = React.useState<
+    DonsolCard | undefined
+  >(game.lastBlockedMonster);
+  const [lastPlayedCard, setLastPlayedCard] = React.useState<
+    DonsolCard | undefined
+  >(game.lastPlayedCard);
 
   const canReset = true;
 
@@ -76,12 +79,11 @@ export function GameView(): React.ReactElement {
       onShieldChange() {
         setShieldCard(game.shield);
       },
-      onDiscardPileUpdated() {
-        setDiscardPile(game.discardPile);
-      },
       onHistoryUpdated() {
         setHistory(game.history);
         setRoomCount(game.roomCount);
+        setLastBlockedMonster(game.lastBlockedMonster);
+        setLastPlayedCard(game.lastPlayedCard);
       },
     });
 
@@ -89,8 +91,6 @@ export function GameView(): React.ReactElement {
       removeEventListener();
     };
   }, [game]);
-
-  const [prevDiscardedCard, topDiscardedCard] = discardPile.slice(-2);
 
   return (
     <Container>
@@ -115,17 +115,14 @@ export function GameView(): React.ReactElement {
       <Room>
         <CardSlot
           size={GameCardSize.large}
-          title="Discard"
-          card={
-            (topDiscardedCard?.kind === DonsolCardKind.shield
-              ? prevDiscardedCard
-              : topDiscardedCard) as DonsolCard
-          }
+          title="Last Played"
+          card={lastPlayedCard}
         />
+        <CardSlot size={GameCardSize.large} title="Shield" card={shieldCard} />
         <CardSlot
           size={GameCardSize.large}
-          title="Shield"
-          card={shieldCard as DonsolCard}
+          title="Last Blocked"
+          card={lastBlockedMonster}
         />
       </Room>
       <Room>
@@ -142,14 +139,14 @@ export function GameView(): React.ReactElement {
               <DebugText>[ Reset ]</DebugText>
             </TouchableHighlight>
           )}
-          {canEnterRoom && (
-            <TouchableHighlight onPress={() => game.advance(false)}>
-              <DebugText>[ Advance ]</DebugText>
-            </TouchableHighlight>
-          )}
           {canFlee && (
             <TouchableHighlight onPress={() => game.advance(true)}>
               <DebugText>[ Flee / Skip ] </DebugText>
+            </TouchableHighlight>
+          )}
+          {canEnterRoom && (
+            <TouchableHighlight onPress={() => game.advance(false)}>
+              <DebugText>[ Advance ]</DebugText>
             </TouchableHighlight>
           )}
         </TempDebugContainer>
