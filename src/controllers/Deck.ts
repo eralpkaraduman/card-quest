@@ -31,11 +31,16 @@ export type Card = {
 };
 
 export class Deck extends ChangeNotifier {
-  private cards: Card[] = [...cardList];
+  private cards: Card[];
 
-  constructor(observer: ChangeHandler) {
+  constructor(observer: ChangeHandler, init?: Card[]) {
     super(observer);
-    this.shuffle();
+    if (init) {
+      this.cards = [...init];
+    } else {
+      this.cards = [...cardList];
+      this.shuffle();
+    }
   }
 
   get count(): number {

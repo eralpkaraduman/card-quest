@@ -18,10 +18,14 @@ export class Observable<T> extends ChangeNotifier {
   private _value: T;
   private _initialValue: T;
 
-  constructor(readonly initialValue: T, readonly changeHandler: ChangeHandler) {
+  constructor(
+    readonly initialValue: T,
+    readonly changeHandler: ChangeHandler,
+    readonly currrentValue: T | undefined,
+  ) {
     super(changeHandler);
     this._initialValue = initialValue;
-    this._value = initialValue;
+    this._value = currrentValue ?? this._initialValue;
   }
 
   get value(): T {

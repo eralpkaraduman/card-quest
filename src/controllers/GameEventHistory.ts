@@ -25,12 +25,18 @@ type WithoutKind<D> = Omit<D, 'kind'>;
 export class GameEventHistory extends ChangeNotifier {
   private _history: GameEvent[] = [];
 
-  public get history(): GameEvent[] {
-    return [...this._history];
+  constructor(changeHandler: ChangeHandler, init?: GameEvent[]) {
+    super(changeHandler);
+
+    if (init) {
+      this._history = init;
+    } else {
+      this._history = [];
+    }
   }
 
-  constructor(changeHandler: ChangeHandler) {
-    super(changeHandler);
+  public get history(): GameEvent[] {
+    return [...this._history];
   }
 
   public add<K extends GameEventKind, D extends GameEventMap[K]>(

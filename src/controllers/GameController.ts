@@ -1,5 +1,5 @@
 import {EventDispatcher} from './EventDispatcher';
-import {Deck} from './Deck';
+import {Card, Deck} from './Deck';
 import {DonsolCard, DonsolCardKind} from './DonsolCard';
 import {Observable} from './Observable';
 import {GameEvent, GameEventHistory} from './GameEventHistory';
@@ -31,7 +31,14 @@ export class GameController extends EventDispatcher<GameEventListener> {
   private _shield: Observable<DonsolCard | undefined>;
   private _history: Readonly<GameEventHistory>;
 
-  constructor() {
+  constructor(init?: {
+    room: DonsolCard[];
+    deck: Card[];
+    state: GameState;
+    health: number;
+    shield: DonsolCard | undefined;
+    history: GameEvent[];
+  }) {
     super();
 
     this._deck = new Deck(() => {
@@ -42,32 +49,48 @@ export class GameController extends EventDispatcher<GameEventListener> {
       if (roomEnded && deckEnded && notDead) {
         this._state.update(GameState.Won);
       }
-    });
+    }, init?.deck);
 
-    this._room = new Observable<DonsolCard[]>([], () => {
-      this.dispatchEvent('onRoomUpdated');
-    });
+    this._room = new Observable<DonsolCard[]>(
+      [],
+      () => {
+        this.dispatchEvent('onRoomUpdated');
+      },
+      init?.room,
+    );
 
-    this._state = new Observable<GameState>(GameState.Idle, () => {
-      this._history.add('StateChange', {state: this.state});
-      this.dispatchEvent('onStateChange');
-    });
+    this._state = new Observable<GameState>(
+      GameState.Idle,
+      () => {
+        this._history.add('StateChange', {state: this.state});
+        this.dispatchEvent('onStateChange');
+      },
+      init?.state,
+    );
 
-    this._health = new Observable<number>(MAX_HEALTH, () => {
-      this.dispatchEvent('onHealthChange');
-      if (this.health <= 0) {
-        // Dead
-        this._state.update(GameState.Lost);
-      }
-    });
+    this._health = new Observable<number>(
+      MAX_HEALTH,
+      () => {
+        this.dispatchEvent('onHealthChange');
+        if (this.health <= 0) {
+          // Dead
+          this._state.update(GameState.Lost);
+        }
+      },
+      init?.health,
+    );
 
-    this._shield = new Observable<DonsolCard | undefined>(undefined, () => {
-      this.dispatchEvent('onShieldChange');
-    });
+    this._shield = new Observable<DonsolCard | undefined>(
+      undefined,
+      () => {
+        this.dispatchEvent('onShieldChange');
+      },
+      init?.shield,
+    );
 
     this._history = new GameEventHistory(() => {
       this.dispatchEvent('onHistoryUpdated');
-    });
+    }, init?.history);
   }
 
   public reset(): void {
