@@ -23,6 +23,15 @@ export interface GameEventListener {
   onHistoryUpdated?(): void;
 }
 
+export interface GameInit {
+  room: DonsolCard[];
+  deck: Card[];
+  state: GameState;
+  health: number;
+  shield: DonsolCard | undefined;
+  history: GameEvent[];
+}
+
 export class GameController extends EventDispatcher<GameEventListener> {
   private _room: Observable<DonsolCard[]>;
   private _deck: Readonly<Deck>;
@@ -31,14 +40,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
   private _shield: Observable<DonsolCard | undefined>;
   private _history: Readonly<GameEventHistory>;
 
-  constructor(init?: {
-    room: DonsolCard[];
-    deck: Card[];
-    state: GameState;
-    health: number;
-    shield: DonsolCard | undefined;
-    history: GameEvent[];
-  }) {
+  constructor(init?: GameInit) {
     super();
 
     this._deck = new Deck(() => {
@@ -112,7 +114,11 @@ export class GameController extends EventDispatcher<GameEventListener> {
   }
 
   public get deckCount(): number {
-    return this._deck.count;
+    return this._deck.cards.length;
+  }
+
+  public get deck(): Card[] {
+    return [...this._deck.cards];
   }
 
   public get state(): GameState {
@@ -128,7 +134,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
   }
 
   public get history(): GameEvent[] {
-    return this._history.history;
+    return [...this._history.history];
   }
 
   public get prevCardWasPotion(): boolean {

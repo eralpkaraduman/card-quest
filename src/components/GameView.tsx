@@ -6,9 +6,14 @@ import {
 import {GameCardSize} from './GameCard.styles';
 import styled from 'styled-components/native';
 import {TouchableHighlight} from 'react-native';
-import {GameState} from '@controllers/GameController';
+import {GameController, GameState} from '@controllers/GameController';
 import {CardSlot} from './CardSlot';
 import {DonsolCard} from '@controllers/DonsolCard';
+import {
+  PlayCardResult,
+  resolveCardPlay,
+  renderDiffAsString,
+} from '@controllers/resolveGameCardPlay';
 
 const Container = styled.View`
   display: flex;
@@ -32,6 +37,12 @@ const Room = styled.View`
   gap: ${({theme}) => theme.dimensions.padding.medium}px;
   padding: ${({theme}) => theme.dimensions.padding.medium}px;
 `;
+
+function do4<T>(f: (index: number) => T) {
+  return Array(4)
+    .fill(null)
+    .map((_, index) => f(index));
+}
 
 export function GameView(): React.ReactElement {
   const game = useGameController();
@@ -95,22 +106,20 @@ export function GameView(): React.ReactElement {
   return (
     <Container>
       <Room>
-        {Array(4)
-          .fill(null)
-          .map((_, slotOrder) => {
-            const card = roomCards.find(
-              ({roomOrder}) => roomOrder === slotOrder,
-            );
-            return (
-              <CardSlot
-                title={slotOrder + 1}
-                card={card}
-                size={GameCardSize.large}
-                key={`room-slot-${slotOrder}`}
-                onPress={card ? () => game.playCard(card) : undefined}
-              />
-            );
-          })}
+        {do4(slotOrder => {
+          const card = roomCards.find(({roomOrder}) => roomOrder === slotOrder);
+          const resolution =
+            card && renderDiffAsString(resolveCardPlay(game, slotOrder));
+          return (
+            <CardSlot
+              title={resolution ?? `${slotOrder + 1}`}
+              card={card}
+              size={GameCardSize.large}
+              key={`room-slot-${slotOrder}`}
+              onPress={card ? () => game.playCard(card) : undefined}
+            />
+          );
+        })}
       </Room>
       <Room>
         <CardSlot

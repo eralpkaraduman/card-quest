@@ -29,7 +29,7 @@ export class GameEventHistory extends ChangeNotifier {
     super(changeHandler);
 
     if (init) {
-      this._history = init;
+      this._history = [...init];
     } else {
       this._history = [];
     }

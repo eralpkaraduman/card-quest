@@ -31,25 +31,25 @@ export type Card = {
 };
 
 export class Deck extends ChangeNotifier {
-  private cards: Card[];
+  private _cards: Card[];
 
   constructor(observer: ChangeHandler, init?: Card[]) {
     super(observer);
     if (init) {
-      this.cards = [...init];
+      this._cards = [...init];
     } else {
-      this.cards = [...cardList];
+      this._cards = [...cardList];
       this.shuffle();
     }
   }
 
-  get count(): number {
-    return this.cards.length;
+  get cards(): Card[] {
+    return [...this._cards];
   }
 
   public shuffle() {
     // Fisher-Yates shuffle: https://bost.ocks.org/mike/shuffle/
-    const shuffledCards = [...this.cards];
+    const shuffledCards = [...this._cards];
     var m = shuffledCards.length,
       t,
       i;
@@ -65,13 +65,13 @@ export class Deck extends ChangeNotifier {
       shuffledCards[i] = t;
     }
 
-    this.cards = shuffledCards;
+    this._cards = shuffledCards;
   }
 
   draw(amount: number = 1): Card[] {
     const drawnCards: Card[] = [];
-    while (amount-- && this.cards.length) {
-      const card = this.cards.pop();
+    while (amount-- && this._cards.length) {
+      const card = this._cards.pop();
       if (card) {
         drawnCards.push(card);
       }
@@ -82,13 +82,13 @@ export class Deck extends ChangeNotifier {
 
   shuffleWithCards(addCards: Card[]) {
     if (addCards.length > 0) {
-      this.cards = [...this.cards, ...addCards];
+      this._cards = [...this._cards, ...addCards];
       this.shuffle();
     }
   }
 
   reset() {
-    this.cards = [...cardList];
+    this._cards = [...cardList];
     this.shuffle();
     this.notifyObserver();
   }
