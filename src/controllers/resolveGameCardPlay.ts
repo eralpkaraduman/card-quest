@@ -41,15 +41,15 @@ export interface PlayCardResult {
 
 function diffGameStatus(prev: GameInit, next: GameInit): PlayCardResult {
   const numNewEvents = next.history.length - prev.history.length;
-  console.log({a: next.history.length, b: prev.history.length});
   const ne = next.history.slice(0, numNewEvents) ?? [];
   const newEvents = new GameEventHistory(() => {}, ne);
-  const shieldBroke =
-    (newEvents.findEventsOfKind('Block') ?? []).filter(({broke}) => broke)
-      .length > 0;
+
+  const [blockEvent] = newEvents.findEventsOfKind('Block');
+  const shieldBroke = blockEvent?.broke ?? false;
 
   const [potionEvent] = newEvents.findEventsOfKind('DrinkPotion');
-  const gotSick = !potionEvent ? false : Boolean(potionEvent.gainedHealth);
+  const gotSick = potionEvent?.gainedHealth === 0;
+
   const nextShieldValue = next.shield?.effect ?? 0;
   const prevShieldValue = prev.shield?.effect ?? 0;
   return {

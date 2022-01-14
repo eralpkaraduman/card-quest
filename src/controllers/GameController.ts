@@ -45,18 +45,18 @@ export class GameController extends EventDispatcher<GameEventListener> {
 
     this._deck = new Deck(() => {
       this.dispatchEvent('onDeckUpdated');
-      const deckEnded = this.deckCount <= 0;
-      const roomEnded = this.room.length <= 0;
-      const notDead = this.health > 0;
-      if (roomEnded && deckEnded && notDead) {
-        this._state.update(GameState.Won);
-      }
     }, init?.deck);
 
     this._room = new Observable<DonsolCard[]>(
       [],
       () => {
         this.dispatchEvent('onRoomUpdated');
+        const deckEnded = this.deckCount <= 0;
+        const roomEnded = this.room.length <= 0;
+        const notDead = this.health > 0;
+        if (roomEnded && deckEnded && notDead) {
+          this._state.update(GameState.Won);
+        }
       },
       init?.room,
     );
