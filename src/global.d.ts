@@ -32,6 +32,7 @@ declare module 'styled-components' {
       secondary: string;
       white: string;
       red: string;
+      transparentRed25: string;
       gray: string;
       yellow: string;
       blue: string;

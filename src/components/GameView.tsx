@@ -11,6 +11,8 @@ import {CardSlot} from './CardSlot';
 import {DonsolCard} from '@controllers/DonsolCard';
 import {GameRoom} from './GameRoom';
 import {useWindowAttributes} from '@/utils';
+import {HealthBar} from './HealthBar';
+import {PlayerStatus} from './PlayerStatus';
 
 const Container = styled.View`
   display: flex;
@@ -43,7 +45,6 @@ export function GameView(): React.ReactElement {
   const [canEnterRoom, setCanEnterRoom] = React.useState<boolean>(
     game.canAdvance,
   );
-  const [health, setHealth] = React.useState<number>(game.health);
   const [shieldCard, setShieldCard] = React.useState<DonsolCard | undefined>(
     game.shield,
   );
@@ -73,9 +74,6 @@ export function GameView(): React.ReactElement {
         setCanEnterRoom(game.canAdvance);
         setCanFlee(game.canFlee);
       },
-      onHealthChange() {
-        setHealth(game.health);
-      },
       onShieldChange() {
         setShieldCard(game.shield);
       },
@@ -97,6 +95,7 @@ export function GameView(): React.ReactElement {
 
   return (
     <Container>
+      <PlayerStatus />
       <GameRoom />
       <Room>
         <CardSlot size={cardSize} title="Last Played" card={lastPlayedCard} />
@@ -111,7 +110,6 @@ export function GameView(): React.ReactElement {
         <TempDebugContainer>
           <DebugText>{`Deck: ${numCardsInDeck}`}</DebugText>
           <DebugText>{`State: ${gameState}`}</DebugText>
-          <DebugText>{`Health: ${health}`}</DebugText>
           <DebugText>{`Shield: ${shieldCard?.effect ?? 0}`}</DebugText>
           <DebugText>{`Room: ${roomCount}`}</DebugText>
         </TempDebugContainer>

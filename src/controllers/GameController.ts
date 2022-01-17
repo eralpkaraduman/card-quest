@@ -5,7 +5,7 @@ import {Observable} from './Observable';
 import {GameEvent, GameEventHistory} from './GameEventHistory';
 
 const NUM_CARDS_IN_ROOM = 4;
-const MAX_HEALTH = 21;
+export const MAX_HEALTH = 21;
 
 export enum GameState {
   Idle = 'Idle',
