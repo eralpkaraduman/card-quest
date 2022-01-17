@@ -6,14 +6,11 @@ import {
 import {GameCardSize} from './GameCard.styles';
 import styled from 'styled-components/native';
 import {TouchableHighlight} from 'react-native';
-import {GameController, GameState} from '@controllers/GameController';
+import {GameState} from '@controllers/GameController';
 import {CardSlot} from './CardSlot';
 import {DonsolCard} from '@controllers/DonsolCard';
-import {
-  PlayCardResult,
-  resolveCardPlay,
-  renderDiffAsString,
-} from '@controllers/resolveGameCardPlay';
+import {GameRoom} from './GameRoom';
+import {useWindowAttributes} from '@/utils';
 
 const Container = styled.View`
   display: flex;
@@ -38,16 +35,9 @@ const Room = styled.View`
   padding: ${({theme}) => theme.dimensions.padding.medium}px;
 `;
 
-function do4<T>(f: (index: number) => T) {
-  return Array(4)
-    .fill(null)
-    .map((_, index) => f(index));
-}
-
 export function GameView(): React.ReactElement {
   const game = useGameController();
 
-  const [roomCards, setRoomCards] = React.useState<DonsolCard[]>(game.room);
   const [numCardsInDeck, setNumCardsInDeck] = useState<number>(game.deckCount);
   const [gameState, setGameState] = React.useState<GameState>(game.state);
   const [canEnterRoom, setCanEnterRoom] = React.useState<boolean>(
@@ -75,7 +65,6 @@ export function GameView(): React.ReactElement {
         setNumCardsInDeck(game.deckCount);
       },
       onRoomUpdated() {
-        setRoomCards(game.room);
         setCanFlee(game.canFlee);
         setCanEnterRoom(game.canAdvance);
       },
@@ -103,33 +92,17 @@ export function GameView(): React.ReactElement {
     };
   }, [game]);
 
+  const {narrow} = useWindowAttributes();
+  const cardSize = narrow ? GameCardSize.medium : GameCardSize.large;
+
   return (
     <Container>
+      <GameRoom />
       <Room>
-        {do4(slotOrder => {
-          const card = roomCards.find(({roomOrder}) => roomOrder === slotOrder);
-          const resolution =
-            card && renderDiffAsString(resolveCardPlay(game, slotOrder));
-          return (
-            <CardSlot
-              title={resolution ?? `${slotOrder + 1}`}
-              card={card}
-              size={GameCardSize.large}
-              key={`room-slot-${slotOrder}`}
-              onPress={card ? () => game.playCard(card) : undefined}
-            />
-          );
-        })}
-      </Room>
-      <Room>
+        <CardSlot size={cardSize} title="Last Played" card={lastPlayedCard} />
+        <CardSlot size={cardSize} title="Shield" card={shieldCard} />
         <CardSlot
-          size={GameCardSize.large}
-          title="Last Played"
-          card={lastPlayedCard}
-        />
-        <CardSlot size={GameCardSize.large} title="Shield" card={shieldCard} />
-        <CardSlot
-          size={GameCardSize.large}
+          size={cardSize}
           title="Last Blocked"
           card={lastBlockedMonster}
         />

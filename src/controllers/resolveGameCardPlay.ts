@@ -77,5 +77,5 @@ export function renderDiffAsString(diff?: PlayCardResult): string {
       shieldEmoji + (shieldBroke ? explosionEmoji : '') + signed(shieldChange),
   ];
   const text = displays.filter(Boolean).join(',');
-  return text.length ? text : '=';
+  return text.length ? text : '';
 }

@@ -8,8 +8,8 @@ export const Container = styled.View<{size: GameCardSize}>`
 `;
 
 export const PlaceHolder = styled.View<{size: GameCardSize}>`
-  width: ${({size}) => GameCardSize.getWidth(size)};
-  height: ${({size}) => GameCardSize.getHeight(size)};
+  width: ${({size}) => GameCardSize.getWidth(size)}px;
+  height: ${({size}) => GameCardSize.getHeight(size)}px;
   border-radius: ${({size}) => size / 20}px;
   border-color: ${({theme}) => theme.colors.gray};
   border-width: 2px;
@@ -18,4 +18,5 @@ export const PlaceHolder = styled.View<{size: GameCardSize}>`
 
 export const Title = styled.Text`
   color: ${({theme}) => theme.colors.main};
+  margin-bottom: ${({theme}) => theme.dimensions.padding.small};
 `;
