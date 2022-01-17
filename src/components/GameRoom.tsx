@@ -56,7 +56,7 @@ export function GameRoom(): React.ReactElement {
     return (
       <StyledCardSlot
         marginRight={marginRight}
-        title={resolution ?? ''}
+        title={resolution ?? ' '}
         card={card}
         size={cardSize}
         key={`room-slot-${order}`}
