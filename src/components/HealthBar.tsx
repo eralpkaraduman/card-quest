@@ -37,7 +37,7 @@ const Title = styled.Text`
 export function HealthBar({amount}: {amount: number}): ReactElement {
   return (
     <Container>
-      <Title>{`${amount} / ${MAX_HEALTH}`}</Title>
+      <Title>{`🩸${amount} / ${MAX_HEALTH}`}</Title>
       <Bar>
         <BarFill amount={amount / MAX_HEALTH} />
       </Bar>
