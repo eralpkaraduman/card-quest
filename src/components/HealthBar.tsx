@@ -54,7 +54,7 @@ export function HealthBar(): ReactElement {
 
   return (
     <Container>
-      <Title>{`🩸${health} / ${MAX_HEALTH}`}</Title>
+      <Title>{`🩸${Math.max(0, health)} / ${MAX_HEALTH}`}</Title>
       <Bar>
         <BarFill amount={health / MAX_HEALTH} />
       </Bar>
