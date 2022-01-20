@@ -14,16 +14,12 @@ export interface GameCard_Props {
 }
 
 const CardSuitIconMap: {[key in CardSuit]: ReactElement} = {
-  [CardSuit.clubs]: <Styles.MaterialSuitIcon name="cards-club" color="white" />,
-  [CardSuit.spades]: (
-    <Styles.MaterialSuitIcon name="cards-spade" color="white" />
-  ),
-  [CardSuit.hearts]: <Styles.MaterialSuitIcon name="cards-heart" color="red" />,
-  [CardSuit.diamonds]: (
-    <Styles.MaterialSuitIcon name="cards-diamond" color="red" />
-  ),
+  [CardSuit.clubs]: <Styles.SuitIcon_MC name="cards-club" color="white" />,
+  [CardSuit.spades]: <Styles.SuitIcon_MC name="cards-spade" color="white" />,
+  [CardSuit.hearts]: <Styles.SuitIcon_MC name="cards-heart" color="red" />,
+  [CardSuit.diamonds]: <Styles.SuitIcon_MC name="cards-diamond" color="red" />,
   [CardSuit.joker]: (
-    <Styles.FontAwesomeSuitIcon name="kiss-wink-heart" color="yellow" />
+    <Styles.SuitIcon_FA5 name="kiss-wink-heart" color="yellow" />
   ),
 };
 

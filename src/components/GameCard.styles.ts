@@ -1,8 +1,16 @@
 import styled, {css} from 'styled-components/native';
 import {DonsolCardKind} from '@controllers/DonsolCard';
-import WebIcon from '@/icons.web';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const suitIconSize = 17;
+export const SuitIcon_FA5 = styled(FontAwesome5Icon).attrs({
+  size: suitIconSize,
+  solid: true,
+})``;
+export const SuitIcon_MC = styled(MaterialCommunityIcon).attrs({
+  size: suitIconSize,
+})``;
 
 export enum GameCardSize {
   medium = 120,
@@ -19,27 +27,15 @@ export namespace GameCardSize {
   }
 }
 
-export const MaterialSuitIcon = styled(WebIcon.MaterialCommunityIcon).attrs(
-  ({theme, color}) => ({
-    size: suitIconSize,
-    color: theme.colors[color],
-  }),
-)``;
-
-export const FontAwesomeSuitIcon = styled(WebIcon.FontAwesome5Icon).attrs(
-  ({theme, color}) => ({
-    size: suitIconSize,
-    solid: true,
-    color: theme.colors[color],
-  }),
-)``;
-
-export const CardKindIcon = styled(WebIcon.MaterialCommunityIcon).attrs(
-  ({theme, kind}) => ({
-    size: 30,
-    color: theme.colors[kind],
-  }),
-)<{kind: DonsolCardKind}>``;
+interface CardKindIcon_Props {
+  kind: DonsolCardKind;
+}
+export const CardKindIcon = styled(
+  MaterialCommunityIcon,
+).attrs<CardKindIcon_Props>(({theme, kind}) => ({
+  size: 30,
+  color: theme.colors[kind],
+}))<CardKindIcon_Props>``;
 
 export const Container = styled.TouchableHighlight<{size: GameCardSize}>`
   ${({size, theme}) => css`

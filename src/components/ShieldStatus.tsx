@@ -39,25 +39,20 @@ const NumbersContainer = styled.View`
   width: 100%;
 `;
 
-const NumberText = styled.Text<{mode: ShieldBlock; textHidden: boolean}>`
-  ${({theme, mode, textHidden}) => css`
+const NumberText = styled.Text<{mode: ShieldBlock}>`
+  ${({theme, mode}) => css`
+    color: ${theme.colors.white};
     ${mode === ShieldBlock.PARTIAL &&
     css`
       background-color: ${theme.alphaColor(theme.colors.blue, 0.35)};
-      color: ${theme.colors.white};
     `}
     ${mode === ShieldBlock.FULL &&
     css`
       background-color: ${theme.colors.blue};
-      color: ${theme.colors.background};
     `}
     ${mode === ShieldBlock.UNPROTECTED &&
     css`
       background-color: ${theme.alphaColor(theme.colors.blue, 0.1)};
-    `}
-    ${textHidden &&
-    css`
-      color: ${theme.alphaColor(theme.colors.main, 0.1)};
     `}
   `}
   display: flex;
@@ -96,10 +91,9 @@ export function ShieldStatus(): ReactElement {
     let mode = ShieldBlock.UNPROTECTED;
 
     if (shield) {
+      mode = ShieldBlock.PARTIAL;
       if (segment <= shield) {
         mode = ShieldBlock.FULL;
-      } else {
-        mode = ShieldBlock.PARTIAL;
       }
     }
 
@@ -119,10 +113,8 @@ export function ShieldStatus(): ReactElement {
       <Bar>
         <NumbersContainer>
           {segments.map((segment, i) => (
-            <NumberText
-              mode={segmentModes[i]}
-              textHidden={i !== lastFullIndex && i !== lastPartialIndex}>
-              {segment}
+            <NumberText mode={segmentModes[i]}>
+              {i === lastFullIndex || i === lastPartialIndex ? segment : ''}
             </NumberText>
           ))}
         </NumbersContainer>

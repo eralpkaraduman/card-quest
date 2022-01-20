@@ -40,7 +40,6 @@ export function GameView(): React.ReactElement {
   const game = useGameController();
 
   const [numCardsInDeck, setNumCardsInDeck] = useState<number>(game.deckCount);
-  const [gameState, setGameState] = React.useState<GameState>(game.state);
   const [canEnterRoom, setCanEnterRoom] = React.useState<boolean>(
     game.canAdvance,
   );
@@ -60,7 +59,6 @@ export function GameView(): React.ReactElement {
         setCanEnterRoom(game.canAdvance);
       },
       onStateChange() {
-        setGameState(game.state);
         setCanEnterRoom(game.canAdvance);
         setCanFlee(game.canFlee);
       },
@@ -82,7 +80,6 @@ export function GameView(): React.ReactElement {
       <Room>
         <TempDebugContainer>
           <DebugText>{`Deck: ${numCardsInDeck}`}</DebugText>
-          <DebugText>{`State: ${gameState}`}</DebugText>
           <DebugText>{`Room: ${roomCount}`}</DebugText>
         </TempDebugContainer>
         <TempDebugContainer>

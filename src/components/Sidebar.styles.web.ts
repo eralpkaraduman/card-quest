@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, {useTheme} from 'styled-components/native';
-import Icon from '@/icons.web';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Link} from 'react-router-dom';
 import {useMatch} from 'react-router-dom';
 
@@ -29,17 +30,9 @@ const createButtonIcon = (pack: any, name: string, size: number) =>
 
 export type IconType = ReturnType<typeof createButtonIcon>;
 
-export const DungeonIcon = createButtonIcon(
-  Icon.FontAwesome5Icon,
-  'dungeon',
-  18,
-);
-export const ScrollIcon = createButtonIcon(Icon.FontAwesome5Icon, 'scroll', 18);
-export const SwordIcon = createButtonIcon(
-  Icon.MaterialCommunityIcon,
-  'sword',
-  26,
-);
+export const DungeonIcon = createButtonIcon(FontAwesome5Icon, 'dungeon', 18);
+export const ScrollIcon = createButtonIcon(FontAwesome5Icon, 'scroll', 18);
+export const SwordIcon = createButtonIcon(MaterialCommunityIcons, 'sword', 26);
 
 export function Button({
   to,

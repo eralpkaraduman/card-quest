@@ -2,18 +2,28 @@ import React, {ReactElement} from 'react';
 import styled from 'styled-components/native';
 import {HealthBar} from './HealthBar';
 import {ShieldStatus} from './ShieldStatus';
+import {UserAvatar} from './UserAvatar';
 
 const Container = styled.View`
   display: flex;
-  width: 100%;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const StatusBarsContainer = styled.View`
+  display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 export function PlayerStatus(): ReactElement {
   return (
     <Container>
-      <HealthBar />
-      <ShieldStatus />
+      <UserAvatar />
+      <StatusBarsContainer>
+        <HealthBar />
+        <ShieldStatus />
+      </StatusBarsContainer>
     </Container>
   );
 }

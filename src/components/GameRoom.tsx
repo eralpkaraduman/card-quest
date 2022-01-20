@@ -32,8 +32,9 @@ const StyledCardSlot = styled(CardSlot)<{
 `;
 
 export function GameRoom(): React.ReactElement {
-  const {narrow} = useWindowAttributes();
-  const cardSize = narrow ? GameCardSize.medium : GameCardSize.large;
+  const {narrow, xsmall} = useWindowAttributes();
+  const twoRow = narrow;
+  const cardSize = xsmall ? GameCardSize.medium : GameCardSize.large;
 
   const game = useGameController();
   const [roomCards, setRoomCards] = useState<DonsolCard[]>(game.room);
@@ -67,7 +68,7 @@ export function GameRoom(): React.ReactElement {
 
   return (
     <Container>
-      {narrow ? (
+      {twoRow ? (
         <>
           <Row>
             {renderSlot(0, true)}
