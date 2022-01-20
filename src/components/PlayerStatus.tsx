@@ -13,7 +13,7 @@ const Container = styled.View`
 const StatusBarsContainer = styled.View`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  flex: 1;
 `;
 
 export function PlayerStatus(): ReactElement {

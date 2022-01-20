@@ -9,6 +9,7 @@ const AvatarIcon = styled(FontAwesome5Icon).attrs(({theme}) => ({
   solid: true,
 }))`
   min-width: 20px;
+  margin-right: ${({theme}) => theme.dimensions.padding.small}px;
 `;
 
 interface AvatarState {
