@@ -1,5 +1,6 @@
 import {MAX_HEALTH} from '@controllers/GameController';
-import React, {ReactElement} from 'react';
+import {useGameController} from '@controllers/GameControllerProvider';
+import React, {ReactElement, useState} from 'react';
 import styled from 'styled-components/native';
 
 const Container = styled.View`
@@ -14,7 +15,7 @@ const Bar = styled.View`
   flex: 1;
   display: flex;
   flex-direction: row;
-  background-color: ${({theme}) => theme.colors.transparentRed25};
+  background-color: ${({theme}) => theme.alphaColor(theme.colors.red, 0.25)};
   height: 100%;
   width: 100%;
 `;
@@ -28,18 +29,34 @@ const BarFill = styled.View<{amount: number}>`
 `;
 
 const Title = styled.Text`
+  min-width: 50px;
   color: ${({theme}) => theme.colors.main};
   margin-left: ${({theme}) => theme.dimensions.padding.small}px;
   margin-right: ${({theme}) => theme.dimensions.padding.small}px;
   font-size: 11px;
 `;
 
-export function HealthBar({amount}: {amount: number}): ReactElement {
+export function HealthBar(): ReactElement {
+  const game = useGameController();
+  const [health, setHealth] = useState<number>(game.health);
+
+  React.useEffect(() => {
+    const removeEventListener = game.addEventListener({
+      onHealthChange() {
+        setHealth(game.health);
+      },
+    });
+
+    return () => {
+      removeEventListener();
+    };
+  }, [game]);
+
   return (
     <Container>
-      <Title>{`🩸${amount} / ${MAX_HEALTH}`}</Title>
+      <Title>{`🩸${health} / ${MAX_HEALTH}`}</Title>
       <Bar>
-        <BarFill amount={amount / MAX_HEALTH} />
+        <BarFill amount={health / MAX_HEALTH} />
       </Bar>
     </Container>
   );

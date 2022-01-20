@@ -23,6 +23,7 @@ declare interface WindowSize {
 declare module 'styled-components' {
   export interface DefaultTheme {
     getWindowSize: (width: number) => WindowSize;
+    alphaColor: (color: string, opacity: number) => string;
     fontSize: {
       menuItem: string;
     };
@@ -32,7 +33,6 @@ declare module 'styled-components' {
       secondary: string;
       white: string;
       red: string;
-      transparentRed25: string;
       gray: string;
       yellow: string;
       blue: string;

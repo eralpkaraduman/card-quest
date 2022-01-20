@@ -11,7 +11,6 @@ import {CardSlot} from './CardSlot';
 import {DonsolCard} from '@controllers/DonsolCard';
 import {GameRoom} from './GameRoom';
 import {useWindowAttributes} from '@/utils';
-import {HealthBar} from './HealthBar';
 import {PlayerStatus} from './PlayerStatus';
 
 const Container = styled.View`
@@ -45,15 +44,9 @@ export function GameView(): React.ReactElement {
   const [canEnterRoom, setCanEnterRoom] = React.useState<boolean>(
     game.canAdvance,
   );
-  const [shieldCard, setShieldCard] = React.useState<DonsolCard | undefined>(
-    game.shield,
-  );
   const [history, setHistory] = React.useState<GameEvent[]>(game.history);
   const [canFlee, setCanFlee] = React.useState<boolean>(game.canFlee);
   const [roomCount, setRoomCount] = React.useState<number>(game.roomCount);
-  const [lastBlockedMonster, setLastBlockedMonster] = React.useState<
-    DonsolCard | undefined
-  >(game.lastBlockedMonster);
   const [lastPlayedCard, setLastPlayedCard] = React.useState<
     DonsolCard | undefined
   >(game.lastPlayedCard);
@@ -74,13 +67,9 @@ export function GameView(): React.ReactElement {
         setCanEnterRoom(game.canAdvance);
         setCanFlee(game.canFlee);
       },
-      onShieldChange() {
-        setShieldCard(game.shield);
-      },
       onHistoryUpdated() {
         setHistory(game.history);
         setRoomCount(game.roomCount);
-        setLastBlockedMonster(game.lastBlockedMonster);
         setLastPlayedCard(game.lastPlayedCard);
       },
     });
@@ -99,18 +88,11 @@ export function GameView(): React.ReactElement {
       <GameRoom />
       <Room>
         <CardSlot size={cardSize} title="Last Played" card={lastPlayedCard} />
-        <CardSlot size={cardSize} title="Shield" card={shieldCard} />
-        <CardSlot
-          size={cardSize}
-          title="Last Blocked"
-          card={lastBlockedMonster}
-        />
       </Room>
       <Room>
         <TempDebugContainer>
           <DebugText>{`Deck: ${numCardsInDeck}`}</DebugText>
           <DebugText>{`State: ${gameState}`}</DebugText>
-          <DebugText>{`Shield: ${shieldCard?.effect ?? 0}`}</DebugText>
           <DebugText>{`Room: ${roomCount}`}</DebugText>
         </TempDebugContainer>
         <TempDebugContainer>

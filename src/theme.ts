@@ -8,7 +8,6 @@ const colors: Record<string, string> = {
   yellow: '#FFC107',
   blue: '#448AFF',
   green: '#388E3C',
-  transparentRed25: '#FF525244',
 };
 
 const defaultTheme: DefaultTheme = {
@@ -27,6 +26,10 @@ const defaultTheme: DefaultTheme = {
     }
     return {xsmall: true};
   },
+  alphaColor: (color: string, opacity: number) => {
+    const _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+    return color + _opacity.toString(16).toUpperCase();
+  },
   fontSize: {
     menuItem: '24px',
   },
@@ -36,7 +39,6 @@ const defaultTheme: DefaultTheme = {
     secondary: colors.gray,
     white: colors.white,
     red: colors.red,
-    transparentRed25: colors.transparentRed25,
     gray: colors.gray,
     yellow: colors.yellow,
     blue: colors.blue,
