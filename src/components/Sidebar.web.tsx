@@ -20,7 +20,7 @@ export function Sidebar({hideTitles}: Sidebar_Props): ReactElement {
     return (
       <Styles.Button to={pathName} key={pathName}>
         <Icon />
-        {!hideTitles && title}
+        {!hideTitles && <Styles.ButtonTitle>{title}</Styles.ButtonTitle>}
       </Styles.Button>
     );
   };

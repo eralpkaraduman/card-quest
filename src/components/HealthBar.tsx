@@ -31,9 +31,9 @@ const BarFill = styled.View<{amount: number}>`
 const Title = styled.Text`
   min-width: 50px;
   color: ${({theme}) => theme.colors.main};
-  margin-left: ${({theme}) => theme.dimensions.padding.small}px;
-  margin-right: ${({theme}) => theme.dimensions.padding.small}px;
-  font-size: 11px;
+  margin-left: ${({theme}) => theme.dimensions.padding.small};
+  margin-right: ${({theme}) => theme.dimensions.padding.small};
+  font-size: ${({theme}) => theme.fontSize.small};
 `;
 
 export function HealthBar(): ReactElement {

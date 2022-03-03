@@ -1,65 +1,78 @@
-import React, {ReactElement, ElementType} from 'react';
-import {ListRenderItem, StyleProp, View, ViewStyle} from 'react-native';
-import {Card, cardList} from '@controllers/Deck';
-import {GameCardSize} from '@components/GameCard';
-import {DonsolCard} from '@controllers/DonsolCard';
-import * as Styles from './CardList.styles';
+import React from 'react';
+import {DonsolCard, partitionedGameCards} from '@controllers/DonsolCard';
+import styled from 'styled-components/native';
+import {SubtitleText} from '@components/SubtitleText';
+import {BodyText} from '@components/BodyText';
+import {GameCard, GameCardSize} from '@components/GameCard';
 
-interface CardList_Props {
-  cardSize: GameCardSize;
-  numColumns?: number;
-  style?: StyleProp<ViewStyle>;
-}
+const CardGrid = styled.View`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-top: ${({theme}) => theme.dimensions.padding.medium};
+  margin-bottom: ${({theme}) => theme.dimensions.padding.xlarge};
+`;
 
-const InvisibleCard: -1 = -1;
+const StyledGameCard = styled(GameCard).attrs({
+  size: GameCardSize.medium,
+})`
+  margin-right: ${({theme}) => theme.dimensions.padding.small};
+  margin-bottom: ${({theme}) => theme.dimensions.padding.small};
+`;
 
-export function CardList({
-  numColumns = 1,
-  cardSize,
-  style,
-}: CardList_Props): ReactElement {
-  const renderCard: ListRenderItem<Card | typeof InvisibleCard> = ({
-    item,
-    index,
-  }) => {
-    if (item === InvisibleCard) {
-      return (
-        <Styles.EmptyCard numColumns={numColumns} size={cardSize}>
-          <View />
-        </Styles.EmptyCard>
-      );
-    }
-    const donsolCard = new DonsolCard(item, index);
-    return (
-      <Styles.StyledGameCard
-        donsolCard={donsolCard}
-        size={cardSize}
-        numColumns={numColumns}
-      />
-    );
+const CardTypeTitle = styled(SubtitleText)`
+  margin-bottom: ${({theme}) => theme.dimensions.padding.small};
+`;
+
+export function CardList(): React.ReactElement {
+  const {monsters, shields, potions} = partitionedGameCards;
+  const renderCard = (donsolCard: DonsolCard, index: number) => {
+    return <StyledGameCard donsolCard={donsolCard} key={index} />;
   };
-
-  const invisibleCards = Array.from(
-    // Calculates how many empty cards needed to fill the grid.
-    {
-      length: Math.max(
-        0,
-        numColumns - (cardList.length % numColumns || numColumns),
-      ),
-    },
-    () => InvisibleCard,
-  );
-
   return (
-    // <ElementType> is a hack to get FlatList working with styled-components
-    <Styles.StyledFlatList<ElementType>
-      style={style}
-      numColumns={numColumns}
-      data={[...cardList, ...invisibleCards]}
-      renderItem={renderCard}
-      keyExtractor={(card: Card, index: number) =>
-        `${card ?? 'empty'}-${index}`
-      }
-    />
+    <>
+      <CardTypeTitle>Potions</CardTypeTitle>
+      <BodyText>
+        A potion gives you health points equal to its value, up to a maximum of
+        21 health points.
+      </BodyText>
+      <BodyText>
+        Drinking multiple potions in a row will make you sick and result in no
+        extra healing, only the first potion's value will be gained in HP.
+      </BodyText>
+      <BodyText>
+        Potions are equal to their value and face cards (J,Q,K,A) each are equal
+        to 11.
+      </BodyText>
+      <CardGrid>{potions.map(renderCard)}</CardGrid>
+
+      <CardTypeTitle>Monsters</CardTypeTitle>
+      <BodyText>
+        Monster cards are equal to their value, and face cards are as follows J
+        is 11, Q is 13, K is 15, A is 17;
+      </BodyText>
+      <BodyText>Jokers are both equal to 21.</BodyText>
+      <CardGrid>{monsters.map(renderCard)}</CardGrid>
+
+      <CardTypeTitle>Shields</CardTypeTitle>
+      <BodyText>
+        A shield absorbs the damage difference between the shield value and that
+        of the attacked monster's value.
+      </BodyText>
+      <BodyText>
+        Shields can only defend against monsters in descending value and if you
+        use a shield on a monster with higher or equal value to the previous, it
+        will break.
+      </BodyText>
+      <BodyText>
+        Broken shields leave you unarmored, and taking full damage.
+      </BodyText>
+      <BodyText>
+        Folding shield card will always replace a previously equipped shield.
+        Shields are equal to their value and face cards (J,Q,K,A) each are equal
+        to 11.
+      </BodyText>
+      <CardGrid>{shields.map(renderCard)}</CardGrid>
+    </>
   );
 }

@@ -6,13 +6,6 @@ import * as Styles from './GameCard.styles';
 
 export {GameCardSize} from './GameCard.styles';
 
-export interface GameCard_Props {
-  donsolCard: DonsolCard;
-  size: Styles.GameCardSize;
-  style?: StyleProp<ViewStyle>;
-  onPress?: () => void;
-}
-
 const CardSuitIconMap: {[key in CardSuit]: ReactElement} = {
   [CardSuit.clubs]: <Styles.SuitIcon_MC name="cards-club" color="white" />,
   [CardSuit.spades]: <Styles.SuitIcon_MC name="cards-spade" color="white" />,
@@ -28,6 +21,13 @@ const CardKindIconNameMap: {[key in DonsolCardKind]: string} = {
   [DonsolCardKind.potion]: 'flask',
   [DonsolCardKind.shield]: 'shield',
 };
+
+export interface GameCard_Props {
+  donsolCard: DonsolCard;
+  size: Styles.GameCardSize;
+  style?: StyleProp<ViewStyle>;
+  onPress?: () => void;
+}
 
 export function GameCard({
   donsolCard,

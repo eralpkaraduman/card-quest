@@ -18,6 +18,6 @@ export const PlaceHolder = styled.View<{size: GameCardSize}>`
 
 export const Title = styled.Text`
   color: ${({theme}) => theme.colors.main};
-  margin-bottom: ${({theme}) => theme.dimensions.padding.small}px;
+  margin-bottom: ${({theme}) => theme.dimensions.padding.small};
   font-size: 10px;
 `;

@@ -6,8 +6,8 @@ import Icon_FA5 from 'react-native-vector-icons/FontAwesome5';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {defaultTheme} from './theme';
 import {ThemeProvider} from 'styled-components/native';
-import HomeScreen from '@screens/HomeScreen';
-import {CardsScreen} from '@screens/CardsScreen';
+import HomeScreen from '@screens/HomeScreen'; // TODO: Prefix this to .native.tsx
+import {CardsScreen} from '@screens/CardsScreen.native';
 import {GameScreen} from '@screens/GameScreen.native';
 
 const Tab = createBottomTabNavigator();

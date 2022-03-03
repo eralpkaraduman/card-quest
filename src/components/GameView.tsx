@@ -5,7 +5,6 @@ import {
 } from '@controllers/GameControllerProvider';
 import styled from 'styled-components/native';
 import {TouchableHighlight} from 'react-native';
-import {GameState} from '@controllers/GameController';
 import {GameRoom} from './GameRoom';
 import {PlayerStatus} from './PlayerStatus';
 
@@ -17,8 +16,8 @@ const Container = styled.View`
 const TempDebugContainer = styled.View`
   display: flex;
   flex-direction: column;
-  gap: ${({theme}) => theme.dimensions.padding.medium}px;
-  padding: ${({theme}) => theme.dimensions.padding.medium}px;
+  gap: ${({theme}) => theme.dimensions.padding.medium};
+  padding: ${({theme}) => theme.dimensions.padding.medium};
 `;
 
 const HistoryContainer = styled(TempDebugContainer)`
@@ -32,8 +31,8 @@ const DebugText = styled.Text`
 const Room = styled.View`
   display: flex;
   flex-direction: row;
-  gap: ${({theme}) => theme.dimensions.padding.medium}px;
-  padding: ${({theme}) => theme.dimensions.padding.medium}px;
+  gap: ${({theme}) => theme.dimensions.padding.medium};
+  padding: ${({theme}) => theme.dimensions.padding.medium};
 `;
 
 export function GameView(): React.ReactElement {

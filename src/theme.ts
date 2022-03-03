@@ -1,9 +1,10 @@
 import {DefaultTheme} from 'styled-components/native';
 
-const colors: Record<string, string> = {
+const colors = {
   black: '#212121',
   white: '#ffffff',
   gray: '#757575',
+  darkGray: '#1a1a1a',
   red: '#FF5252',
   yellow: '#FFC107',
   blue: '#448AFF',
@@ -31,28 +32,38 @@ const defaultTheme: DefaultTheme = {
     return color + _opacity.toString(16).toUpperCase();
   },
   fontSize: {
-    menuItem: '24px',
+    xsmall: '8px',
+    small: '12px',
+    medium: '18px',
+    large: '24px',
+    xlarge: '36px',
+  },
+  fontFamily: {
+    title: 'Cinzel',
+    subtitle: 'Cinzel',
+    body: 'Cinzel',
+  },
+  fontWeight: {
+    title: '700',
+    subtitle: '500',
+    body: '400',
   },
   colors: {
     background: colors.black,
     main: colors.white,
     secondary: colors.gray,
-    white: colors.white,
-    red: colors.red,
-    gray: colors.gray,
-    yellow: colors.yellow,
-    blue: colors.blue,
-    green: colors.green,
     potion: colors.red,
     shield: colors.blue,
     monster: colors.green,
+    ...colors,
   },
   dimensions: {
     padding: {
-      large: 15,
-      medium: 10,
-      small: 5,
-      xsmall: 3,
+      xlarge: '36px',
+      large: '15px',
+      medium: '10px',
+      small: '5px',
+      xsmall: '3px',
     },
   },
 };

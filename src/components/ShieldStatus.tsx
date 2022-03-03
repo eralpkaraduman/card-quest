@@ -27,8 +27,8 @@ const Bar = styled.View`
 const Title = styled.Text`
   min-width: 50px;
   color: ${({theme}) => theme.colors.main};
-  margin-left: ${({theme}) => theme.dimensions.padding.small}px;
-  margin-right: ${({theme}) => theme.dimensions.padding.small}px;
+  margin-left: ${({theme}) => theme.dimensions.padding.small};
+  margin-right: ${({theme}) => theme.dimensions.padding.small};
   font-size: 11px;
 `;
 

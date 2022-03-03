@@ -46,7 +46,7 @@ export const Container = styled.TouchableHighlight<{size: GameCardSize}>`
     border-style: solid;
     height: ${GameCardSize.getHeight(size)}px;
     width: ${GameCardSize.getWidth(size)}px;
-    padding: ${theme.dimensions.padding.xsmall}px;
+    padding: ${theme.dimensions.padding.xsmall};
   `};
 `;
 
@@ -64,22 +64,22 @@ export const CardContentContainer = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  gap: ${({theme}) => theme.dimensions.padding.xsmall}px;
-  padding-bottom: ${({theme}) => theme.dimensions.padding.small}px;
+  gap: ${({theme}) => theme.dimensions.padding.xsmall};
+  padding-bottom: ${({theme}) => theme.dimensions.padding.small};
 `;
 
 export const CardHeader = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-top: ${({theme}) => theme.dimensions.padding.small}px;
-  padding-left: ${({theme}) => theme.dimensions.padding.small}px;
-  padding-top: ${({theme}) => theme.dimensions.padding.small}px;
+  padding-top: ${({theme}) => theme.dimensions.padding.small};
+  padding-left: ${({theme}) => theme.dimensions.padding.small};
+  padding-top: ${({theme}) => theme.dimensions.padding.small};
 `;
 
 export const ValueText = styled.Text`
   color: ${({theme}) => theme.colors.secondary};
   font-size: 21px;
   font-weight: bold;
-  margin-left: ${({theme}) => theme.dimensions.padding.xsmall}px;
+  margin-left: ${({theme}) => theme.dimensions.padding.xsmall};
 `;

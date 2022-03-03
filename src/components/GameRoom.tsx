@@ -13,7 +13,7 @@ import {useWindowAttributes} from '@/utils';
 const Container = styled.View`
   display: flex;
   flex-direction: column;
-  padding: ${({theme}) => theme.dimensions.padding.medium}px;
+  padding: ${({theme}) => theme.dimensions.padding.medium};
   align-items: center;
 `;
 
@@ -21,14 +21,14 @@ const Row = styled.View<{marginTop?: boolean}>`
   display: flex;
   flex-direction: row;
   ${({marginTop, theme}) =>
-    marginTop && `margin-top: ${theme.dimensions.padding.medium}px`};
+    marginTop && `margin-top: ${theme.dimensions.padding.medium}`};
 `;
 
 const StyledCardSlot = styled(CardSlot)<{
   marginRight: boolean;
 }>`
   ${({marginRight, theme}) =>
-    marginRight && `margin-right: ${theme.dimensions.padding.medium}px`};
+    marginRight && `margin-right: ${theme.dimensions.padding.medium}`};
 `;
 
 export function GameRoom(): React.ReactElement {

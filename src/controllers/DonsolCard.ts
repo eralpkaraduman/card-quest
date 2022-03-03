@@ -1,4 +1,4 @@
-import {Card, CardSuit} from './Deck';
+import {Card, cardList, CardSuit} from './Deck';
 
 export enum DonsolCardKind {
   monster = 'monster',
@@ -81,3 +81,13 @@ export class DonsolCard {
     return this.id;
   }
 }
+
+const allDonsolCards = cardList.map(
+  (card, index) => new DonsolCard(card, index),
+);
+
+export const partitionedGameCards = {
+  potions: allDonsolCards.filter(({kind}) => kind === DonsolCardKind.potion),
+  monsters: allDonsolCards.filter(({kind}) => kind === DonsolCardKind.monster),
+  shields: allDonsolCards.filter(({kind}) => kind === DonsolCardKind.shield),
+};

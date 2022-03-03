@@ -16,7 +16,13 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/,
+          // exclude styles made exclusively for react-native
+          /\.native.tsx$/,
+          // exclude components made exclusively for react-native
+          /\.native.ts$/,
+        ],
         use: {
           loader: 'ts-loader',
           options: {

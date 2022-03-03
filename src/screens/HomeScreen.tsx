@@ -9,6 +9,7 @@ export default function HomeScreen(): ReactElement {
   );
 }
 
+// TODO: Refactor this into styled component
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',

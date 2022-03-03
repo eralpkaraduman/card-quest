@@ -10,7 +10,15 @@ declare module 'react-native' {
   }
 }
 
-declare interface WindowSize {
+declare interface PxSize {
+  xlarge: string;
+  large: string;
+  medium: string;
+  small: string;
+  xsmall: string;
+}
+
+declare interface WindowSizeClass {
   xlarge?: boolean;
   large?: boolean;
   medium?: boolean;
@@ -18,15 +26,21 @@ declare interface WindowSize {
   xsmall?: boolean;
 }
 
-// We declare theme interface so we get no type errors, also typesafe theme values
+declare interface TextStyle {
+  title: string;
+  subtitle: string;
+  body: string;
+}
+
+// We declare theme interface so we get no type errors, also type safe theme values
 // See: https://styled-components.com/docs/api#create-a-declarations-file
 declare module 'styled-components' {
   export interface DefaultTheme {
-    getWindowSize: (width: number) => WindowSize;
+    getWindowSize: (width: number) => WindowSizeClass;
     alphaColor: (color: string, opacity: number) => string;
-    fontSize: {
-      menuItem: string;
-    };
+    fontSize: PxSize;
+    fontFamily: TextStyle;
+    fontWeight: TextStyle;
     colors: {
       background: string;
       main: string;
@@ -34,6 +48,7 @@ declare module 'styled-components' {
       white: string;
       red: string;
       gray: string;
+      darkGray: string;
       yellow: string;
       blue: string;
       green: string;
@@ -42,12 +57,7 @@ declare module 'styled-components' {
       monster: string;
     };
     dimensions: {
-      padding: {
-        large: number;
-        medium: number;
-        small: number;
-        xsmall: number;
-      };
+      padding: PxSize;
     };
   }
 }

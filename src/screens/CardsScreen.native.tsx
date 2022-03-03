@@ -1,7 +1,6 @@
 import React, {ReactElement} from 'react';
-import {StatusBar} from 'react-native';
-import styled from 'styled-components/native';
-import {GameCardSize} from '@components/GameCard';
+import {ScrollView, StatusBar} from 'react-native';
+import styled, {useTheme} from 'styled-components/native';
 import {CardList} from '@components/CardList';
 
 const Container = styled.SafeAreaView`
@@ -9,10 +8,16 @@ const Container = styled.SafeAreaView`
 `;
 
 export function CardsScreen(): ReactElement {
+  const theme = useTheme();
   return (
     <Container>
       <StatusBar barStyle="dark-content" />
-      <CardList cardSize={GameCardSize.medium} numColumns={4} />
+      <ScrollView
+        contentContainerStyle={{
+          padding: parseInt(theme.dimensions.padding.medium, 10),
+        }}>
+        <CardList />
+      </ScrollView>
     </Container>
   );
 }

@@ -11,12 +11,15 @@ export const ContentContainer = styled.View`
   flex-direction: row;
   flex: 1;
   justify-content: center;
+  overflow-y: scroll;
+  flex-wrap: wrap;
 `;
 
 export const ContentWrapper = styled.View<{windowWidth: number}>`
-  display: flex;
   max-width: 100%;
-
+  flex-wrap: wrap;
+  padding: ${({theme}) => theme.dimensions.padding.medium};
+  padding-bottom: ${({theme}) => theme.dimensions.padding.xlarge};
   ${({windowWidth, theme}) => {
     const size = theme.getWindowSize(windowWidth);
     return css`
