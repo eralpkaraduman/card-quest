@@ -1,12 +1,11 @@
-import {WindowSizeClass} from '@/global';
-import {useEffect, useState} from 'react';
+import {useLayoutEffect, useState} from 'react';
 import {useWindowDimensions} from 'react-native';
 import {useTheme} from 'styled-components/native';
 
 export function useWindowHeight(): number {
   const {height} = useWindowDimensions();
-  const [value, setValue] = useState(height);
-  useEffect(() => {
+  const [value, setValue] = useState(0);
+  useLayoutEffect(() => {
     setValue(height);
   }, [height]);
   return value;
@@ -14,8 +13,8 @@ export function useWindowHeight(): number {
 
 export function useWindowWidth(): number {
   const {width} = useWindowDimensions();
-  const [value, setValue] = useState(width);
-  useEffect(() => {
+  const [value, setValue] = useState(0);
+  useLayoutEffect(() => {
     setValue(width);
   }, [width]);
   return value;

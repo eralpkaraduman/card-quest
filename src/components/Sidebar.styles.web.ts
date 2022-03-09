@@ -6,7 +6,10 @@ import {Link} from 'react-router-dom';
 import {useMatch} from 'react-router-dom';
 import {SubtitleText} from './SubtitleText';
 
-export const Container = styled.View<{width: number; compact: boolean}>`
+export const Container = styled.View<{
+  width: number;
+  compact: boolean;
+}>`
   display: flex;
   flex-direction: column;
   ${({theme, compact}) => {
@@ -20,8 +23,8 @@ export const Container = styled.View<{width: number; compact: boolean}>`
   background-color: ${({theme}) => theme.colors.darkGray};
   z-index: 1;
   position: fixed;
-  height: 100%;
   width: ${({width}) => width}px;
+  min-height: 100%;
   align-items: ${({compact}) => (compact ? 'center' : 'space-between')};
 `;
 
