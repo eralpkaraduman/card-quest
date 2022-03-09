@@ -8,7 +8,7 @@ import {
   resolveCardPlay,
   renderDiffAsString,
 } from '@controllers/resolveGameCardPlay';
-import {useWindowAttributes} from '@/utils';
+import {useWindowSizeAttributes} from '@hooks/dimensions';
 
 const Container = styled.View`
   display: flex;
@@ -32,7 +32,7 @@ const StyledCardSlot = styled(CardSlot)<{
 `;
 
 export function GameRoom(): React.ReactElement {
-  const {narrow, xsmall} = useWindowAttributes();
+  const {narrow, xsmall} = useWindowSizeAttributes();
   const twoRow = narrow;
   const cardSize = xsmall ? GameCardSize.medium : GameCardSize.large;
 

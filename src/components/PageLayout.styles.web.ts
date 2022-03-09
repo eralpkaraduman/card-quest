@@ -1,31 +1,35 @@
+import {WindowSizeClass} from '@/global';
 import styled, {css} from 'styled-components/native';
 
 export const Container = styled.View<{windowHeight: number}>`
   display: flex;
   flex-direction: row;
-  height: ${({windowHeight}) => windowHeight}px;
+  max-height: ${({windowHeight}) => windowHeight}px;
 `;
 
-export const ContentContainer = styled.View`
+export const ContentContainer = styled.View<{
+  sidebarWidth: number;
+  windowWidth: number;
+}>`
   display: flex;
   flex-direction: row;
-  flex: 1;
+  padding-left: ${({sidebarWidth}) => sidebarWidth}px;
   justify-content: center;
-  overflow-y: scroll;
   flex-wrap: wrap;
+  width: 100%;
 `;
 
-export const ContentWrapper = styled.View<{windowWidth: number}>`
-  max-width: 100%;
-  flex-wrap: wrap;
+export const ContentWrapper = styled.View<{windowSizeClass: WindowSizeClass}>`
+  display: flex;
+  flex-direction: column;
   padding: ${({theme}) => theme.dimensions.padding.medium};
   padding-bottom: ${({theme}) => theme.dimensions.padding.xlarge};
-  ${({windowWidth, theme}) => {
-    const size = theme.getWindowSize(windowWidth);
+  max-width: 100%;
+  ${({windowSizeClass: {xlarge, large, medium}}) => {
     return css`
-      ${size.xlarge && 'max-width: 1020px'};
-      ${size.large && 'max-width: 820px'};
-      ${size.medium && 'max-width: 620px'};
+      ${xlarge && 'max-width: 1020px'};
+      ${large && 'max-width: 820px'};
+      ${medium && 'max-width: 620px'};
     `;
   }};
 `;

@@ -36,7 +36,7 @@ declare interface TextStyle {
 // See: https://styled-components.com/docs/api#create-a-declarations-file
 declare module 'styled-components' {
   export interface DefaultTheme {
-    getWindowSize: (width: number) => WindowSizeClass;
+    getWindowSizeClass: (width: number) => WindowSizeClass;
     alphaColor: (color: string, opacity: number) => string;
     fontSize: PxSize;
     fontFamily: TextStyle;

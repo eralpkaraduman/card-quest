@@ -1,17 +1,28 @@
 import React from 'react';
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {Link} from 'react-router-dom';
 import {useMatch} from 'react-router-dom';
 import {SubtitleText} from './SubtitleText';
 
-export const Container = styled.View`
+export const Container = styled.View<{width: number; compact: boolean}>`
   display: flex;
   flex-direction: column;
-  padding: ${({theme}) => theme.dimensions.padding.large};
+  ${({theme, compact}) => {
+    const padding = compact ? 0 : theme.dimensions.padding.large;
+    return css`
+      padding-top: ${theme.dimensions.padding.large};
+      padding-left: ${padding};
+      padding-right: ${padding};
+    `;
+  }}
   background-color: ${({theme}) => theme.colors.darkGray};
   z-index: 1;
+  position: fixed;
+  height: 100%;
+  width: ${({width}) => width}px;
+  align-items: ${({compact}) => (compact ? 'center' : 'space-between')};
 `;
 
 const createButtonIcon = (pack: any, name: string, size: number) =>
@@ -23,6 +34,8 @@ const createButtonIcon = (pack: any, name: string, size: number) =>
   }))<{$active: boolean}>`
     display: flex;
     align-items: center;
+    justify-content: center;
+    min-width: 26px;
   `;
 
 export type IconType = ReturnType<typeof createButtonIcon>;
@@ -45,7 +58,8 @@ export function Button({
       style: {
         display: 'flex',
         justifyContent: 'space-between',
-        minHeight: `${30}px`,
+        minHeight: 34,
+        alignItems: 'center',
         textDecoration: 'none',
       },
     },

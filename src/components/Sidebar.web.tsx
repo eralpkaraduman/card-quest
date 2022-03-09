@@ -8,10 +8,11 @@ const Buttons: [path: string, title: string, Icon: Styles.IconType][] = [
 ];
 
 interface Sidebar_Props {
-  hideTitles: boolean;
+  compact: boolean;
+  width: number;
 }
 
-export function Sidebar({hideTitles}: Sidebar_Props): ReactElement {
+export function Sidebar({compact, width}: Sidebar_Props): ReactElement {
   const renderLink = (
     pathName: string,
     title: string,
@@ -20,12 +21,12 @@ export function Sidebar({hideTitles}: Sidebar_Props): ReactElement {
     return (
       <Styles.Button to={pathName} key={pathName}>
         <Icon />
-        {!hideTitles && <Styles.ButtonTitle>{title}</Styles.ButtonTitle>}
+        {!compact && <Styles.ButtonTitle>{title}</Styles.ButtonTitle>}
       </Styles.Button>
     );
   };
   return (
-    <Styles.Container>
+    <Styles.Container width={width} compact={compact}>
       {Buttons.map(args => renderLink(...args))}
     </Styles.Container>
   );

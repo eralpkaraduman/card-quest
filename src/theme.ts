@@ -12,7 +12,7 @@ const colors = {
 };
 
 const defaultTheme: DefaultTheme = {
-  getWindowSize: (width: number) => {
+  getWindowSizeClass: (width: number) => {
     if (width > 1200) {
       return {xlarge: true};
     }
