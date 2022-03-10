@@ -6,16 +6,13 @@ import {GameScreen} from '@screens/GameScreen.web';
 import {defaultTheme} from './theme';
 import {ThemeProvider} from 'styled-components/native';
 import {PageLayout} from '@components/PageLayout.web';
-import {Helmet} from 'react-helmet';
 
 import './styles.css';
+import {HeadTitle} from '@hooks/useHead.web';
 
 export function App(): React.ReactElement {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Helmet>
-        <title>Card Quest</title>
-      </Helmet>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PageLayout />}>

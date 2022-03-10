@@ -1,3 +1,4 @@
+import {HeadTitle} from '@hooks/useHead.web';
 import React from 'react';
 
 const styles: {[key in string]: React.CSSProperties} = {
@@ -14,6 +15,7 @@ const styles: {[key in string]: React.CSSProperties} = {
 export function HomeScreen(): React.ReactElement {
   return (
     <div style={styles.container}>
+      <HeadTitle>Card Quest: Home</HeadTitle>
       <h1 style={styles.titleText}>Home</h1>
     </div>
   );

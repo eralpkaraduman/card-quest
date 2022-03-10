@@ -1,8 +1,8 @@
 import React from 'react';
 import {TitleText} from '@components/TitleText';
-import {Helmet} from 'react-helmet';
 import {CardList} from '@components/CardList';
 import styled from 'styled-components/native';
+import {HeadTitle} from '@hooks/useHead.web';
 
 const PageTitleText = styled(TitleText)`
   margin-bottom: ${({theme}) => theme.dimensions.padding.medium};
@@ -11,9 +11,7 @@ const PageTitleText = styled(TitleText)`
 export function CardsScreen(): React.ReactElement {
   return (
     <>
-      <Helmet>
-        <title>Card Quest: All Cards</title>
-      </Helmet>
+      <HeadTitle>Card Quest: All Cards</HeadTitle>
       <PageTitleText>All Cards</PageTitleText>
       <CardList />
     </>
