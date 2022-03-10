@@ -1,0 +1,10 @@
+- [x] mobile demo
+- [x] fix game screen index thing
+- [x] fix/replace react helmet
+- [x] add battle report screen
+- [ ] add battle tab to mobile
+  - [ ] add new icon font to mobile
+- [ ] add battle screen to mobile
+- [ ] mobile styles
+- [ ] rename index.js -> index.native.js
+- [ ] refactor shield status cells into 2 bar system
