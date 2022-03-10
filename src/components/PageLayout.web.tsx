@@ -17,7 +17,6 @@ export function PageLayout(): ReactElement | null {
   const sidebarWidth = compactSidebar ? 56 : 170;
   const contentWidth = width - sidebarWidth;
 
-  console.log({width, height});
   return (
     <Styles.Container windowHeight={height}>
       <Sidebar width={sidebarWidth} compact={compactSidebar} />

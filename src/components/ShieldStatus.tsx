@@ -113,7 +113,7 @@ export function ShieldStatus(): ReactElement {
       <Bar>
         <NumbersContainer>
           {segments.map((segment, i) => (
-            <NumberText mode={segmentModes[i]}>
+            <NumberText mode={segmentModes[i]} key={segment}>
               {i === lastFullIndex || i === lastPartialIndex ? segment : ''}
             </NumberText>
           ))}
