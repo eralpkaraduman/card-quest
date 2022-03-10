@@ -1,7 +1,8 @@
 import React from 'react';
 import styled, {css} from 'styled-components/native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; // TODO: rename to MaterialCommunityIcon
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {Link} from 'react-router-dom';
 import {useMatch} from 'react-router-dom';
 import {SubtitleText} from './SubtitleText';
@@ -46,6 +47,7 @@ export type IconType = ReturnType<typeof createButtonIcon>;
 export const DungeonIcon = createButtonIcon(FontAwesome5Icon, 'dungeon', 18);
 export const ScrollIcon = createButtonIcon(FontAwesome5Icon, 'scroll', 18);
 export const SwordIcon = createButtonIcon(MaterialCommunityIcons, 'sword', 26);
+export const CardIcon = createButtonIcon(EntypoIcon, 'documents', 26);
 
 export function Button({
   to,
@@ -78,6 +80,8 @@ export function Button({
 }
 
 export const ButtonTitle = styled(SubtitleText)<{$active?: boolean}>`
+  display: flex;
+  text-align: right;
   padding-left: ${({theme}) => theme.dimensions.padding.large};
   color: ${({theme, $active}) =>
     $active ? theme.colors.main : theme.colors.secondary};

@@ -6,9 +6,9 @@ import {GameScreen} from '@screens/GameScreen.web';
 import {defaultTheme} from './theme';
 import {ThemeProvider} from 'styled-components/native';
 import {PageLayout} from '@components/PageLayout.web';
+import {BattleLogScreen} from '@screens/BattleLogScreen.web';
 
 import './styles.css';
-import {HeadTitle} from '@hooks/useHead.web';
 
 export function App(): React.ReactElement {
   return (
@@ -19,6 +19,7 @@ export function App(): React.ReactElement {
             <Route index element={<HomeScreen />} />
             <Route path="cards" element={<CardsScreen />} />
             <Route path="game" element={<GameScreen />} />
+            <Route path="battle-log" element={<BattleLogScreen />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Route>
         </Routes>

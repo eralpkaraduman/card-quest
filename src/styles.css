@@ -12,6 +12,11 @@
   font-family: 'MaterialCommunityIcons';
 }
 
+@font-face {
+  src: url(../node_modules/react-native-vector-icons/Fonts/Entypo.ttf);
+  font-family: 'Entypo';
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&display=swap');
 
 html {

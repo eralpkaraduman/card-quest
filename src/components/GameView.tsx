@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
-import {
-  useGameController,
-  GameEvent,
-} from '@controllers/GameControllerProvider';
+import {useGameController} from '@controllers/GameControllerProvider';
 import styled from 'styled-components/native';
 import {TouchableHighlight} from 'react-native';
 import {GameRoom} from './GameRoom';
 import {PlayerStatus} from './PlayerStatus';
+import {BattleLogView} from './BattleLogView';
 
 const Container = styled.View`
   display: flex;
@@ -20,10 +18,6 @@ const TempDebugContainer = styled.View`
   padding: ${({theme}) => theme.dimensions.padding.medium};
 `;
 
-const HistoryContainer = styled(TempDebugContainer)`
-  max-width: 500px;
-`;
-
 const DebugText = styled.Text`
   color: white;
 `;
@@ -35,14 +29,19 @@ const Room = styled.View`
   padding: ${({theme}) => theme.dimensions.padding.medium};
 `;
 
-export function GameView(): React.ReactElement {
+interface GameView_Props {
+  onNavigateToBattleLog: () => void;
+}
+
+export function GameView({
+  onNavigateToBattleLog,
+}: GameView_Props): React.ReactElement {
   const game = useGameController();
 
   const [numCardsInDeck, setNumCardsInDeck] = useState<number>(game.deckCount);
   const [canEnterRoom, setCanEnterRoom] = React.useState<boolean>(
     game.canAdvance,
   );
-  const [history, setHistory] = React.useState<GameEvent[]>(game.history);
   const [canFlee, setCanFlee] = React.useState<boolean>(game.canFlee);
   const [roomCount, setRoomCount] = React.useState<number>(game.roomCount);
 
@@ -62,7 +61,6 @@ export function GameView(): React.ReactElement {
         setCanFlee(game.canFlee);
       },
       onHistoryUpdated() {
-        setHistory(game.history);
         setRoomCount(game.roomCount);
       },
     });
@@ -99,13 +97,7 @@ export function GameView(): React.ReactElement {
           )}
         </TempDebugContainer>
       </Room>
-      <HistoryContainer>
-        {history.map((event, index) => (
-          <DebugText key={`${event.kind}-${index}`}>
-            {JSON.stringify(event)}
-          </DebugText>
-        ))}
-      </HistoryContainer>
+      <BattleLogView tail={5} onShowMorePressed={onNavigateToBattleLog} />
     </Container>
   );
 }

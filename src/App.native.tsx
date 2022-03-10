@@ -1,6 +1,9 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon_FA5 from 'react-native-vector-icons/FontAwesome5';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -30,47 +33,46 @@ enum Routes {
   Game = 'GameScreen',
 }
 
-enum Tabs {
+export enum Tabs {
   Home = 'HomeTab',
   Cards = 'CardsTab',
   Game = 'GameTab',
 }
 
-enum Titles {
-  Home = 'Home',
-  Cards = 'All Cards',
-  Game = 'Game',
-}
+type HomeTabNavigatorParams = {HomeScreen: undefined};
+type CardsTabNavigatorParams = {CardsScreen: undefined};
+type GameTabNavigatorParams = {GameScreen: undefined};
 
-const Navigators: {
-  [key in Tabs]: ReturnType<typeof createNativeStackNavigator>;
-} = {
-  HomeTab: createNativeStackNavigator(),
-  CardsTab: createNativeStackNavigator(),
-  GameTab: createNativeStackNavigator(),
-};
+const HomeTab = createNativeStackNavigator<HomeTabNavigatorParams>();
+const CardsTab = createNativeStackNavigator<CardsTabNavigatorParams>();
+const GameTab = createNativeStackNavigator<GameTabNavigatorParams>();
+
+export type HomeScreenNavigationProp = NativeStackNavigationProp<
+  HomeTabNavigatorParams,
+  'HomeScreen'
+>;
 
 function HomeStack() {
   return (
-    <Navigators.HomeTab.Navigator initialRouteName={Routes.Home}>
-      <Navigators.HomeTab.Screen name={Titles.Home} component={HomeScreen} />
-    </Navigators.HomeTab.Navigator>
+    <HomeTab.Navigator initialRouteName={Routes.Home}>
+      <HomeTab.Screen name={'HomeScreen'} component={HomeScreen} />
+    </HomeTab.Navigator>
   );
 }
 
 function CardsStack() {
   return (
-    <Navigators.CardsTab.Navigator initialRouteName={Routes.Cards}>
-      <Navigators.CardsTab.Screen name={Titles.Cards} component={CardsScreen} />
-    </Navigators.CardsTab.Navigator>
+    <CardsTab.Navigator initialRouteName={Routes.Cards}>
+      <CardsTab.Screen name={'CardsScreen'} component={CardsScreen} />
+    </CardsTab.Navigator>
   );
 }
 
 function GameStack() {
   return (
-    <Navigators.GameTab.Navigator initialRouteName={Routes.Game}>
-      <Navigators.GameTab.Screen name={Titles.Game} component={GameScreen} />
-    </Navigators.GameTab.Navigator>
+    <GameTab.Navigator initialRouteName={Routes.Game}>
+      <GameTab.Screen name={'GameScreen'} component={GameScreen} />
+    </GameTab.Navigator>
   );
 }
 
