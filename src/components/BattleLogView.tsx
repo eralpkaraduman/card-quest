@@ -6,7 +6,7 @@ import {TouchableHighlight} from 'react-native';
 import {SubtitleText} from './SubtitleText';
 
 interface BattleLogView_Props {
-  tail?: number;
+  numLines?: number;
   onShowMorePressed?: () => void;
 }
 
@@ -22,24 +22,24 @@ const HistoryContainer = styled(TempDebugContainer)`
 `;
 
 export function BattleLogView({
-  tail = -1,
+  numLines = -1,
   onShowMorePressed,
 }: BattleLogView_Props): React.ReactElement {
   const history = useGameHistory();
 
-  const shouldTail = tail > 0;
-  const tailedHistory = useMemo(() => {
-    return shouldTail ? history.slice(0, tail) : history;
-  }, [history, tail, shouldTail]);
+  const shouldHideLines = numLines > 0;
+  const visibleHistory = useMemo(() => {
+    return shouldHideLines ? history.slice(0, numLines) : history;
+  }, [history, numLines, shouldHideLines]);
 
   return (
     <HistoryContainer>
-      {tailedHistory.map((event, index) => (
+      {visibleHistory.map((event, index) => (
         <BodyText key={`${event.kind}-${index}`}>
           {JSON.stringify(event)}
         </BodyText>
       ))}
-      {shouldTail && (
+      {shouldHideLines && (
         <TouchableHighlight onPress={onShowMorePressed}>
           <SubtitleText>Show More...</SubtitleText>
         </TouchableHighlight>
