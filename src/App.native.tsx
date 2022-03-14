@@ -13,19 +13,7 @@ import HomeScreen from '@screens/HomeScreen'; // TODO: Prefix this to .native.ts
 import {CardsScreen} from '@screens/CardsScreen.native';
 import {GameScreen} from '@screens/GameScreen.native';
 
-const Tab = createBottomTabNavigator();
-const TabBarIcons: {
-  [key in Tabs]: [
-    active: string,
-    inactive: string,
-    component: typeof Icon_FA5 | typeof MIcon,
-    title: string,
-  ];
-} = {
-  HomeTab: ['dungeon', 'dungeon', Icon_FA5, 'Home'],
-  CardsTab: ['scroll', 'scroll', Icon_FA5, 'All Cards'],
-  GameTab: ['sword', 'sword', MIcon, 'Game'],
-};
+const {Navigator: TabNavigator, Screen: TabScreen} = createBottomTabNavigator();
 
 enum Routes {
   Home = 'HomeScreen',
@@ -33,19 +21,15 @@ enum Routes {
   Game = 'GameScreen',
 }
 
-export enum Tabs {
-  Home = 'HomeTab',
-  Cards = 'CardsTab',
-  Game = 'GameTab',
-}
-
 type HomeTabNavigatorParams = {HomeScreen: undefined};
 type CardsTabNavigatorParams = {CardsScreen: undefined};
 type GameTabNavigatorParams = {GameScreen: undefined};
+//type BattleLogTabNavigatorParams = {GameScreen: undefined};
 
 const HomeTab = createNativeStackNavigator<HomeTabNavigatorParams>();
 const CardsTab = createNativeStackNavigator<CardsTabNavigatorParams>();
 const GameTab = createNativeStackNavigator<GameTabNavigatorParams>();
+//const BattleLogTab = createNativeStackNavigator<BattleLogTabNavigatorParams>();
 
 export type HomeScreenNavigationProp = NativeStackNavigationProp<
   HomeTabNavigatorParams,
@@ -80,28 +64,43 @@ const App = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({route}) => ({
-            tabBarLabel: TabBarIcons[route.name as Tabs][3],
-            tabBarIcon: ({focused, color, size}) => {
-              const [icon0, icon1, IconComponent] =
-                TabBarIcons[route.name as Tabs];
-              return (
-                <IconComponent
-                  name={focused ? icon0 : icon1}
-                  color={color}
-                  size={size}
-                />
-              );
-            },
+        <TabNavigator
+          screenOptions={{
             tabBarActiveTintColor: defaultTheme.colors.red,
             tabBarInactiveTintColor: defaultTheme.colors.secondary,
             headerShown: false,
-          })}>
-          <Tab.Screen name={Tabs.Home} component={HomeStack} />
-          <Tab.Screen name={Tabs.Cards} component={CardsStack} />
-          <Tab.Screen name={Tabs.Game} component={GameStack} />
-        </Tab.Navigator>
+          }}>
+          <TabScreen
+            name="Home Tab"
+            component={HomeStack}
+            options={{
+              tabBarLabel: 'Home',
+              tabBarIcon: ({color, size}) => (
+                <Icon_FA5 size={size} color={color} name={'dungeon'} />
+              ),
+            }}
+          />
+          <TabScreen
+            name="Cards Tab"
+            component={CardsStack}
+            options={{
+              tabBarLabel: 'Cards',
+              tabBarIcon: ({color, size}) => (
+                <Icon_FA5 size={size} color={color} name={'scroll'} />
+              ),
+            }}
+          />
+          <TabScreen
+            name="Game Tab"
+            component={GameStack}
+            options={{
+              tabBarLabel: 'Game',
+              tabBarIcon: ({color, size}) => (
+                <MIcon size={size} color={color} name={'sword'} />
+              ),
+            }}
+          />
+        </TabNavigator>
       </NavigationContainer>
     </ThemeProvider>
   );
