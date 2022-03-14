@@ -17,7 +17,15 @@
   font-family: 'Entypo';
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&display=swap');
+@font-face {
+  src: url(./assets/fonts/Cinzel-Black.ttf);
+  src: url(./assets/fonts/Cinzel-Bold.ttf);
+  src: url(./assets/fonts/Cinzel-ExtraBold.ttf);
+  src: url(./assets/fonts/Cinzel-Medium.ttf);
+  src: url(./assets/fonts/Cinzel-Regular.ttf);
+  src: url(./assets/fonts/Cinzel-SemiBold.ttf);
+  font-family: 'Cinzel';
+}
 
 html {
   width: 100%;
