@@ -1,27 +1,22 @@
 import React, {ReactElement} from 'react';
 import {GameView} from '@components/GameView';
-import styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
-import {ScrollView} from 'react-native';
-import {HomeScreenNavigationProp} from '@/App.native';
-
-const Container = styled.SafeAreaView`
-  display: flex;
-  flex: 1;
-  background-color: ${({theme}) => theme.colors.background};
-`;
+import {BattleLogTabNavigatorParams} from '@/App.native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ScrollingScreenContainer} from '@components/ScrollingScreenContainer.native';
 
 export function GameScreen(): ReactElement {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const navigation =
+    useNavigation<
+      NativeStackNavigationProp<BattleLogTabNavigatorParams, 'BattleLogScreen'>
+    >();
   return (
-    <Container>
-      <ScrollView>
-        <GameView
-          onNavigateToBattleLog={() => {
-            navigation.navigate('HomeScreen');
-          }}
-        />
-      </ScrollView>
-    </Container>
+    <ScrollingScreenContainer>
+      <GameView
+        onNavigateToBattleLog={() => {
+          navigation.navigate('BattleLogScreen');
+        }}
+      />
+    </ScrollingScreenContainer>
   );
 }

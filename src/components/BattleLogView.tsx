@@ -27,9 +27,10 @@ export function BattleLogView({
 }: BattleLogView_Props): React.ReactElement {
   const history = useGameHistory();
 
+  const shouldTail = tail > 0;
   const tailedHistory = useMemo(() => {
-    return tail > 0 ? history.slice(0, tail) : history;
-  }, [history, tail]);
+    return shouldTail ? history.slice(0, tail) : history;
+  }, [history, tail, shouldTail]);
 
   return (
     <HistoryContainer>
@@ -38,9 +39,11 @@ export function BattleLogView({
           {JSON.stringify(event)}
         </BodyText>
       ))}
-      <TouchableHighlight onPress={onShowMorePressed}>
-        <SubtitleText>Show More...</SubtitleText>
-      </TouchableHighlight>
+      {shouldTail && (
+        <TouchableHighlight onPress={onShowMorePressed}>
+          <SubtitleText>Show More...</SubtitleText>
+        </TouchableHighlight>
+      )}
     </HistoryContainer>
   );
 }

@@ -1,44 +1,33 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from '@react-navigation/native-stack';
+import {ThemeProvider} from 'styled-components/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon_FA5 from 'react-native-vector-icons/FontAwesome5';
-import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon_Material from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon_Entypo from 'react-native-vector-icons/Entypo';
+
 import {defaultTheme} from './theme';
-import {ThemeProvider} from 'styled-components/native';
 import HomeScreen from '@screens/HomeScreen'; // TODO: Prefix this to .native.tsx
 import {CardsScreen} from '@screens/CardsScreen.native';
 import {GameScreen} from '@screens/GameScreen.native';
+import {BattleLogScreen} from '@screens/BattleLogScreen.native';
 
 const {Navigator: TabNavigator, Screen: TabScreen} = createBottomTabNavigator();
 
-enum Routes {
-  Home = 'HomeScreen',
-  Cards = 'CardsScreen',
-  Game = 'GameScreen',
-}
-
-type HomeTabNavigatorParams = {HomeScreen: undefined};
-type CardsTabNavigatorParams = {CardsScreen: undefined};
-type GameTabNavigatorParams = {GameScreen: undefined};
-//type BattleLogTabNavigatorParams = {GameScreen: undefined};
+export type HomeTabNavigatorParams = {HomeScreen: undefined};
+export type CardsTabNavigatorParams = {CardsScreen: undefined};
+export type GameTabNavigatorParams = {GameScreen: undefined};
+export type BattleLogTabNavigatorParams = {BattleLogScreen: undefined};
 
 const HomeTab = createNativeStackNavigator<HomeTabNavigatorParams>();
 const CardsTab = createNativeStackNavigator<CardsTabNavigatorParams>();
 const GameTab = createNativeStackNavigator<GameTabNavigatorParams>();
-//const BattleLogTab = createNativeStackNavigator<BattleLogTabNavigatorParams>();
-
-export type HomeScreenNavigationProp = NativeStackNavigationProp<
-  HomeTabNavigatorParams,
-  'HomeScreen'
->;
+const BattleLogTab = createNativeStackNavigator<BattleLogTabNavigatorParams>();
 
 function HomeStack() {
   return (
-    <HomeTab.Navigator initialRouteName={Routes.Home}>
+    <HomeTab.Navigator>
       <HomeTab.Screen name={'HomeScreen'} component={HomeScreen} />
     </HomeTab.Navigator>
   );
@@ -46,7 +35,7 @@ function HomeStack() {
 
 function CardsStack() {
   return (
-    <CardsTab.Navigator initialRouteName={Routes.Cards}>
+    <CardsTab.Navigator>
       <CardsTab.Screen name={'CardsScreen'} component={CardsScreen} />
     </CardsTab.Navigator>
   );
@@ -54,9 +43,20 @@ function CardsStack() {
 
 function GameStack() {
   return (
-    <GameTab.Navigator initialRouteName={Routes.Game}>
+    <GameTab.Navigator>
       <GameTab.Screen name={'GameScreen'} component={GameScreen} />
     </GameTab.Navigator>
+  );
+}
+
+function BattleLogStack() {
+  return (
+    <BattleLogTab.Navigator>
+      <BattleLogTab.Screen
+        name={'BattleLogScreen'}
+        component={BattleLogScreen}
+      />
+    </BattleLogTab.Navigator>
   );
 }
 
@@ -86,7 +86,7 @@ const App = () => {
             options={{
               tabBarLabel: 'Cards',
               tabBarIcon: ({color, size}) => (
-                <Icon_FA5 size={size} color={color} name={'scroll'} />
+                <Icon_Entypo size={size} color={color} name={'documents'} />
               ),
             }}
           />
@@ -96,7 +96,17 @@ const App = () => {
             options={{
               tabBarLabel: 'Game',
               tabBarIcon: ({color, size}) => (
-                <MIcon size={size} color={color} name={'sword'} />
+                <Icon_Material size={size} color={color} name={'sword'} />
+              ),
+            }}
+          />
+          <TabScreen
+            name="Battle Log Tab"
+            component={BattleLogStack}
+            options={{
+              tabBarLabel: 'Log',
+              tabBarIcon: ({color, size}) => (
+                <Icon_FA5 size={size} color={color} name={'scroll'} />
               ),
             }}
           />
