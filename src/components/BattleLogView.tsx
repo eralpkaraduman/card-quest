@@ -5,11 +5,6 @@ import {BodyText} from './BodyText';
 import {TouchableHighlight} from 'react-native';
 import {SubtitleText} from './SubtitleText';
 
-interface BattleLogView_Props {
-  numLines?: number;
-  onShowMorePressed?: () => void;
-}
-
 const TempDebugContainer = styled.View`
   display: flex;
   flex-direction: column;
@@ -21,16 +16,23 @@ const HistoryContainer = styled(TempDebugContainer)`
   max-width: 500px;
 `;
 
+interface BattleLogView_Props {
+  numVisibleLines?: number;
+  onShowMorePressed?: () => void;
+}
+
 export function BattleLogView({
-  numLines = -1,
+  numVisibleLines = -1,
   onShowMorePressed,
 }: BattleLogView_Props): React.ReactElement {
   const history = useGameHistory();
 
-  const shouldHideLines = numLines > 0;
+  const shouldHideLines = numVisibleLines > 0;
   const visibleHistory = useMemo(() => {
-    return shouldHideLines ? history.slice(0, numLines) : history;
-  }, [history, numLines, shouldHideLines]);
+    return shouldHideLines ? history.slice(0, numVisibleLines) : history;
+  }, [history, numVisibleLines, shouldHideLines]);
+
+  const numInvisibleLines = history.length - visibleHistory.length;
 
   return (
     <HistoryContainer>
@@ -39,7 +41,7 @@ export function BattleLogView({
           {JSON.stringify(event)}
         </BodyText>
       ))}
-      {shouldHideLines && (
+      {numInvisibleLines > 0 && shouldHideLines && (
         <TouchableHighlight onPress={onShowMorePressed}>
           <SubtitleText>Show More...</SubtitleText>
         </TouchableHighlight>

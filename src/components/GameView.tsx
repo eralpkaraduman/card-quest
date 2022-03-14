@@ -97,7 +97,10 @@ export function GameView({
           )}
         </TempDebugContainer>
       </Room>
-      <BattleLogView numLines={3} onShowMorePressed={onNavigateToBattleLog} />
+      <BattleLogView
+        numVisibleLines={3}
+        onShowMorePressed={onNavigateToBattleLog}
+      />
     </Container>
   );
 }
