@@ -18,13 +18,18 @@
 }
 
 @font-face {
-  src: url(./assets/fonts/Cinzel-Black.ttf);
-  src: url(./assets/fonts/Cinzel-Bold.ttf);
-  src: url(./assets/fonts/Cinzel-ExtraBold.ttf);
-  src: url(./assets/fonts/Cinzel-Medium.ttf);
   src: url(./assets/fonts/Cinzel-Regular.ttf);
-  src: url(./assets/fonts/Cinzel-SemiBold.ttf);
-  font-family: 'Cinzel';
+  font-family: 'Cinzel-Regular';
+}
+
+@font-face {
+  src: url(./assets/fonts/Cinzel-Medium.ttf);
+  font-family: 'Cinzel-Medium';
+}
+
+@font-face {
+  src: url(./assets/fonts/Cinzel-Bold.ttf);
+  font-family: 'Cinzel-Bold';
 }
 
 html {

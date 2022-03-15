@@ -1,7 +1,10 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {ThemeProvider} from 'styled-components/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon_FA5 from 'react-native-vector-icons/FontAwesome5';
 import Icon_Material from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -25,36 +28,59 @@ const CardsTab = createNativeStackNavigator<CardsTabNavigatorParams>();
 const GameTab = createNativeStackNavigator<GameTabNavigatorParams>();
 const BattleLogTab = createNativeStackNavigator<BattleLogTabNavigatorParams>();
 
-function HomeStack() {
+const commonNavigationOptions: NativeStackNavigationOptions = {
+  headerStyle: {
+    backgroundColor: defaultTheme.colors.darkGray,
+  },
+  headerTitleStyle: {
+    color: defaultTheme.colors.main,
+    fontFamily: defaultTheme.fontFamily.title,
+  },
+};
+
+function HomeStackScreen() {
   return (
-    <HomeTab.Navigator>
-      <HomeTab.Screen name={'HomeScreen'} component={HomeScreen} />
+    <HomeTab.Navigator screenOptions={commonNavigationOptions}>
+      <HomeTab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{title: 'Home'}}
+      />
     </HomeTab.Navigator>
   );
 }
 
-function CardsStack() {
+function CardsStackScreen() {
   return (
-    <CardsTab.Navigator>
-      <CardsTab.Screen name={'CardsScreen'} component={CardsScreen} />
+    <CardsTab.Navigator screenOptions={commonNavigationOptions}>
+      <CardsTab.Screen
+        name="CardsScreen"
+        component={CardsScreen}
+        options={{title: 'All Cards'}}
+      />
     </CardsTab.Navigator>
   );
 }
 
-function GameStack() {
+function GameStackScreen() {
   return (
-    <GameTab.Navigator>
-      <GameTab.Screen name={'GameScreen'} component={GameScreen} />
+    <GameTab.Navigator screenOptions={commonNavigationOptions}>
+      <GameTab.Screen
+        name="GameScreen"
+        component={GameScreen}
+        options={{title: 'Game'}}
+      />
     </GameTab.Navigator>
   );
 }
 
-function BattleLogStack() {
+function BattleLogStackScreen() {
   return (
-    <BattleLogTab.Navigator>
+    <BattleLogTab.Navigator screenOptions={commonNavigationOptions}>
       <BattleLogTab.Screen
-        name={'BattleLogScreen'}
+        name="BattleLogScreen"
         component={BattleLogScreen}
+        options={{title: 'Battle Log'}}
       />
     </BattleLogTab.Navigator>
   );
@@ -68,11 +94,15 @@ const App = () => {
           screenOptions={{
             tabBarActiveTintColor: defaultTheme.colors.red,
             tabBarInactiveTintColor: defaultTheme.colors.secondary,
+            tabBarStyle: {
+              backgroundColor: defaultTheme.colors.darkGray,
+              borderTopColor: defaultTheme.colors.darkGray,
+            },
             headerShown: false,
           }}>
           <TabScreen
             name="Home Tab"
-            component={HomeStack}
+            component={HomeStackScreen}
             options={{
               tabBarLabel: 'Home',
               tabBarIcon: ({color, size}) => (
@@ -82,7 +112,7 @@ const App = () => {
           />
           <TabScreen
             name="Cards Tab"
-            component={CardsStack}
+            component={CardsStackScreen}
             options={{
               tabBarLabel: 'Cards',
               tabBarIcon: ({color, size}) => (
@@ -92,7 +122,7 @@ const App = () => {
           />
           <TabScreen
             name="Game Tab"
-            component={GameStack}
+            component={GameStackScreen}
             options={{
               tabBarLabel: 'Game',
               tabBarIcon: ({color, size}) => (
@@ -102,7 +132,7 @@ const App = () => {
           />
           <TabScreen
             name="Battle Log Tab"
-            component={BattleLogStack}
+            component={BattleLogStackScreen}
             options={{
               tabBarLabel: 'Log',
               tabBarIcon: ({color, size}) => (

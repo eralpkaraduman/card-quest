@@ -39,9 +39,9 @@ const defaultTheme: DefaultTheme = {
     xlarge: '36px',
   },
   fontFamily: {
-    title: 'Cinzel',
-    subtitle: 'Cinzel',
-    body: 'Cinzel',
+    title: 'Cinzel-Bold',
+    subtitle: 'Cinzel-Medium',
+    body: 'Cinzel-Regular',
   },
   fontWeight: {
     title: '700',
