@@ -43,7 +43,7 @@ export class GameEventHistory extends ChangeNotifier {
     kind: K,
     data: WithoutKind<D>,
   ) {
-    this._history.unshift({...data, kind} as D);
+    this._history.unshift({...data, kind} as unknown as D);
     this.notifyObserver();
   }
 
