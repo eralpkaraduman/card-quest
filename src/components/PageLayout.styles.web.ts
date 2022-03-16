@@ -26,6 +26,7 @@ export const ContentWrapper = styled.View<{
   maxWidth: number;
 }>`
   display: flex;
+  flex: 1;
   flex-direction: column;
   padding: ${({theme}) => theme.dimensions.padding.medium};
   padding-bottom: ${({theme}) => theme.dimensions.padding.xlarge};

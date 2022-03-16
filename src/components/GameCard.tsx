@@ -1,10 +1,8 @@
 import React, {ReactElement} from 'react';
 import {DonsolCard, DonsolCardKind} from '@controllers/DonsolCard';
 import {CardSuit} from '@controllers/Deck';
-import {StyleProp, ViewStyle} from 'react-native';
+import {StyleProp, View, ViewStyle} from 'react-native';
 import * as Styles from './GameCard.styles';
-
-export {GameCardSize} from './GameCard.styles';
 
 const CardSuitIconMap: {[key in CardSuit]: ReactElement} = {
   [CardSuit.clubs]: <Styles.SuitIcon_MC name="cards-club" color="white" />,
@@ -23,21 +21,19 @@ const CardKindIconNameMap: {[key in DonsolCardKind]: string} = {
 };
 
 export interface GameCard_Props {
-  donsolCard: DonsolCard;
-  size: Styles.GameCardSize;
+  donsolCard?: DonsolCard | null;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
 }
 
 export function GameCard({
-  donsolCard,
-  size,
-  style,
+  donsolCard: nullableDonsolCard,
   onPress,
+  style,
 }: GameCard_Props): ReactElement {
-  const {suit, value} = donsolCard.card;
-  return (
-    <Styles.Container size={size} style={style} onPress={onPress}>
+  const renderContent = (donsolCard: DonsolCard) => {
+    const {suit, value} = donsolCard.card;
+    return (
       <>
         <Styles.CardHeader>
           {CardSuitIconMap[suit]}
@@ -55,6 +51,15 @@ export function GameCard({
           </Styles.CardEffectValueText>
         </Styles.CardContentContainer>
       </>
+    );
+  };
+
+  return (
+    <Styles.Container
+      style={style}
+      onPress={onPress}
+      empty={!nullableDonsolCard}>
+      {nullableDonsolCard ? renderContent(nullableDonsolCard) : <View />}
     </Styles.Container>
   );
 }

@@ -1,22 +1,18 @@
-import {HeadTitle} from '@hooks/useHead.web';
 import React from 'react';
+import styled from 'styled-components/native';
+import {HeadTitle} from '@hooks/useHead.web';
 
-const styles: {[key in string]: React.CSSProperties} = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  titleText: {
-    color: 'white',
-  },
-};
+import {TitleText} from '@components/TitleText';
+
+const PageTitleText = styled(TitleText)`
+  margin-bottom: ${({theme}) => theme.dimensions.padding.medium};
+`;
 
 export function HomeScreen(): React.ReactElement {
   return (
-    <div style={styles.container}>
+    <>
       <HeadTitle>Card Quest: Home</HeadTitle>
-      <h1 style={styles.titleText}>Home</h1>
-    </div>
+      <PageTitleText>Home</PageTitleText>
+    </>
   );
 }

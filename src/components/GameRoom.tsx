@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useGameController} from '@controllers/GameControllerProvider';
-import {GameCardSize} from './GameCard.styles';
 import styled from 'styled-components/native';
 import {CardSlot} from './CardSlot';
 import {DonsolCard} from '@controllers/DonsolCard';
@@ -20,6 +19,8 @@ const Container = styled.View`
 const Row = styled.View<{marginTop?: boolean}>`
   display: flex;
   flex-direction: row;
+  align-items: stretch;
+  width: 100%;
   ${({marginTop, theme}) =>
     marginTop && `margin-top: ${theme.dimensions.padding.medium}`};
 `;
@@ -32,9 +33,7 @@ const StyledCardSlot = styled(CardSlot)<{
 `;
 
 export function GameRoom(): React.ReactElement {
-  const {narrow, xsmall} = useWindowSizeAttributes();
-  const twoRow = narrow;
-  const cardSize = xsmall ? GameCardSize.medium : GameCardSize.large;
+  const {narrow} = useWindowSizeAttributes();
 
   const game = useGameController();
   const [roomCards, setRoomCards] = useState<DonsolCard[]>(game.room);
@@ -59,7 +58,6 @@ export function GameRoom(): React.ReactElement {
         marginRight={marginRight}
         title={resolution ?? ' '}
         card={card}
-        size={cardSize}
         key={`room-slot-${order}`}
         onPress={card ? () => game.playCard(card) : undefined}
       />
@@ -68,7 +66,7 @@ export function GameRoom(): React.ReactElement {
 
   return (
     <Container>
-      {twoRow ? (
+      {narrow ? (
         <>
           <Row>
             {renderSlot(0, true)}

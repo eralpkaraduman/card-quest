@@ -58,6 +58,7 @@ declare module 'styled-components' {
     };
     dimensions: {
       padding: PxSize;
+      borderRadius: string;
     };
   }
 }

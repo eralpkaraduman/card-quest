@@ -22,7 +22,7 @@ const DebugText = styled.Text`
   color: white;
 `;
 
-const Room = styled.View`
+const TempDebugUiContainer = styled.View`
   display: flex;
   flex-direction: row;
   gap: ${({theme}) => theme.dimensions.padding.medium};
@@ -74,7 +74,7 @@ export function GameView({
     <Container>
       <PlayerStatus />
       <GameRoom />
-      <Room>
+      <TempDebugUiContainer>
         <TempDebugContainer>
           <DebugText>{`Deck: ${numCardsInDeck}`}</DebugText>
           <DebugText>{`Room: ${roomCount}`}</DebugText>
@@ -96,7 +96,7 @@ export function GameView({
             </TouchableHighlight>
           )}
         </TempDebugContainer>
-      </Room>
+      </TempDebugUiContainer>
       <BattleLogView
         numVisibleLines={3}
         onShowMorePressed={onNavigateToBattleLog}

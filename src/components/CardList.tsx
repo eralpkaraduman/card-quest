@@ -3,7 +3,7 @@ import {DonsolCard, partitionedGameCards} from '@controllers/DonsolCard';
 import styled from 'styled-components/native';
 import {SubtitleText} from '@components/SubtitleText';
 import {BodyText} from '@components/BodyText';
-import {GameCard, GameCardSize} from '@components/GameCard';
+import {GameCard} from '@components/GameCard';
 
 const CardGrid = styled.View`
   display: flex;
@@ -13,11 +13,10 @@ const CardGrid = styled.View`
   margin-bottom: ${({theme}) => theme.dimensions.padding.xlarge};
 `;
 
-const StyledGameCard = styled(GameCard).attrs({
-  size: GameCardSize.medium,
-})`
+const StyledGameCard = styled(GameCard)`
   margin-right: ${({theme}) => theme.dimensions.padding.small};
   margin-bottom: ${({theme}) => theme.dimensions.padding.small};
+  width: 86px;
 `;
 
 const CardTypeTitle = styled(SubtitleText)`

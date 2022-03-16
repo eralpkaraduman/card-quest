@@ -12,21 +12,6 @@ export const SuitIcon_MC = styled(MaterialCommunityIcon).attrs({
   size: suitIconSize,
 })``;
 
-export enum GameCardSize {
-  medium = 120,
-  large = 190,
-}
-
-export namespace GameCardSize {
-  const WHRatio: number = 2.5 / 3.5;
-  export function getWidth(size: GameCardSize) {
-    return WHRatio * size;
-  }
-  export function getHeight(size: GameCardSize) {
-    return size;
-  }
-}
-
 interface CardKindIcon_Props {
   kind: DonsolCardKind;
 }
@@ -37,16 +22,24 @@ export const CardKindIcon = styled(
   color: theme.colors[kind],
 }))<CardKindIcon_Props>``;
 
-export const Container = styled.TouchableHighlight<{size: GameCardSize}>`
-  ${({size, theme}) => css`
+const CardAspectRatio = 2.5 / 3.5;
+export const Container = styled.TouchableHighlight<{empty: boolean}>`
+  ${({theme, empty}) => css`
     display: flex;
-    border-radius: ${size / 20}px;
+    width: 100%;
+    aspect-ratio: ${CardAspectRatio};
+    border-radius: ${theme.dimensions.borderRadius};
     border-color: ${theme.colors.gray};
     border-width: 2px;
     border-style: solid;
-    height: ${GameCardSize.getHeight(size)}px;
-    width: ${GameCardSize.getWidth(size)}px;
     padding: ${theme.dimensions.padding.xsmall};
+    ${empty &&
+    css`
+      border-radius: ${theme.dimensions.borderRadius};
+      border-color: ${theme.colors.gray};
+      border-width: 2px;
+      border-style: dashed;
+    `};
   `};
 `;
 

@@ -65,6 +65,7 @@ const defaultTheme: DefaultTheme = {
       small: '5px',
       xsmall: '3px',
     },
+    borderRadius: '10px',
   },
 };
 

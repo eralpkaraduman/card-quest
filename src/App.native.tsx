@@ -11,7 +11,7 @@ import Icon_Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon_Entypo from 'react-native-vector-icons/Entypo';
 
 import {defaultTheme} from './theme';
-import HomeScreen from '@screens/HomeScreen'; // TODO: Prefix this to .native.tsx
+import HomeScreen from '@screens/HomeScreen.native';
 import {CardsScreen} from '@screens/CardsScreen.native';
 import {GameScreen} from '@screens/GameScreen.native';
 import {BattleLogScreen} from '@screens/BattleLogScreen.native';
