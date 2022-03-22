@@ -9,11 +9,33 @@
 - [x] mobile styles
   - [x] Title bars
   - [x] Tab bar
-- [ ] Why home so empty
-- [ ] History list item styles
+- [x] fix linter
+- [x] expandable card layout
 
-## Later
+- [x] Why home so empty
+- [ ] Finish Home screen content
+- [ ] Cards screen, card detail modals
+- [ ] History list item styles
 - [ ] animations?
   - [ ] animate history events in / out
+
+- [ ] Design app icon
+- [ ] Splash screen
+- [ ] Update card design
+  - [ ] White background 
+  - [ ] https://www.kenney.nl/assets/playing-cards-pack
+- [ ] Change body font to sans-serif
+
+
+## Home Screen
+- what is this
+- what is donsol
+- how to play donsol
+- why this is made
+- who made this
+- how was this made
+
+
+## Later
 - [ ] refactor shield status cells into 2 bar system
 - [ ] install ale https://github.com/dense-analysis/ale ""diagnostic.displayByAle": true,"

@@ -34,7 +34,7 @@ const defaultTheme: DefaultTheme = {
   fontSize: {
     xsmall: '8px',
     small: '12px',
-    medium: '18px',
+    medium: '15px',
     large: '24px',
     xlarge: '36px',
   },

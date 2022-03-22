@@ -17,6 +17,7 @@ export function ScrollingScreenContainer({
       <ScrollView
         contentContainerStyle={{
           padding: parseInt(theme.dimensions.padding.medium, 10),
+          paddingBottom: parseInt(theme.dimensions.padding.xlarge, 10),
         }}>
         {children}
       </ScrollView>

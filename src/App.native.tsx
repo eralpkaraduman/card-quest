@@ -1,5 +1,8 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 import {ThemeProvider} from 'styled-components/native';
 import {
   createNativeStackNavigator,
@@ -16,17 +19,22 @@ import {CardsScreen} from '@screens/CardsScreen.native';
 import {GameScreen} from '@screens/GameScreen.native';
 import {BattleLogScreen} from '@screens/BattleLogScreen.native';
 
-const {Navigator: TabNavigator, Screen: TabScreen} = createBottomTabNavigator();
+export type HomeTabNavigatorProps = {HomeScreen: undefined};
+export type CardsTabNavigatorProps = {CardsScreen: undefined};
+export type GameTabNavigatorProps = {GameScreen: undefined};
+export type BattleLogTabNavigatorProps = {BattleLogScreen: undefined};
+export type RootNavigatorProps = {
+  HomeTab: NavigatorScreenParams<HomeTabNavigatorProps>;
+  CardsTab: NavigatorScreenParams<CardsTabNavigatorProps>;
+  GameTab: NavigatorScreenParams<GameTabNavigatorProps>;
+  BattleLogTab: NavigatorScreenParams<BattleLogTabNavigatorProps>;
+};
 
-export type HomeTabNavigatorParams = {HomeScreen: undefined};
-export type CardsTabNavigatorParams = {CardsScreen: undefined};
-export type GameTabNavigatorParams = {GameScreen: undefined};
-export type BattleLogTabNavigatorParams = {BattleLogScreen: undefined};
-
-const HomeTab = createNativeStackNavigator<HomeTabNavigatorParams>();
-const CardsTab = createNativeStackNavigator<CardsTabNavigatorParams>();
-const GameTab = createNativeStackNavigator<GameTabNavigatorParams>();
-const BattleLogTab = createNativeStackNavigator<BattleLogTabNavigatorParams>();
+const TabBar = createBottomTabNavigator<RootNavigatorProps>();
+const HomeTab = createNativeStackNavigator<HomeTabNavigatorProps>();
+const CardsTab = createNativeStackNavigator<CardsTabNavigatorProps>();
+const GameTab = createNativeStackNavigator<GameTabNavigatorProps>();
+const BattleLogTab = createNativeStackNavigator<BattleLogTabNavigatorProps>();
 
 const commonNavigationOptions: NativeStackNavigationOptions = {
   headerStyle: {
@@ -44,7 +52,7 @@ function HomeStackScreen() {
       <HomeTab.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{title: 'Home'}}
+        options={{title: 'Card Quest'}}
       />
     </HomeTab.Navigator>
   );
@@ -90,7 +98,7 @@ const App = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <NavigationContainer>
-        <TabNavigator
+        <TabBar.Navigator
           screenOptions={{
             tabBarActiveTintColor: defaultTheme.colors.red,
             tabBarInactiveTintColor: defaultTheme.colors.secondary,
@@ -100,8 +108,8 @@ const App = () => {
             },
             headerShown: false,
           }}>
-          <TabScreen
-            name="Home Tab"
+          <TabBar.Screen
+            name="HomeTab"
             component={HomeStackScreen}
             options={{
               tabBarLabel: 'Home',
@@ -110,8 +118,8 @@ const App = () => {
               ),
             }}
           />
-          <TabScreen
-            name="Cards Tab"
+          <TabBar.Screen
+            name="CardsTab"
             component={CardsStackScreen}
             options={{
               tabBarLabel: 'Cards',
@@ -120,8 +128,8 @@ const App = () => {
               ),
             }}
           />
-          <TabScreen
-            name="Game Tab"
+          <TabBar.Screen
+            name="GameTab"
             component={GameStackScreen}
             options={{
               tabBarLabel: 'Game',
@@ -130,8 +138,8 @@ const App = () => {
               ),
             }}
           />
-          <TabScreen
-            name="Battle Log Tab"
+          <TabBar.Screen
+            name="BattleLogTab"
             component={BattleLogStackScreen}
             options={{
               tabBarLabel: 'Log',
@@ -140,7 +148,7 @@ const App = () => {
               ),
             }}
           />
-        </TabNavigator>
+        </TabBar.Navigator>
       </NavigationContainer>
     </ThemeProvider>
   );

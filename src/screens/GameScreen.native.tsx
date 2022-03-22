@@ -1,20 +1,23 @@
 import React, {ReactElement} from 'react';
 import {GameView} from '@components/GameView';
-import {useNavigation} from '@react-navigation/native';
-import {BattleLogTabNavigatorParams} from '@/App.native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ScrollingScreenContainer} from '@components/ScrollingScreenContainer.native';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {GameTabNavigatorProps, RootNavigatorProps} from '@/App.native';
+
+type GameScreenNavigationProps = CompositeNavigationProp<
+  BottomTabNavigationProp<GameTabNavigatorProps, 'GameScreen'>,
+  NativeStackNavigationProp<RootNavigatorProps>
+>;
 
 export function GameScreen(): ReactElement {
-  const navigation =
-    useNavigation<
-      NativeStackNavigationProp<BattleLogTabNavigatorParams, 'BattleLogScreen'>
-    >();
+  const navigation = useNavigation<GameScreenNavigationProps>();
   return (
     <ScrollingScreenContainer>
       <GameView
         onNavigateToBattleLog={() => {
-          navigation.navigate('BattleLogScreen');
+          navigation.navigate('BattleLogTab', {screen: 'BattleLogScreen'});
         }}
       />
     </ScrollingScreenContainer>
