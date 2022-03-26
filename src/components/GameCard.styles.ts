@@ -23,7 +23,7 @@ export const CardKindIcon = styled(
 }))<CardKindIcon_Props>``;
 
 const CardAspectRatio = 2.5 / 3.5;
-export const Container = styled.TouchableHighlight<{empty: boolean}>`
+export const Container = styled.View<{empty: boolean}>`
   ${({theme, empty}) => css`
     display: flex;
     width: 100%;

@@ -23,12 +23,10 @@ const CardKindIconNameMap: {[key in DonsolCardKind]: string} = {
 export interface GameCard_Props {
   donsolCard?: DonsolCard | null;
   style?: StyleProp<ViewStyle>;
-  onPress?: () => void;
 }
 
 export function GameCard({
   donsolCard: nullableDonsolCard,
-  onPress,
   style,
 }: GameCard_Props): ReactElement {
   const renderContent = (donsolCard: DonsolCard) => {
@@ -55,10 +53,7 @@ export function GameCard({
   };
 
   return (
-    <Styles.Container
-      style={style}
-      onPress={onPress}
-      empty={!nullableDonsolCard}>
+    <Styles.Container style={style} empty={!nullableDonsolCard}>
       {nullableDonsolCard ? renderContent(nullableDonsolCard) : <View />}
     </Styles.Container>
   );

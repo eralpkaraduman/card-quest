@@ -18,9 +18,9 @@ export function CardSlot({
   onPress,
 }: CardSlot_Props): ReactElement {
   return (
-    <Styles.Container style={style}>
+    <Styles.Container style={style} onPress={onPress}>
       <Styles.Title>{title}</Styles.Title>
-      <GameCard onPress={onPress} donsolCard={card} />
+      <GameCard donsolCard={card} />
     </Styles.Container>
   );
 }

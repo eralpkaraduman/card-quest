@@ -49,7 +49,7 @@ export const ScrollIcon = createButtonIcon(FontAwesome5Icon, 'scroll', 18);
 export const SwordIcon = createButtonIcon(MaterialCommunityIcons, 'sword', 26);
 export const CardIcon = createButtonIcon(EntypoIcon, 'documents', 26);
 
-export function Button({
+export function StyledLink({
   to,
   children,
 }: React.PropsWithChildren<{

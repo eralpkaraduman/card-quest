@@ -23,10 +23,21 @@ const CardTypeTitle = styled(SubtitleText)`
   margin-bottom: ${({theme}) => theme.dimensions.padding.small};
 `;
 
-export function CardList(): React.ReactElement {
+export type CardWrapper = React.FC<React.PropsWithChildren<{cardId: string}>>;
+
+export interface CardList_Props {
+  cardWrapper?: CardWrapper;
+}
+
+export function CardList({cardWrapper}: CardList_Props): React.ReactElement {
   const {monsters, shields, potions} = partitionedGameCards;
   const renderCard = (donsolCard: DonsolCard, index: number) => {
-    return <StyledGameCard donsolCard={donsolCard} key={index} />;
+    const Wrapper = cardWrapper ?? React.Fragment;
+    return (
+      <Wrapper cardId={donsolCard.id} key={index}>
+        <StyledGameCard donsolCard={donsolCard} />
+      </Wrapper>
+    );
   };
   return (
     <>

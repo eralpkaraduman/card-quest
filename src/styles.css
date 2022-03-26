@@ -67,3 +67,9 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
+[data-reach-dialog-content] {
+  width: 90%;
+  max-width: 500px;
+  border-radius: 8px;
+}

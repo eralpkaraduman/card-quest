@@ -50,7 +50,7 @@ export class Deck extends ChangeNotifier {
   public shuffle() {
     // Fisher-Yates shuffle: https://bost.ocks.org/mike/shuffle/
     const shuffledCards = [...this._cards];
-    var m = shuffledCards.length,
+    let m = shuffledCards.length,
       t,
       i;
 
