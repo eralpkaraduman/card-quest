@@ -13,6 +13,10 @@ Source is here:
 - React-native-web experiment with a game in it.
 - Card game called "Donsol".
 
+This is a tech demo.
+Purpose was to try a way to add website target to a react-native project in addition to iOS and android.
+Game is added in order to make it not so empty
+
 ## The Game
 
 Donsol is a dungeon crawler card game played with a standard 54 card deck.
@@ -58,9 +62,10 @@ CARD-QUEST.NETLIFY.APP
 ##################################################################
 
 ## Implementation of the cross-platform app
+we will look at implementation of the game later
 
 ### React
-Everyone knows react, the cool declarative component based javascript library. 
+Everyone knows react, the declarative component based javascript library. 
 
 ### React Native
 Pretty neat cross platform app development technology created by Facebook. Based on react. Targets iOS and android.
@@ -70,6 +75,14 @@ There are also desktop app target projects made by third parties.
 React Native for Web is a compatibility layer between React DOM and React Native.
 It can be used in new and existing apps, web-only and multi-platform apps.
 React Native for Web uses React DOM to accurately render React Native compatible JavaScript code in a web browser.
+
+### Why do this with react-native
+There are other platforms like Flutter that has web target already.
+Which is canvas/webgl based.
+Kind of overkill for most cases.
+Doesn't feel like a website with regular dom elements etc.
+Not so accessible and seo friendly.
+React-native-web ends up being a normal web app.
 
 ### How to add web target to react-native
 when you create a react-native app it comes with ios and android support by default
@@ -81,11 +94,11 @@ There are several ways to add web target to a react-native project;
   It is a set of tools and services built around React Native and native platforms.
   https://docs.expo.dev/workflow/web/
 
-  Pros:
+#### Pros:
   - Easy
   - Too easy in fact that you should be concerned?
 
-  Cons:
+#### Cons:
   - Not extensible
   - Web app looks like a mobile app not a website
 
@@ -108,12 +121,12 @@ There are several ways to add web target to a react-native project;
   │  │  ├─ src/           -> shared react native code here
   │  │  ├─ package.json
   ``` 
-  Pros:
+#### Pros:
   - Based on an actual web app project, looks like real a website.
   - this is the most common way.
   - Seems smart.
 
-  Cons:
+#### Cons:
   - Too much stuff to configure.
   - Do you really need a monorepo? (maybe if you had backend project in there that'd be cool)
   - Slow to develop modules, re-install module existence
@@ -129,29 +142,69 @@ There are several ways to add web target to a react-native project;
 
   ```
   my-rn-project/
-  ├─ package.json         
-  ├─ metro.config.js
-  ├─ webpack.config.js
+  ├─ package.json                     -> tasks: web_start, web_build, start, android        
+  ├─ metro.config.js                  -> exclude *.web.ts
+  ├─ webpack.config.js                -> exclude *.native.ts, alias react-native -> react-native-web
   ├─ src/
   │  ├─ components/           
-  │  │  ├─ someSharedComponent.tsx
-  │  │  ├─ someWebComponent.web.tsx
-  │  │  ├─ someRNComponent.native.tsx
-  │  ├─ App.native.tsx
-  │  ├─ App.web.tsx
-  │  │  ├─ src/           -> normal rn project, nothing suspicious
-  │  │  ├─ package.json
-  │  ├─ components/
-  │  │  ├─ src/           -> shared react native code here
-  │  │  ├─ package.json
+  │  │  ├─ someSharedComponent.tsx    -> shared components in react-native code, not postfixed
+  │  │  ├─ someWebComponent.web.tsx   -> web specific component
+  │  │  ├─ someRNComponent.native.tsx -> native specific component
+  │  ├─ App.native.tsx                -> @react-navigation/native (feels like an app)
+  │  ├─ App.web.tsx                   -> react-router-dom (feels like a website)
+  │  ├─ index.html
+  │  ├─ styles.css
+  │  ├─ index.web.ts                  -> webpack input (web app)
+  │  ├─ index.native.ts               -> metro input (react-native app)
+  │  ├─ theme.ts                      -> same styled-components theme (nice!)
   ``` 
 
-  Pros:
+#### Pros:
+  - Very easy and fast to develop and test
   - You have a single project
   - No need to configure monorepo
+  - No symlinks
   - Share code by simply importing it
   - react-native-web docs actually suggest this: https://necolas.github.io/react-native-web/docs/multi-platform/
 
-## Implementation of the game
+#### Cons:
+  - There's still stuff to configure
+  - Webpack is maybe outdated
+  - Easy to import unused code in either project and end up with large bundles
+  - Does three-shaking actually work? idk
 
+
+package.json npm commands for web and react-native
+
+how to exclude code in metro.config.js
+
+how to alias rn to rnw in webpack.config.js
+
+web app starts from index.web.js
+
+native app starts from index.app.js
+
+## Routing / Navigation
+
+Couple ways to do this
+
+page/screen components are platform specific, contents are shared
+
+## Styling
+
+Styled components, native version, event web project is using the native version
+single theme file
+single theme types
+tsconfig override on web project so it knows dom types also
+
+## Modals
+
+## Animations
+css animations on web, react-native's Animated on rn?
+cross platform animations: react-spring ?
+
+## Storybooks
+Would be cool
+
+## Implementation of the game
 e +31 ./src/App.web.tsx
