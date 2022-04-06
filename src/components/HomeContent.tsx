@@ -4,6 +4,7 @@ import {SubtitleText} from './SubtitleText';
 import Icon_FA5 from 'react-native-vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 import {CQButton} from './CQButton';
+import {BodyTextWithHyperLinks} from './BodyTextWithHyperLinks';
 
 const Logo = styled(Icon_FA5).attrs(({theme}) => ({
   size: 75,
@@ -57,18 +58,20 @@ export function HomeContent({
         <SubtitleText>See All Cards</SubtitleText>
       </CQButton>
 
-      <BodyText>This video explains the gameplay in detail</BodyText>
-      <BodyText>[Youtube Video Link](https://youtu.be/GNoZrr56GqA)</BodyText>
+      <BodyTextWithHyperLinks>
+        It is open source on GitHub:
+        https://github.com/eralpkaraduman/card-quest
+      </BodyTextWithHyperLinks>
 
-      <SubtitleText>Why was this made</SubtitleText>
-      <BodyText>bisey</BodyText>
-      <BodyText>[Link to blog post]</BodyText>
+      <BodyTextWithHyperLinks>
+        This video explains the game play in detail:
+        https://youtu.be/GNoZrr56GqA
+      </BodyTextWithHyperLinks>
 
-      <SubtitleText>Who made this</SubtitleText>
-      <BodyText>bisey</BodyText>
-      <BodyText>
-        [Link to eralpkaraduman.com](https://eralpkaraduman.com)
-      </BodyText>
+      <BodyTextWithHyperLinks>
+        Created by Eralp Karaduman (except the game design):
+        https://eralpkaraduman.com
+      </BodyTextWithHyperLinks>
     </>
   );
 }

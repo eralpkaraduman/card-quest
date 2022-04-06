@@ -11,4 +11,7 @@ react-native & react-native-web code sharing demo app
 - `yarn web-start`
 - `yarn ios` && `yarn android`
 
+
 ![screenshot](article/component-sharing.png)
+
+:e +31 ./src/App.web.tsx
