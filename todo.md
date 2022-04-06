@@ -14,6 +14,7 @@
 
 - [x] Why home so empty
 - [ ] Finish Home screen content
+- [ ] Fix linter errors
 - [ ] Cards screen, card detail modals
 - [ ] History list item styles
 - [ ] animations?
