@@ -5,7 +5,7 @@ react-native & react-native-web code sharing demo app
 ## Prerequisites
 - `yarn install`
 - `yarn link`
-
+- `npx @react-native-community/cli doctor`
 
 ## Running web app
 - `yarn web-start`
@@ -14,4 +14,4 @@ react-native & react-native-web code sharing demo app
 
 ![screenshot](article/component-sharing.png)
 
-:e +31 ./src/App.web.tsx
+
