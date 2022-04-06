@@ -83,6 +83,7 @@ Kind of overkill for most cases.
 Doesn't feel like a website with regular dom elements etc.
 Not so accessible and seo friendly.
 React-native-web ends up being a normal web app.
+Server rendering is possible with rnw
 
 ### How to add web target to react-native
 when you create a react-native app it comes with ios and android support by default
@@ -173,7 +174,6 @@ There are several ways to add web target to a react-native project;
   - Easy to import unused code in either project and end up with large bundles
   - Does three-shaking actually work? idk
 
-
 package.json npm commands for web and react-native
 
 how to exclude code in metro.config.js
@@ -187,8 +187,65 @@ native app starts from index.app.js
 ## Routing / Navigation
 
 Couple ways to do this
+- Use react-router on both targets
+  - react-router-native for native                      *page transitions are not good*
+  - react-router-dom for web                            *excellent*
+- User react-navigation on both targets
+  - @react-navigation/web for web                       *buggy, experimental*
+  - @react-navigation/native for native                 *excellent*
+- Use react-navigation for native, react-router for web
+  - best of choices in each target!                     *nice*
 
 page/screen components are platform specific, contents are shared
+
+## Layout
+
+### Web app layout
+
+BODY
+┌─────────┬──────────────────────┐
+│         │                      │
+│         │         PAGE         │
+│         │                      │
+│         │  ┌────────────────┐  │
+│         │  │                │  │
+│ SIDEBAR │  │                │  │
+│         │  │     SHARED     │  │
+│         │  │      PAGE      │  │
+│         │  │     CONTENT    │  │
+│         │  │                │  │
+│         │  └────────────────┘  │
+│         │                      │
+└─────────┴──────────────────────┘
+
+### React native app layout
+
+┌───────────────────┐
+│SCREEN             │
+│                   │
+│ ┌───────────────┐ │
+│ │STACK NAVIGATOR│ │
+│ │               │ │
+│ │ ┌───────────┐ │ │
+│ │ │           │ │ │
+│ │ │  SHARED   │ │ │
+│ │ │   PAGE    │ │ │
+│ │ │  CONTENT  │ │ │
+│ │ │           │ │ │
+│ │ └───────────┘ │ │
+│ │               │ │
+│ └───────────────┘ │
+│                   │
+├───────────────────┤
+│      TAB BAR      │
+└───────────────────┘
+    TAB NAVIGATOR
+
+Web has a responsive sidebar, native has a bottom tab bar
+
+Show PageLayout component
+
+Show App.native.tsx navigator containment
 
 ## Styling
 
