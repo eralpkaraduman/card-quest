@@ -204,6 +204,18 @@ Couple ways to do this
   - best of choices in each target!                     *nice*
 
 page/screen components are platform specific, contents are shared
+:e +29 ./src/components/HomeContent.tsx
+
+Platform specific container pages
+:e +19 ./src/screens/HomeScreen.web.tsx
+:e +18 ./src/screens/HomeScreen.native.tsx
+
+Routing is done differently in each target
+web does browser url path history stack based navigation
+:e +15 ./src/screens/HomeScreen.native.tsx
+
+native does native navigation stack based navigation
+:e +19 ./src/screens/HomeScreen.web.tsx
 
 ## Layout
 
@@ -281,6 +293,22 @@ override different jsx version for web
 :e +5 ./tsconfig.web.json
 
 ## Modals
+Web modals are made with reach-ui the responsive component lib
+
+Modal containers are platform specific, this is the web one
+:e +24 ./src/components/CardDetailModal.web.tsx
+
+And they contain a shared modal view
+:e +24 ./src/components/CardDetailView.tsx
+
+Seo friendly, path based, this couldn't be done with @react-nativation/web
+when clicked;
+:e +31 ./src/app.web.tsx
+
+when navigate from url;
+:e +22 ./src/app.web.tsx
+
+Native modals are WIP but likely will be done with @react-router/native's own modals
 
 ## Animations
 css animations on web, react-native's Animated on rn?
