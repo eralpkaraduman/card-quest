@@ -100,8 +100,9 @@ There are several ways to add web target to a react-native project;
   - Too easy in fact that you should be concerned?
 
 #### Cons:
-  - Not extensible
-  - Web app looks like a mobile app not a website
+  - Not extensible.
+  - Web app looks like a mobile app not a website.
+  - Routing is difficult
 
 2. Monorepo and shared components module
   Put web app and react-native app project into a monorepo. 
@@ -175,14 +176,20 @@ There are several ways to add web target to a react-native project;
   - Does three-shaking actually work? idk
 
 package.json npm commands for web and react-native
+:e +8 ./package.json
 
 how to exclude code in metro.config.js
+:e +12 ./metro.config.js
 
 how to alias rn to rnw in webpack.config.js
+:e +19 ./webpack.config.js
 
-web app starts from index.web.js
+web app starts from index.web.tsx
+:e +16 ./index.web.tsx
 
-native app starts from index.app.js
+native app starts from index.native.js
+:e +1 ./index.android.js
+:e +5 ./index.native.ts
 
 ## Routing / Navigation
 
@@ -243,16 +250,35 @@ BODY
 
 Web has a responsive sidebar, native has a bottom tab bar
 
-Show PageLayout component
+PageLayout component based on react-router-dom
+:e +23 ./src/components/PageLayout.web.tsx
 
-Show App.native.tsx navigator containment
+App.native.tsx navigator containment
+:e +101 ./src/App.native.tsx
 
 ## Styling
 
-Styled components, native version, event web project is using the native version
+styled components / native
+:e +14 ./index.web.tsx
+:e +99 ./src/App.native.tsx
+
+Styled components, native version, event web project is using the native version of sc
+:e +2 ./src/components/PageLayout.styles.web.ts
+
+Styled as Views not divs
+:e +12 ./src/components/PageLayout.styles.web.ts
+
 single theme file
-single theme types
-tsconfig override on web project so it knows dom types also
+:e +51 ./src/theme.ts
+
+single theme type definition
+:e +44 ./src/global.d.ts
+
+tsconfig add dom so it knows dom types also
+:e +5 ./tsconfig.json
+
+override different jsx version for web
+:e +5 ./tsconfig.web.json
 
 ## Modals
 
