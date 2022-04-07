@@ -20,7 +20,7 @@ const Row = styled.View<{marginTop?: boolean}>`
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  width: 100%;
+  width: 75%;
   ${({marginTop, theme}) =>
     marginTop && `margin-top: ${theme.dimensions.padding.medium}`};
 `;
