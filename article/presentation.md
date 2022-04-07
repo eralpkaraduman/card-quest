@@ -370,13 +370,14 @@ then the event handler in useEffect
 then the component state gets updated by the useState hook
 :e +42 ./src/components/GameView.tsx
 
-THIS IS IT
+THIS IS IT!
 
 Thank you!
 I'm Eralp Karaduman -> eralp.dev, eralpkaraduman.com
 Check out qvik.com, we are hiring!
 
 Link to source code etc are at card-quest.netlify app
+These notes are also in the source code /article/presentation.md
 
 ##################################################################
 ##################################################################
