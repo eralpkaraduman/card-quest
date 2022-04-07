@@ -263,5 +263,8 @@ cross platform animations: react-spring ?
 ## Storybooks
 Would be cool
 
+## Hyperlinks
+
 ## Implementation of the game
+
 e +31 ./src/App.web.tsx
