@@ -29,15 +29,20 @@ export interface CardList_Props {
   cardWrapper?: CardWrapper;
 }
 
-export function CardList({cardWrapper}: CardList_Props): React.ReactElement {
+export function CardList({
+  cardWrapper: Wrapper,
+}: CardList_Props): React.ReactElement {
   const {monsters, shields, potions} = partitionedGameCards;
   const renderCard = (donsolCard: DonsolCard, index: number) => {
-    const Wrapper = cardWrapper ?? React.Fragment;
-    return (
-      <Wrapper cardId={donsolCard.id} key={index}>
-        <StyledGameCard donsolCard={donsolCard} />
-      </Wrapper>
-    );
+    const renderedCard = <StyledGameCard donsolCard={donsolCard} key={index} />;
+    if (Wrapper) {
+      return (
+        <Wrapper cardId={donsolCard.id} key={index}>
+          {renderedCard}
+        </Wrapper>
+      );
+    }
+    return renderedCard;
   };
   return (
     <>
