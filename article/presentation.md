@@ -299,13 +299,13 @@ Modal containers are platform specific, this is the web one
 :e +24 ./src/components/CardDetailModal.web.tsx
 
 And they contain a shared modal view
-:e +24 ./src/components/CardDetailView.tsx
+:e +8 ./src/components/CardDetailView.tsx
 
 Seo friendly, path based, this couldn't be done with @react-nativation/web
 when clicked;
 :e +31 ./src/app.web.tsx
 
-when navigate from url;
+when navigated from url;
 :e +22 ./src/app.web.tsx
 
 Native modals are WIP but likely will be done with @react-router/native's own modals
@@ -315,10 +315,100 @@ css animations on web, react-native's Animated on rn?
 cross platform animations: react-spring ?
 
 ## Storybooks
-Would be cool
+Would be cool since we can render pretty much all the shared essential stuff in web
 
-## Hyperlinks
+## Hyperlinks & links
+Are done with HyperLink module
+Parses urls in strings generates link buttons
+:e +63 ./src/components/HomeContent.tsx
+
+the wrapping component
+:e +14 ./src/components/BodyTextWithHyperLinks.tsx
+
+Sidebar navigation
+:e +16 ./src/components/Sidebar.web.tsx
+
+Navigation links in sidebar are Link components from react-router-dom
+:e +60 ./src/components/Sidebar.styles.web.ts
+
+Changes state auto when navigation path matches
+:e +58 ./src/components/Sidebar.styles.web.ts
 
 ## Implementation of the game
+Best way to make games with react is to not use react at all :)
+(ok actually just as a renderer)
 
-e +31 ./src/App.web.tsx
+GameController -> GameControllerProvider (context api)
+
+useGameController (hook) -> addEventListener -> update component state
+
+Entire game logic is in a class, that has nothing to do with react
+:e +35 ./src/controllers/GameController.ts
+
+Game state is based on custom made observables
+:e +36 ./src/controllers/GameController.ts
+
+The observable implementation, 
+:e +41 ./src/controllers/Observable.ts
+
+notifies the observer when they are changed
+:e +66 ./src/controllers/GameController.ts
+
+then we can dispatch events, using the custom event dispatcher
+:e +68 ./src/controllers/GameController.ts
+
+The event dispatcher 
+:e +16 ./src/controllers/EventDispatcher.ts
+
+Then eventually handled by the react component from the context api hook
+useGameController
+:e +39 ./src/components/GameView.tsx
+
+then the event handler in useEffect
+:e +51 ./src/components/GameView.tsx
+
+then the component state gets updated by the useState hook
+:e +42 ./src/components/GameView.tsx
+
+THIS IS IT
+
+Thank you!
+I'm Eralp Karaduman -> eralp.dev, eralpkaraduman.com
+Check out qvik.com, we are hiring!
+
+Link to source code etc are at card-quest.netlify app
+
+##################################################################
+##################################################################
+##################################################################
+##################################################################
+########              ########  ######  ####              ########
+########  ##########  ##        ####    ####  ##########  ########
+########  ##      ##  ##  ##      ####    ##  ##      ##  ########
+########  ##      ##  ####  ##    ####    ##  ##      ##  ########
+########  ##      ##  ##    ##  ####      ##  ##      ##  ########
+########  ##########  ##  ##  ##  ####    ##  ##########  ########
+########              ##  ##  ##  ##  ##  ##              ########
+########################  ##    ######  ##########################
+########    ##  ####    ######        ##  ##      ##    ##########
+##################  ##      ####  ######      ##########  ########
+########  ##  ##      ##########  ######  ##  ########    ########
+##########      ##  ##  ##                  ##    ################
+########  ####          ####        ######    ####  ##    ########
+############    ##  ##    ##################    ##    ##  ########
+########  ##########    ##      ####  ####        ##  ##  ########
+##########          ##    ####  ##      ##    ##  ####  ##########
+########    ########      ####  ########              ############
+########################  ##        ####  ######    ####  ########
+########              ##  ######  ####    ##  ##    ##    ########
+########  ##########  ##########  ######  ######          ########
+########  ##      ##  ########        ##            ##############
+########  ##      ##  ##  ######  ############        ############
+########  ##      ##  ####    ####  ##    ####    ##  ##  ########
+########  ##########  ##    ######          ######  ##############
+########              ##  ##        ####  ##    ######    ########
+##################################################################
+##################################################################
+##################################################################
+##################################################################
+
