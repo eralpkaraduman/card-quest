@@ -3,8 +3,8 @@ import {BodyText} from './BodyText';
 import {SubtitleText} from './SubtitleText';
 import Icon_FA5 from 'react-native-vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
-import {CQButton} from './CQButton';
-import {BodyTextWithHyperLinks} from './BodyTextWithHyperLinks';
+import {LinkText} from './LinkText';
+import {Platform} from 'react-native';
 
 const Logo = styled(Icon_FA5).attrs(({theme}) => ({
   size: 75,
@@ -27,12 +27,14 @@ export function HomeContent({
   return (
     <>
       <Logo />
+
       <BodyText>
         Welcome to card quest! This is a react-native-web experiment with a game
         in it. Game is an implementation of Donsol.
       </BodyText>
 
       <SubtitleText>What is donsol</SubtitleText>
+
       <BodyText>
         Donsol is a dungeon crawler card game played with a standard 54 card
         deck.
@@ -54,24 +56,34 @@ export function HomeContent({
         are monsters. See card screen for each of their rules.
       </BodyText>
 
-      <CQButton onPress={onNavigateToCardsScreen}>
-        <SubtitleText>See All Cards</SubtitleText>
-      </CQButton>
+      <BodyText>
+        Go to{' '}
+        <LinkText
+          href={Platform.OS === 'web' ? '/cards' : undefined}
+          onPress={Platform.OS !== 'web' ? onNavigateToCardsScreen : undefined}>
+          Cards Screen
+        </LinkText>{' '}
+        To see all cards.
+      </BodyText>
 
-      <BodyTextWithHyperLinks>
-        It is open source on GitHub:
-        https://github.com/eralpkaraduman/card-quest
-      </BodyTextWithHyperLinks>
+      <BodyText>
+        It is open source on{' '}
+        <LinkText href="https://github.com/eralpkaraduman/card-quest">
+          GitHub
+        </LinkText>
+        .
+      </BodyText>
 
-      <BodyTextWithHyperLinks>
-        This video explains the game play in detail:
-        https://youtu.be/GNoZrr56GqA
-      </BodyTextWithHyperLinks>
+      <BodyText>
+        <LinkText href="https://youtu.be/GNoZrr56GqA">This video</LinkText>{' '}
+        explains the game play in detail.
+      </BodyText>
 
-      <BodyTextWithHyperLinks>
-        Created by Eralp Karaduman (except the game design):
-        https://eralpkaraduman.com
-      </BodyTextWithHyperLinks>
+      <BodyText>
+        Created by{' '}
+        <LinkText href="https://eralpkaraduman.com">Eralp Karaduman</LinkText>{' '}
+        (except the game design)
+      </BodyText>
     </>
   );
 }
