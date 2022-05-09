@@ -41,7 +41,7 @@ const defaultTheme: DefaultTheme = {
   fontFamily: {
     title: 'Cinzel-Bold',
     subtitle: 'Cinzel-Medium',
-    body: 'Cinzel-Regular',
+    body: 'Quicksand-Regular',
   },
   fontWeight: {
     title: '700',

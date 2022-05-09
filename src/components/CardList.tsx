@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import {SubtitleText} from '@components/SubtitleText';
 import {BodyText} from '@components/BodyText';
 import {GameCard} from '@components/GameCard';
+import {Platform} from 'react-native';
 
 const CardGrid = styled.View`
   display: flex;
@@ -46,6 +47,9 @@ export function CardList({
   };
   return (
     <>
+      <BodyText>
+        {Platform.OS === 'web' ? 'Click' : 'Tap'} cards to view what they do.
+      </BodyText>
       <CardTypeTitle>Potions</CardTypeTitle>
       <BodyText>
         A potion gives you health points equal to its value, up to a maximum of
