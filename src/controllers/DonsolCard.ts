@@ -80,6 +80,13 @@ export class DonsolCard {
   public toString(): string {
     return this.id;
   }
+
+  public static fromString(id?: string): DonsolCard | undefined {
+    if (!id) {
+      return undefined;
+    }
+    return allDonsolCards.find(({id: cardId}) => cardId === id);
+  }
 }
 
 const allDonsolCards = cardList.map(

@@ -68,7 +68,7 @@ export class Deck extends ChangeNotifier {
     this._cards = shuffledCards;
   }
 
-  draw(amount: number = 1): Card[] {
+  draw(amount = 1): Card[] {
     const drawnCards: Card[] = [];
     while (amount-- && this._cards.length) {
       const card = this._cards.pop();
