@@ -18,6 +18,8 @@ import HomeScreen from '@screens/HomeScreen.native';
 import {CardsScreen} from '@screens/CardsScreen.native';
 import {GameScreen} from '@screens/GameScreen.native';
 import {BattleLogScreen} from '@screens/BattleLogScreen.native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 export type HomeTabNavigatorProps = {HomeScreen: undefined};
 export type CardsTabNavigatorProps = {CardsScreen: undefined};
@@ -96,61 +98,67 @@ function BattleLogStackScreen() {
 
 const App = () => {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <NavigationContainer>
-        <TabBar.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: defaultTheme.colors.red,
-            tabBarInactiveTintColor: defaultTheme.colors.secondary,
-            tabBarStyle: {
-              backgroundColor: defaultTheme.colors.darkGray,
-              borderTopColor: defaultTheme.colors.darkGray,
-            },
-            headerShown: false,
-          }}>
-          <TabBar.Screen
-            name="HomeTab"
-            component={HomeStackScreen}
-            options={{
-              tabBarLabel: 'Home',
-              tabBarIcon: ({color, size}) => (
-                <Icon_FA5 size={size} color={color} name={'dungeon'} />
-              ),
-            }}
-          />
-          <TabBar.Screen
-            name="CardsTab"
-            component={CardsStackScreen}
-            options={{
-              tabBarLabel: 'Cards',
-              tabBarIcon: ({color, size}) => (
-                <Icon_Entypo size={size} color={color} name={'documents'} />
-              ),
-            }}
-          />
-          <TabBar.Screen
-            name="GameTab"
-            component={GameStackScreen}
-            options={{
-              tabBarLabel: 'Game',
-              tabBarIcon: ({color, size}) => (
-                <Icon_Material size={size} color={color} name={'sword'} />
-              ),
-            }}
-          />
-          <TabBar.Screen
-            name="BattleLogTab"
-            component={BattleLogStackScreen}
-            options={{
-              tabBarLabel: 'Log',
-              tabBarIcon: ({color, size}) => (
-                <Icon_FA5 size={size} color={color} name={'scroll'} />
-              ),
-            }}
-          />
-        </TabBar.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+    // eslint-disable-next-line react-native/no-inline-styles
+    <GestureHandlerRootView style={{flex: 1}}>
+      <ThemeProvider theme={defaultTheme}>
+        <BottomSheetModalProvider>
+          <NavigationContainer>
+            <TabBar.Navigator
+              screenOptions={{
+                tabBarActiveTintColor: defaultTheme.colors.red,
+                tabBarInactiveTintColor: defaultTheme.colors.secondary,
+                tabBarStyle: {
+                  backgroundColor: defaultTheme.colors.darkGray,
+                  borderTopColor: defaultTheme.colors.darkGray,
+                },
+                headerShown: false,
+              }}
+            >
+              <TabBar.Screen
+                name="HomeTab"
+                component={HomeStackScreen}
+                options={{
+                  tabBarLabel: 'Home',
+                  tabBarIcon: ({color, size}) => (
+                    <Icon_FA5 size={size} color={color} name={'dungeon'} />
+                  ),
+                }}
+              />
+              <TabBar.Screen
+                name="CardsTab"
+                component={CardsStackScreen}
+                options={{
+                  tabBarLabel: 'Cards',
+                  tabBarIcon: ({color, size}) => (
+                    <Icon_Entypo size={size} color={color} name={'documents'} />
+                  ),
+                }}
+              />
+              <TabBar.Screen
+                name="GameTab"
+                component={GameStackScreen}
+                options={{
+                  tabBarLabel: 'Game',
+                  tabBarIcon: ({color, size}) => (
+                    <Icon_Material size={size} color={color} name={'sword'} />
+                  ),
+                }}
+              />
+              <TabBar.Screen
+                name="BattleLogTab"
+                component={BattleLogStackScreen}
+                options={{
+                  tabBarLabel: 'Log',
+                  tabBarIcon: ({color, size}) => (
+                    <Icon_FA5 size={size} color={color} name={'scroll'} />
+                  ),
+                }}
+              />
+            </TabBar.Navigator>
+          </NavigationContainer>
+        </BottomSheetModalProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 };
 
