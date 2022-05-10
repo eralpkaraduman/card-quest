@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {BodyText} from './BodyText';
 import {GameCard} from './GameCard';
-import {TitleText} from './TitleText';
+import {SubtitleText} from './SubtitleText';
 
 const Container = styled.View`
   display: flex;
@@ -27,7 +27,7 @@ export function CardDetailView({id}: CardDetailView_Props) {
   const descriptor = donsolCard && new DonsolCardDescriptor(donsolCard);
   return (
     <Container>
-      <TitleText>{descriptor?.title}</TitleText>
+      <SubtitleText>{descriptor?.title}</SubtitleText>
       <StyledGameCard donsolCard={donsolCard} />
       <BodyText>{descriptor?.description}</BodyText>
     </Container>
