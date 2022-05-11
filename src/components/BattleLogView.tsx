@@ -1,10 +1,10 @@
-import React, {ReactElement, useMemo} from 'react';
+import React, {ReactElement, useCallback, useMemo} from 'react';
 import {GameEvent, useGameHistory} from '@controllers/GameControllerProvider';
 import styled from 'styled-components/native';
 import {BodyText} from './BodyText';
-import {TouchableHighlight} from 'react-native';
-import {SubtitleText} from './SubtitleText';
+import {Platform} from 'react-native';
 import {DonsolEventDescriptor} from '@controllers/DonsolEventDescriptor';
+import {LinkText} from './LinkText';
 
 const TempDebugContainer = styled.View`
   display: flex;
@@ -35,18 +35,34 @@ export function BattleLogView({
 
   const numInvisibleLines = history.length - visibleHistory.length;
 
+  const renderEventLogItem = useCallback(
+    (gameEvent, index) => {
+      const order = history.length - index;
+      return (
+        <GameEventLogItem
+          key={`${gameEvent.kind}-${order}`}
+          gameEvent={gameEvent}
+          order={order}
+        />
+      );
+    },
+    [history],
+  );
+
   return (
     <HistoryContainer>
-      {visibleHistory.map((gameEvent, index) => (
-        <GameEventLogItem
-          gameEvent={gameEvent}
-          order={history.length - index}
-        />
-      ))}
+      {visibleHistory.map(renderEventLogItem)}
       {numInvisibleLines > 0 && shouldHideLines && (
-        <TouchableHighlight onPress={onShowMorePressed}>
-          <SubtitleText>Show More...</SubtitleText>
-        </TouchableHighlight>
+        <BodyText>
+          Go to{' '}
+          <LinkText
+            href={Platform.OS === 'web' ? '/battle-log' : undefined}
+            onPress={Platform.OS !== 'web' ? onShowMorePressed : undefined}
+          >
+            Battle Log Screen
+          </LinkText>{' '}
+          To see earlier events.
+        </BodyText>
       )}
     </HistoryContainer>
   );
@@ -63,7 +79,7 @@ function GameEventLogItem({
 }: GameEventLogItem_Props): ReactElement {
   const {description} = new DonsolEventDescriptor(gameEvent);
   return (
-    <BodyText key={`${gameEvent.kind}-${order}`}>
+    <BodyText>
       {order}. {description}
     </BodyText>
   );
