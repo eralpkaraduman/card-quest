@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, {css} from 'styled-components/native';
+import styled, {css, useTheme} from 'styled-components/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; // TODO: rename to MaterialCommunityIcon
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -29,24 +29,26 @@ export const Container = styled.View<{
   align-items: ${({compact}) => (compact ? 'center' : 'space-between')};
 `;
 
-const createButtonIcon = (
-  pack: typeof FontAwesome5Icon | typeof EntypoIcon,
-  name: string,
-  size: number,
-) =>
-  styled(pack).attrs<{$active: boolean}>(({theme, $active}) => ({
-    solid: true,
-    size,
-    color: $active ? theme.colors.main : theme.colors.secondary,
-    name,
-  }))<{$active: boolean}>`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 26px;
-  `;
-
-export type IconType = ReturnType<typeof createButtonIcon>;
+const createButtonIcon =
+  (
+    iconPack: typeof FontAwesome5Icon | typeof EntypoIcon,
+    name: string,
+    size: number,
+  ) =>
+  ({$active}: {$active?: boolean}): React.ReactElement => {
+    const theme = useTheme();
+    return React.createElement(iconPack, {
+      name,
+      size,
+      color: $active ? theme.colors.main : theme.colors.secondary,
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: '26px',
+      },
+    });
+  };
 
 export const DungeonIcon = createButtonIcon(FontAwesome5Icon, 'dungeon', 18);
 export const ScrollIcon = createButtonIcon(FontAwesome5Icon, 'scroll', 18);
