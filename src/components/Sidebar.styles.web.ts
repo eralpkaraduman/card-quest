@@ -29,8 +29,12 @@ export const Container = styled.View<{
   align-items: ${({compact}) => (compact ? 'center' : 'space-between')};
 `;
 
-const createButtonIcon = (pack: any, name: string, size: number) =>
-  styled(pack).attrs(({theme, $active}) => ({
+const createButtonIcon = (
+  pack: typeof FontAwesome5Icon | typeof EntypoIcon,
+  name: string,
+  size: number,
+) =>
+  styled(pack).attrs<{$active: boolean}>(({theme, $active}) => ({
     solid: true,
     size,
     color: $active ? theme.colors.main : theme.colors.secondary,

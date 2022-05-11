@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {TitleText} from '@components/TitleText';
 import styled from 'styled-components/native';
 import {CardList, CardWrapper} from '@components/CardList';
@@ -15,17 +15,26 @@ const LinkStyle = {
 
 export function CardsScreen(): React.ReactElement {
   const location = useLocation();
-  const cardWrapper: CardWrapper = ({children, cardId}) => (
-    <Link style={LinkStyle} to={cardId} state={{backgroundLocation: location}}>
-      {children}
-    </Link>
+
+  const renderCardWrapper = useCallback<CardWrapper>(
+    ({children, cardId}) => (
+      <Link
+        style={LinkStyle}
+        to={cardId}
+        state={{backgroundLocation: location}}
+      >
+        {children}
+      </Link>
+    ),
+    [location],
   );
+
   return (
     <>
       <HeadTitle>Card Quest: All Cards</HeadTitle>
       <Outlet />
       <PageTitleText>All Cards</PageTitleText>
-      <CardList cardWrapper={cardWrapper} />
+      <CardList cardWrapper={renderCardWrapper} />
     </>
   );
 }
