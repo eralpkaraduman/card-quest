@@ -1,6 +1,6 @@
 # React Native Web Article series
 
-# Part 1: Cross platform mobile & web dialogs with react-native-web
+# Part 1: Cross platform mobile & web code sharing setup.
 
 I have been working on [a demo project called Card Quest](https://card-quest.netlify.app) to explore and learn about sharing code between react-native mobile apps and react web sites.
 
