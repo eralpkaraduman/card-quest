@@ -102,7 +102,9 @@ I'm planning to go into more detail with each of these points below as separate 
 
 ### Routing
 
-There is couple ways to do implement routing;
+I choose to use [react-navigation](https://reactnavigation.org/) for native, [react-router](https://reactrouter.com/) for web,
+
+But there is usually couple ways to do implement routing;
 - Use react-router on both targets
   - react-router-native for native                      (**page transitions are not good**)
   - react-router-dom for web                            (**excellent**)
