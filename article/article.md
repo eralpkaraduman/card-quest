@@ -109,7 +109,7 @@ There is couple ways to do implement routing;
 
 - User react-navigation on both targets
   - @react-navigation/web for web                       (**buggy, experimental**)
-  - @react-navigation/native for native                 (*excellent*)
+  - @react-navigation/native for native                 (**excellent**)
 
 - Use react-navigation for native, react-router for web
   - best of choices on each platform!                   (**nice!**)
