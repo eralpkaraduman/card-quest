@@ -104,15 +104,15 @@ I'm planning to go into more detail with each of these points below as separate 
 
 There is couple ways to do implement routing;
 - Use react-router on both targets
-  - react-router-native for native                      *page transitions are not good*
-  - react-router-dom for web                            *excellent*
+  - react-router-native for native                      (**page transitions are not good**)
+  - react-router-dom for web                            (**excellent**)
 
 - User react-navigation on both targets
-  - @react-navigation/web for web                       *buggy, experimental*
-  - @react-navigation/native for native                 *excellent*
+  - @react-navigation/web for web                       (**buggy, experimental**)
+  - @react-navigation/native for native                 (*excellent*)
 
 - Use react-navigation for native, react-router for web
-  - best of choices on each platform!                   *nice!*
+  - best of choices on each platform!                   (**nice!**)
 
 Last option was the way I implemented it. Check `App.native.ts` and `App.web.ts` in the [project source](https://github.com/eralpkaraduman/card-quest) to see how they are put together.
 
