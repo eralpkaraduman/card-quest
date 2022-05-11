@@ -3,9 +3,10 @@ import React, {
   useState,
   useEffect,
   forwardRef,
+  useCallback,
   PropsWithChildren,
 } from 'react';
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {BottomSheetBackdrop, BottomSheetModal} from '@gorhom/bottom-sheet';
 import {BackHandler} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SubtitleText} from '@components/SubtitleText';
@@ -36,11 +37,26 @@ export const CardDetailBottomSheet = forwardRef<
     return handler.remove;
   }, [isOpen]);
 
+  const renderBackdrop = useCallback(
+    props => (
+      <BottomSheetBackdrop
+        {...props}
+        opacity={0.8}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+      />
+    ),
+    [],
+  );
+
   return (
     <Styles.BottomSheet
       ref={mergeRefs(localRef, ref)}
       onDismiss={onDismiss}
       onChange={setIndex}
+      snapPoints={['70%']}
+      index={0}
+      backdropComponent={renderBackdrop}
     >
       <Styles.Container>
         <ScrollView indicatorStyle="white">
