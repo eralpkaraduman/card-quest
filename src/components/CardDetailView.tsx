@@ -1,5 +1,5 @@
 import {DonsolCard} from '@controllers/DonsolCard';
-import {DonsolCardDescriptor} from '@controllers/DonsolCardDescription';
+import {DonsolCardDescriptor} from '@controllers/DonsolCardDescriptor';
 import React from 'react';
 import styled from 'styled-components/native';
 import {BodyText} from './BodyText';

@@ -1,9 +1,10 @@
-import React, {useMemo} from 'react';
-import {useGameHistory} from '@controllers/GameControllerProvider';
+import React, {ReactElement, useMemo} from 'react';
+import {GameEvent, useGameHistory} from '@controllers/GameControllerProvider';
 import styled from 'styled-components/native';
 import {BodyText} from './BodyText';
 import {TouchableHighlight} from 'react-native';
 import {SubtitleText} from './SubtitleText';
+import {DonsolEventDescriptor} from '@controllers/DonsolEventDescriptor';
 
 const TempDebugContainer = styled.View`
   display: flex;
@@ -36,10 +37,11 @@ export function BattleLogView({
 
   return (
     <HistoryContainer>
-      {visibleHistory.map((event, index) => (
-        <BodyText key={`${event.kind}-${index}`}>
-          {JSON.stringify(event)}
-        </BodyText>
+      {visibleHistory.map((gameEvent, index) => (
+        <GameEventLogItem
+          gameEvent={gameEvent}
+          order={history.length - index}
+        />
       ))}
       {numInvisibleLines > 0 && shouldHideLines && (
         <TouchableHighlight onPress={onShowMorePressed}>
@@ -47,5 +49,22 @@ export function BattleLogView({
         </TouchableHighlight>
       )}
     </HistoryContainer>
+  );
+}
+
+interface GameEventLogItem_Props {
+  gameEvent: GameEvent;
+  order: number;
+}
+
+function GameEventLogItem({
+  gameEvent,
+  order,
+}: GameEventLogItem_Props): ReactElement {
+  const {description} = new DonsolEventDescriptor(gameEvent);
+  return (
+    <BodyText key={`${gameEvent.kind}-${order}`}>
+      {order}. {description}
+    </BodyText>
   );
 }
