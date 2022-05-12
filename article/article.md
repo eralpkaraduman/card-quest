@@ -76,6 +76,8 @@ I have designed the structure in a way so that web app feels like a regular webs
 
 I'm planning to go into more detail with each of these points below as separate articles. But briefly here's summary of parts of shared, and platform specific code.
 
+![screenshot](./react-native-web-code-share.jpg)
+
 ## Shared code:
 
 ### Game logic
