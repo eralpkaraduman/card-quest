@@ -75,22 +75,22 @@ function useScreenLinkText<P extends GenericNavigationProps>(
   tab: string,
   screen: string,
 ) {
-  if (Platform.OS !== 'web') {
-    return function NativeScreenLinkText({
+  if (Platform.OS === 'web') {
+    return function WebScreenLinkText({
       children,
     }: PropsWithChildren<unknown>): ReactElement {
-      const navigation = useNavigation<P>();
-      return (
-        <LinkText onPress={() => navigation.navigate(tab, {screen})}>
-          {children}
-        </LinkText>
-      );
+      return <LinkText href={href}>{children}</LinkText>;
     };
   }
-  return function WebScreenLinkText({
+  return function NativeScreenLinkText({
     children,
   }: PropsWithChildren<unknown>): ReactElement {
-    return <LinkText href={href}>{children}</LinkText>;
+    const navigation = useNavigation<P>();
+    return (
+      <LinkText onPress={() => navigation.navigate(tab, {screen})}>
+        {children}
+      </LinkText>
+    );
   };
 }
 
