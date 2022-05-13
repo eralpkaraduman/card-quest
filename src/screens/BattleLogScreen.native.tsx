@@ -5,7 +5,7 @@ import React, {ReactElement} from 'react';
 export function BattleLogScreen(): ReactElement {
   return (
     <ScrollingScreenContainer>
-      <BattleLogView />
+      <BattleLogView shouldShowLinkToGameScreen />
     </ScrollingScreenContainer>
   );
 }

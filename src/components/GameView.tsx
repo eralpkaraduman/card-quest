@@ -29,13 +29,7 @@ const TempDebugUiContainer = styled.View`
   padding: ${({theme}) => theme.dimensions.padding.medium};
 `;
 
-interface GameView_Props {
-  onNavigateToBattleLog: () => void;
-}
-
-export function GameView({
-  onNavigateToBattleLog,
-}: GameView_Props): React.ReactElement {
+export function GameView(): React.ReactElement {
   const game = useGameController();
 
   const [numCardsInDeck, setNumCardsInDeck] = useState<number>(game.deckCount);
@@ -97,10 +91,7 @@ export function GameView({
           )}
         </TempDebugContainer>
       </TempDebugUiContainer>
-      <BattleLogView
-        numVisibleLines={3}
-        onShowMorePressed={onNavigateToBattleLog}
-      />
+      <BattleLogView numVisibleLines={3} />
     </Container>
   );
 }

@@ -44,7 +44,8 @@ export function CardDetailModal(): React.ReactElement {
       <DialogOverlay
         aria-labelledby="label"
         onDismiss={onDismiss}
-        initialFocusRef={closeButtonRef}>
+        initialFocusRef={closeButtonRef}
+      >
         <StyledDialogContent aria-labelledby="label">
           <CardDetailView id={id} />
           <CloseButton onClick={onDismiss}>Close</CloseButton>

@@ -3,8 +3,11 @@ import {BodyText} from './BodyText';
 import {SubtitleText} from './SubtitleText';
 import Icon_FA5 from 'react-native-vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
-import {LinkText} from './LinkText';
-import {Platform} from 'react-native';
+import {
+  LinkText,
+  useGameScreenLinkText,
+  useCardsScreenLinkText,
+} from './LinkText';
 
 const Logo = styled(Icon_FA5).attrs(({theme}) => ({
   size: 75,
@@ -17,23 +20,21 @@ const Logo = styled(Icon_FA5).attrs(({theme}) => ({
   margin-bottom: ${({theme}) => theme.dimensions.padding.medium};
 `;
 
-interface HomeContent_Props {
-  onNavigateToCardsScreen: () => void;
-}
-
-export function HomeContent({
-  onNavigateToCardsScreen,
-}: HomeContent_Props): React.ReactElement {
+export function HomeContent(): React.ReactElement {
+  const GameScreenLink = useGameScreenLinkText();
+  const CardsScreenLink = useCardsScreenLinkText();
   return (
     <>
       <Logo />
 
       <BodyText>
         Welcome to card quest! This is a react-native-web experiment with a game
-        in it. Game is an implementation of Donsol.
+        in it. Game is an implementation of the card game Donsol.Head over to{' '}
+        <GameScreenLink>Game Screen</GameScreenLink>
+        to play it.
       </BodyText>
 
-      <SubtitleText>What is donsol</SubtitleText>
+      <SubtitleText>About Donsol</SubtitleText>
 
       <BodyText>
         Donsol is a dungeon crawler card game played with a standard 54 card
@@ -57,13 +58,7 @@ export function HomeContent({
       </BodyText>
 
       <BodyText>
-        Go to{' '}
-        <LinkText
-          href={Platform.OS === 'web' ? '/cards' : undefined}
-          onPress={Platform.OS !== 'web' ? onNavigateToCardsScreen : undefined}>
-          Cards Screen
-        </LinkText>{' '}
-        To see all cards.
+        Go to <CardsScreenLink>Cards Screen</CardsScreenLink> To see all cards.
       </BodyText>
 
       <BodyText>

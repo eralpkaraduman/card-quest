@@ -2,9 +2,8 @@ import React, {ReactElement, useCallback, useMemo} from 'react';
 import {GameEvent, useGameHistory} from '@controllers/GameControllerProvider';
 import styled from 'styled-components/native';
 import {BodyText} from './BodyText';
-import {Platform} from 'react-native';
 import {DonsolEventDescriptor} from '@controllers/DonsolEventDescriptor';
-import {LinkText} from './LinkText';
+import {useBattleLogScreenLinkText, useGameScreenLinkText} from './LinkText';
 
 const TempDebugContainer = styled.View`
   display: flex;
@@ -19,13 +18,15 @@ const HistoryContainer = styled(TempDebugContainer)`
 
 interface BattleLogView_Props {
   numVisibleLines?: number;
-  onShowMorePressed?: () => void;
+  shouldShowLinkToGameScreen?: boolean;
 }
 
 export function BattleLogView({
   numVisibleLines = -1,
-  onShowMorePressed,
+  shouldShowLinkToGameScreen = false,
 }: BattleLogView_Props): React.ReactElement {
+  const GameScreenLink = useGameScreenLinkText();
+  const BattleLogScreenLink = useBattleLogScreenLinkText();
   const history = useGameHistory();
 
   const shouldHideLines = numVisibleLines > 0;
@@ -49,21 +50,25 @@ export function BattleLogView({
     [history],
   );
 
+  const renderLinkToGameScreen = () => {
+    return (
+      <BodyText>
+        {history.length > 0 ? '' : 'Nothing happened yet. '}Go to{' '}
+        <GameScreenLink>Game Screen</GameScreenLink> to play!
+      </BodyText>
+    );
+  };
+
   return (
     <HistoryContainer>
       {visibleHistory.map(renderEventLogItem)}
       {numInvisibleLines > 0 && shouldHideLines && (
         <BodyText>
-          Go to{' '}
-          <LinkText
-            href={Platform.OS === 'web' ? '/battle-log' : undefined}
-            onPress={Platform.OS !== 'web' ? onShowMorePressed : undefined}
-          >
-            Battle Log Screen
-          </LinkText>{' '}
-          To see earlier events.
+          Go to <BattleLogScreenLink>Battle Log Screen</BattleLogScreenLink> To
+          see earlier events.
         </BodyText>
       )}
+      {shouldShowLinkToGameScreen && renderLinkToGameScreen()}
     </HistoryContainer>
   );
 }

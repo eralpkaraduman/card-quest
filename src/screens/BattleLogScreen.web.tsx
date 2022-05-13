@@ -13,7 +13,7 @@ export function BattleLogScreen(): ReactElement {
     <>
       <HeadTitle>Card Quest: Battle Report</HeadTitle>
       <PageTitleText>Battle Log</PageTitleText>
-      <BattleLogView />
+      <BattleLogView shouldShowLinkToGameScreen />
     </>
   );
 }

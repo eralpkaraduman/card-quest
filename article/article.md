@@ -23,6 +23,8 @@ it has a web target already. [Expo](https://docs.expo.dev/workflow/web/) is a fr
 2. Monorepo with shared components module
 This is the most popular approach, you put web app and react-native app projects into a monorepo. Develop shared react-native code in a module in monorepo. Render shared code in web project through react-native-web. Quite solid approach, hoWever the downside is that you need be aware that shared code are in a npm module, working on it effectively would require you to set up symlinks etc.
 
+There are many ways to set up monorepos, take a look at [monorepo.tools](https://monorepo.tools/) for tools and ideas. Here's how I did it;
+
   ```
   my-project/
   ├─ package.json         -> workspaces: {packages: ['./packages/*']}
