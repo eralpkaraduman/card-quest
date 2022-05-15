@@ -2,6 +2,7 @@ import React from 'react';
 import {
   NavigationContainer,
   NavigatorScreenParams,
+  ParamListBase,
 } from '@react-navigation/native';
 import {ThemeProvider} from 'styled-components/native';
 import {
@@ -20,17 +21,14 @@ import {GameScreen} from '@screens/GameScreen.native';
 import {BattleLogScreen} from '@screens/BattleLogScreen.native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-
-export type HomeTabNavigatorProps = {HomeScreen: undefined};
-export type CardsTabNavigatorProps = {CardsScreen: undefined};
-export type GameTabNavigatorProps = {GameScreen: undefined};
-export type BattleLogTabNavigatorProps = {BattleLogScreen: undefined};
-export type RootNavigatorProps = {
-  HomeTab: NavigatorScreenParams<HomeTabNavigatorProps>;
-  CardsTab: NavigatorScreenParams<CardsTabNavigatorProps>;
-  GameTab: NavigatorScreenParams<GameTabNavigatorProps>;
-  BattleLogTab: NavigatorScreenParams<BattleLogTabNavigatorProps>;
-};
+import {
+  BattleLogTabNavigatorProps,
+  CardsTabNavigatorProps,
+  GameTabNavigatorProps,
+  HomeTabNavigatorProps,
+  TabProps,
+  TabType,
+} from './global';
 
 const TabBar = createBottomTabNavigator<RootNavigatorProps>();
 const HomeTab = createNativeStackNavigator<HomeTabNavigatorProps>();
@@ -46,6 +44,11 @@ const commonNavigationOptions: NativeStackNavigationOptions = {
     color: defaultTheme.colors.main,
     fontFamily: defaultTheme.fontFamily.title,
   },
+};
+
+export type TabPropsType<K extends TabType> = TabProps[K] & ParamListBase;
+export type RootNavigatorProps = {
+  [Key in keyof TabProps]: NavigatorScreenParams<TabProps[Key]>;
 };
 
 function HomeStackScreen() {

@@ -3,7 +3,7 @@ import {GameEvent, useGameHistory} from '@controllers/GameControllerProvider';
 import styled from 'styled-components/native';
 import {BodyText} from './BodyText';
 import {DonsolEventDescriptor} from '@controllers/DonsolEventDescriptor';
-import {useBattleLogScreenLinkText, useGameScreenLinkText} from './LinkText';
+import {ScreenLinkText} from './ScreenLinkText';
 
 const TempDebugContainer = styled.View`
   display: flex;
@@ -25,8 +25,6 @@ export function BattleLogView({
   numVisibleLines = -1,
   shouldShowLinkToGameScreen = false,
 }: BattleLogView_Props): React.ReactElement {
-  const GameScreenLink = useGameScreenLinkText();
-  const BattleLogScreenLink = useBattleLogScreenLinkText();
   const history = useGameHistory();
 
   const shouldHideLines = numVisibleLines > 0;
@@ -54,7 +52,10 @@ export function BattleLogView({
     return (
       <BodyText>
         {history.length > 0 ? '' : 'Nothing happened yet. '}Go to{' '}
-        <GameScreenLink>Game Screen</GameScreenLink> to play!
+        <ScreenLinkText tab="GameTab" screen="GameScreen">
+          Game Screen
+        </ScreenLinkText>{' '}
+        to play!
       </BodyText>
     );
   };
@@ -64,8 +65,11 @@ export function BattleLogView({
       {visibleHistory.map(renderEventLogItem)}
       {numInvisibleLines > 0 && shouldHideLines && (
         <BodyText>
-          Go to <BattleLogScreenLink>Battle Log Screen</BattleLogScreenLink> To
-          see earlier events.
+          Go to{' '}
+          <ScreenLinkText tab="BattleLogTab" screen="BattleLogScreen">
+            Battle Log Screen
+          </ScreenLinkText>{' '}
+          To see earlier events.
         </BodyText>
       )}
       {shouldShowLinkToGameScreen && renderLinkToGameScreen()}

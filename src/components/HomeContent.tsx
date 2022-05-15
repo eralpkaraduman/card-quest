@@ -3,11 +3,8 @@ import {BodyText} from './BodyText';
 import {SubtitleText} from './SubtitleText';
 import Icon_FA5 from 'react-native-vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
-import {
-  LinkText,
-  useGameScreenLinkText,
-  useCardsScreenLinkText,
-} from './LinkText';
+import {ScreenLinkText} from './ScreenLinkText';
+import {LinkText} from './LinkText';
 
 const Logo = styled(Icon_FA5).attrs(({theme}) => ({
   size: 75,
@@ -21,8 +18,6 @@ const Logo = styled(Icon_FA5).attrs(({theme}) => ({
 `;
 
 export function HomeContent(): React.ReactElement {
-  const GameScreenLink = useGameScreenLinkText();
-  const CardsScreenLink = useCardsScreenLinkText();
   return (
     <>
       <Logo />
@@ -30,7 +25,9 @@ export function HomeContent(): React.ReactElement {
       <BodyText>
         Welcome to card quest! This is a react-native-web experiment with a game
         in it. Game is an implementation of the card game Donsol.Head over to{' '}
-        <GameScreenLink>Game Screen</GameScreenLink>
+        <ScreenLinkText tab="GameTab" screen="GameScreen">
+          Game Screen
+        </ScreenLinkText>
         to play it.
       </BodyText>
 
@@ -58,7 +55,11 @@ export function HomeContent(): React.ReactElement {
       </BodyText>
 
       <BodyText>
-        Go to <CardsScreenLink>Cards Screen</CardsScreenLink> To see all cards.
+        Go to{' '}
+        <ScreenLinkText screen="CardsScreen" tab="CardsTab">
+          Cards Screen
+        </ScreenLinkText>{' '}
+        To see all cards.
       </BodyText>
 
       <BodyText>

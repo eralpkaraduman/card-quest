@@ -62,3 +62,19 @@ declare module 'styled-components' {
     };
   }
 }
+
+declare type HomeTabNavigatorProps = {HomeScreen: undefined};
+declare type CardsTabNavigatorProps = {CardsScreen: undefined};
+declare type GameTabNavigatorProps = {GameScreen: undefined};
+declare type BattleLogTabNavigatorProps = {BattleLogScreen: undefined};
+
+declare type TabProps = {
+  HomeTab: HomeTabNavigatorProps;
+  CardsTab: CardsTabNavigatorProps;
+  GameTab: GameTabNavigatorProps;
+  BattleLogTab: BattleLogTabNavigatorProps;
+};
+declare type TabType = keyof TabProps;
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+declare type AnyScreenType = KeysOfUnion<TabProps[keyof TabProps]>;
+declare type TabScreenType<K extends TabType> = keyof TabProps[K] & string;
