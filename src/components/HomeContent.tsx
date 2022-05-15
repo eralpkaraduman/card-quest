@@ -63,6 +63,14 @@ export function HomeContent(): React.ReactElement {
       </BodyText>
 
       <BodyText>
+        Go to{' '}
+        <ScreenLinkText screen="GameScreen" tab="GameTab">
+          Game Screen
+        </ScreenLinkText>{' '}
+        To play!
+      </BodyText>
+
+      <BodyText>
         It is open source on{' '}
         <LinkText href="https://github.com/eralpkaraduman/card-quest">
           GitHub
