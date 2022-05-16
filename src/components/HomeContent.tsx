@@ -27,7 +27,7 @@ export function HomeContent(): React.ReactElement {
         in it. Game is an implementation of the card game Donsol.Head over to{' '}
         <ScreenLinkText tab="GameTab" screen="GameScreen">
           Game Screen
-        </ScreenLinkText>
+        </ScreenLinkText>{' '}
         to play it.
       </BodyText>
 
