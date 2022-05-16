@@ -4,14 +4,14 @@
 
 I have been working on [a demo project called Card Quest][card-quest-source] to explore and learn about sharing code between react-native mobile apps and react web sites.
 
-The project consists of a website and a mobile app with a simple card game. Having a game in it was to demonstrate some "business logic" code that could be reused across platforms. Since I couldn't come up with a better idea, I decided to implement [a card game called Donsol](https://boardgamegeek.com/boardgame/197004/donsol). Essentially what kind of game is it doesn't matter since this is a tech demo and implementation is more interesting than the product. Also, the special thing about Donsol was that it is a single-player solitaire style turn-based card game, so there was no need to implement multi-player logic since that would be out of the scope of the experiment. You can go to [the project's site][card-quest-site] to learn more about the game and try it. The source code is available at [github.com/eralpkaraduman/card-quest][card-quest-source].
+The project consists of a website and a mobile app with a simple card game. Having a game in it demonstrates some "business logic" code that can be reused across platforms. Since I could not come up with a better idea, I decided to implement [a card game called Donsol](https://boardgamegeek.com/boardgame/197004/donsol). What the product does and what kind of game it has in it are not essential as the main focus of this experiment is its implementation. So I won't go into much detail about the game and its rules. However, the special thing about Donsol was that it is a single-player solitaire style turn-based card game, so there was no need to implement multi-player logic since that would be out of the scope of the experiment. You can go to [the project's site][card-quest-site] to learn more about the game and try it. The source code is available at [github.com/eralpkaraduman/card-quest][card-quest-source].
 
 Experiment is mainly about re-using ideally all of the code for the game and most of the UI code in the rest of the app on web and mobile platforms.
 
 There is a technology called [react-native-web](https://necolas.github.io/react-native-web/), which is a great tool for the job, quoting from their website;
 
-"A compatibility layer between React DOM and React Native. It can be used in new and existing apps, web-only and multi-platform apps.
-React Native for Web uses React DOM to accurately render React Native compatible JavaScript code in a web browser."
+> "A compatibility layer between React DOM and React Native. It can be used in new and existing apps, web-only and multi-platform apps.
+> React Native for Web uses React DOM to accurately render React Native compatible JavaScript code in a web browser."
 
 React-native-web is a good choice for moving already existing react-native mobile app code to run on web projects. Also it is good for starting a project with it with the goal of code-sharing in mind, which is what I did.
 
