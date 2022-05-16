@@ -4,7 +4,9 @@
 
 I have been working on [a demo project called Card Quest][card-quest-source] to explore and learn about sharing code between react-native mobile apps and react web sites.
 
-The project consists of a website and a mobile app with a simple card game. Having a game in it demonstrates some "business logic" code that can be reused across platforms. Since I could not come up with a better idea, I decided to implement [a card game called Donsol](https://boardgamegeek.com/boardgame/197004/donsol). What the product does and what kind of game it has in it are not essential as the main focus of this experiment is its implementation. So I won't go into much detail about the game and its rules. However, the special thing about Donsol was that it is a single-player solitaire style turn-based card game, so there was no need to implement multi-player logic since that would be out of the scope of the experiment. You can go to [the project's site][card-quest-site] to learn more about the game and try it. The source code is available at [github.com/eralpkaraduman/card-quest][card-quest-source].
+The project consists of a website and a mobile app with a simple card game. Having a game in it demonstrates some "business logic" code that can be reused across platforms. Since I could not come up with a better idea, I decided to implement [a card game called Donsol](https://boardgamegeek.com/boardgame/197004/donsol). 
+
+What the product does and what kind of game it has in it are not essential as the main focus of this experiment is its implementation. So I won't go into much detail about the game and its rules. However, the special thing about Donsol was that it is a single-player solitaire style turn-based card game, so there was no need to implement multi-player logic since that would be out of the scope of the experiment. You can go to [the project's site][card-quest-site] to learn more about the game and try it. The source code is available at [github.com/eralpkaraduman/card-quest][card-quest-source].
 
 Experiment is mainly about re-using ideally all of the code for the game and most of the UI code in the rest of the app on web and mobile platforms.
 
@@ -112,7 +114,7 @@ Presentation layer of the game is implemented as react-native components and ver
 UI containment is designed in a way so that web app and native app have their own separate layout systems which work best for either web or mobile. Web has a responsive sidebar, native has a bottom tab bar.
 But the contents of the pages are built by shared code implemented as react-native components.
 
-#### Web layout
+#### UI containment: Web layout
 
 Layout of the web app containment is implemented in `PageLayout.web.tsx` and mobile layout is also at `App.native.tsx`.
 ```
@@ -134,7 +136,7 @@ BODY
        PAGE lAYOUT CONTAINER
 ```
 
-#### Mobile app layout
+#### UI containment: Mobile app layout
 ```
 ┌───────────────────┐
 │SCREEN             │
@@ -160,7 +162,7 @@ BODY
 
 ### Page contents
 
-Container of the pages or screens have as little code as possible so that platform specific code is minimal. They only set up scrolling containers, avoid device specific margins etc. The maing contents are implemented as separate components.
+Container of the pages or screens have as little code as possible so that platform specific code is minimal. They only set up scrolling containers, avoid device specific margins etc. The main contents are implemented as separate components.
 
 For example for "Home" screen there are separate container components for each platform;
 - `HomeScreen.web.tsx`: Adds a title text above.
@@ -174,12 +176,10 @@ And for the actual content we have `HomeContent.tsx` which is included in both o
 ### Fonts, icons and images
 ...
 
-
 ## Platform specific code:
 
 ### Bundling
 ...
-
 
 ### Routing
 
@@ -199,13 +199,14 @@ But there is usually couple ways to do implement routing;
 
 Last option was the way I implemented it. Check `App.native.ts` and `App.web.ts` in the [project source][card-quest-source] to see how they are put together.
 
-
-
 ### Linking
-...
+... part 2?
 
 ### Dialogs
-...
+... part 3?
+
+### Animations
+... Part 4?
 
 [card-quest-source]: https://github.com/eralpkaraduman/card-quest
 [card-quest-site]: https://card-quest.netlify.app
