@@ -23,7 +23,7 @@ export function HomeContent(): React.ReactElement {
       <Logo />
 
       <BodyText>
-        Welcome to card quest! This is a react-native-web experiment with a game
+        Welcome to Card Quest! This is a react-native-web experiment with a game
         in it. Game is an implementation of the card game Donsol.Head over to{' '}
         <ScreenLinkText tab="GameTab" screen="GameScreen">
           Game Screen
@@ -34,8 +34,10 @@ export function HomeContent(): React.ReactElement {
       <SubtitleText>About Donsol</SubtitleText>
 
       <BodyText>
-        Donsol is a dungeon crawler card game played with a standard 54 card
-        deck.
+        <LinkText href="https://boardgamegeek.com/boardgame/197004/donsol">
+          Donsol
+        </LinkText>{' '}
+        is a dungeon crawler card game played with a standard 54 card deck.
       </BodyText>
 
       <BodyText>
