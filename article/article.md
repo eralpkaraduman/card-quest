@@ -2,9 +2,9 @@
 
 # Part 1: Cross platform mobile & web code sharing setup.
 
-I have been working on [a demo project called Card Quest](https://card-quest.netlify.app) to explore and learn about sharing code between react-native mobile apps and react web sites.
+I have been working on [a demo project called Card Quest][card-quest-source] to explore and learn about sharing code between react-native mobile apps and react web sites.
 
-Project is basically an app that has a simple card game in it. You can go to [the project's site](https://card-quest.netlify.app) to learn more about the game and try it. The source code is available at [github.com/eralpkaraduman/card-quest](https://github.com/eralpkaraduman/card-quest).
+Project is basically an app that has a simple card game in it. You can go to [the project's site][card-quest-site] to learn more about the game and try it. The source code is available at [github.com/eralpkaraduman/card-quest][card-quest-source].
 
 Experiment is mainly about re-using ideally all of the code for the game and most of the UI code in the rest of the app on web and mobile platforms.
 
@@ -83,54 +83,38 @@ I'm planning to go into more detail with each of these points below as separate 
 ## Shared code:
 
 ### Game logic
-...
+
+Game logic is implemented in a way that it is unaware of react or react-native, so that it can be re-used in multiple ways even beyond react. Game logic consists of several plain typescript classes and decoupled from visualization. It is only responsible from keeping track of the game state and checking rules.
+
+Game implementation details are beyond this article's focus so onl point that matters is that it's code is detached from view layer and that is how it can work between platforms. But if you are interested about the implementation, see these parts in the [source code][card-quest-source];
+
+- `GameController`: the game rules & state implementation.
+- `EventDispatcher`: custom event dispatcher implementation to notify the listeners (not related to react, anything can listen)
+- `Observable`: custom observable implementation to track state changes
+- `GameEventHistory`: Keeps a log of events happened in the game.
+- `resolveGameCardPlay`: Predicts results ahead of playing a particular card.
+- `DonsolCardDescriptor`: Describes what does a particular game card to in plain text.
+- `DonsolEventDescriptor`: Describes a game event in plain human readable text.
 
 ### Game presentation
-...
 
-### Page contents
-...
+Presentation layer of the game is implemented as react-native components and very well aware of react compared to how game logic is decoupled from react. However this part doesn't know about how the game rules or the state manipulation works. A good way to implement games with react is to keep game logic away from react as much as possible, and using react only as renderer.
 
-### UI theme
-...
-
-### Fonts, icons and images
-...
-
-
-## Platform specific code:
-
-### Bundling
-...
-
-
-### Routing
-
-I choose to use [react-navigation](https://reactnavigation.org/) for native, [react-router](https://reactrouter.com/) for web,
-
-But there is usually couple ways to do implement routing;
-- Use react-router on both targets
-  - react-router-native for native                      (**page transitions are not good**)
-  - react-router-dom for web                            (**excellent**)
-
-- User react-navigation on both targets
-  - @react-navigation/web for web                       (**buggy, experimental**)
-  - @react-navigation/native for native                 (**excellent**)
-
-- Use react-navigation for native, react-router for web
-  - best of choices on each platform!                   (**nice!**)
-
-Last option was the way I implemented it. Check `App.native.ts` and `App.web.ts` in the [project source](https://github.com/eralpkaraduman/card-quest) to see how they are put together.
+- `GameControllerProvider`: binds game controller to react's context api.
+- `useGameController`: the react hook that allows components to register event listeners.
+- `GameView`: Main component that renders the current game state, responds to user input. See this component to get the gist of the implementation.
+- `GameRoom`: Renders the cards in current dungeon room.
+- `PlayerStatus`: Renders the health value, shield and health bars.
+- `BattleLogView`: Renders the list of events happened in the game.
 
 ### UI containment
 
-UI containment is designed in a way so that web app has its own different different layout system which work best at either web or mobile. Web has a responsive sidebar, native has a bottom tab bar.
-But the contents of the pages are built by shared code.
+UI containment is designed in a way so that web app and native app have their own separate layout systems which work best for either web or mobile. Web has a responsive sidebar, native has a bottom tab bar.
+But the contents of the pages are built by shared code implemented as react-native components.
 
 #### Web layout
 
 Layout of the web app containment is implemented in `PageLayout.web.tsx` and mobile layout is also at `App.native.tsx`.
-
 ```
 BODY
 ┌─────────┬──────────────────────┐
@@ -174,9 +158,54 @@ BODY
     TAB NAVIGATOR
 ```
 
+### Page contents
+
+Container of the pages or screens have as little code as possible so that platform specific code is minimal. They only set up scrolling containers, avoid device specific margins etc. The maing contents are implemented as separate components.
+
+For example for "Home" screen there are separate container components for each platform;
+- `HomeScreen.web.tsx`: Adds a title text above.
+- `HomeScreen.native.tsx`: Wraps with scrolling container.
+
+And for the actual content we have `HomeContent.tsx` which is included in both of the containers above. 
+
+### UI theme
+...
+
+### Fonts, icons and images
+...
+
+
+## Platform specific code:
+
+### Bundling
+...
+
+
+### Routing
+
+I choose to use [react-navigation](https://reactnavigation.org/) for native, [react-router](https://reactrouter.com/) for web,
+
+But there is usually couple ways to do implement routing;
+- Use react-router on both targets
+  - react-router-native for native                      (**page transitions are not good**)
+  - react-router-dom for web                            (**excellent**)
+
+- User react-navigation on both targets
+  - @react-navigation/web for web                       (**buggy, experimental**)
+  - @react-navigation/native for native                 (**excellent**)
+
+- Use react-navigation for native, react-router for web
+  - best of choices on each platform!                   (**nice!**)
+
+Last option was the way I implemented it. Check `App.native.ts` and `App.web.ts` in the [project source][card-quest-source] to see how they are put together.
+
+
+
 ### Linking
 ...
 
 ### Dialogs
 ...
 
+[card-quest-source]: https://github.com/eralpkaraduman/card-quest
+[card-quest-site]: https://card-quest.netlify.app
