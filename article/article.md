@@ -128,7 +128,7 @@ All the styles, fonts and dimensions are shared across targets. There's a common
 
 I used the same assets in both targets. Images work without any extra effort. But font icons needed little bit more setup. I used [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons) which is intended to be used only on react-native apps, but with minimal configuration you can also use them in web. See [webpack section of react-native-vector-icons readme](https://github.com/oblador/react-native-vector-icons#web-with-webpack). Idea is that you directly import the fonts from the module then add them to your css bundling process.  
 
-## Platform specific code:
+## Platform specific code
 
 Most of the platform specific code are in separate files with their respective postfixes, as in `*.native.tsx` `*.web.tsx`. But there are some other cases where platform specific behaviour is so minimal that the logic for switching behaviour for the current platform could be in the same component. The common places this was done were;
 
