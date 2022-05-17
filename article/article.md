@@ -19,10 +19,10 @@ React-native-web is a good choice for moving already existing react-native mobil
 
 There are several ways to share react-native code to web, some of which would be;
 
-1. Use Expo.
-it has a web target already. [Expo](https://docs.expo.dev/workflow/web/) is a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms. If you want to get started quick, wouldn't need fine control, and ok with web app behaving like a mobile app, this is the way to go.
+## Option 1: Use Expo.
+It has a web target already. [Expo](https://docs.expo.dev/workflow/web/) is a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms. If you want to get started quick, wouldn't need fine control, and ok with web app behaving like a mobile app, this is the way to go.
   
-2. Monorepo with shared components module.
+## Option 2: Monorepo with shared components module.
 This is the most popular approach, you put web app and react-native app projects into a monorepo. Develop shared react-native code in a module in monorepo. Render shared code in web project through react-native-web. Quite solid approach, hoWever the downside is that you need be aware that shared code are in a npm module, working on it effectively would require you to set up symlinks etc.
 
 There are many ways to set up monorepos, take a look at [monorepo.tools](https://monorepo.tools/) for tools and ideas. Here's how I did it;
@@ -42,7 +42,7 @@ There are many ways to set up monorepos, take a look at [monorepo.tools](https:/
   │  │  ├─ package.json
   ``` 
 
-3. Install react-dom into react-native project.
+## Option 3: Install react-dom into react-native project.
 This is the way I experimented with in this project. Don't know if this is a good way yet. Aim of this is to see how far it goes, so far I'm really happy with the result.
 
 How it goes is that, you install a bundler into the project with a separate entry point than react-native's.
