@@ -19,10 +19,10 @@ React-native-web is a good choice for moving already existing react-native mobil
 
 There are several ways to share react-native code to web, some of which would be;
 
-## Option 1: Use Expo.
+## Option 1: Use Expo
 It has a web target already. [Expo](https://docs.expo.dev/workflow/web/) is a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms. If you want to get started quick, wouldn't need fine control, and ok with web app behaving like a mobile app, this is the way to go.
   
-## Option 2: Monorepo with shared components module.
+## Option 2: Monorepo with shared components module
 This is the most popular approach, you put web app and react-native app projects into a monorepo. Develop shared react-native code in a module in monorepo. Render shared code in web project through react-native-web. Quite solid approach, hoWever the downside is that you need be aware that shared code are in a npm module, working on it effectively would require you to set up symlinks etc.
 
 There are many ways to set up monorepos, take a look at [monorepo.tools](https://monorepo.tools/) for tools and ideas. Here's how I did it;
@@ -42,7 +42,7 @@ There are many ways to set up monorepos, take a look at [monorepo.tools](https:/
   │  │  ├─ package.json
   ``` 
 
-## Option 3: Install react-dom into react-native project.
+## Option 3: Install react-dom into react-native project
 This is the way I experimented with in this project. Don't know if this is a good way yet. Aim of this is to see how far it goes, so far I'm really happy with the result.
 
 How it goes is that, you install a bundler into the project with a separate entry point than react-native's.
@@ -82,7 +82,7 @@ I'm planning to go into more detail with each of these points below as separate 
 
 ![screenshot](./react-native-web-code-share.jpg)
 
-## Shared code:
+## Shared code
 
 ### Game logic
 
@@ -170,17 +170,27 @@ For example for "Home" screen there are separate container components for each p
 
 And for the actual content we have `HomeContent.tsx` which is included in both of the containers above. 
 
-### UI theme
-...
+### UI theme & styling
+
+All the styles, fonts and dimensions are shared across targets. There's a common `theme.ts` file implemented based on [styled-components](https://styled-components.com/). See `global.d.ts`, there's the re-declaration of `DefaultTheme` from `styled-components`. This allows us to type-check the theme values. Since most of the UI code is shared and implemented in `react-native-web`. It was simpler to just use `styled-components/native` in almost every component except the few ones specific to web. See how re-declaration of theme types are implemented here at [styled-components documentation](https://styled-components.com/docs/api#create-a-declarations-file) 
 
 ### Fonts, icons and images
-...
+
+I used the same assets in both targets. Images work without any extra effort. But font icons needed little bit more setup. I used [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons) which is intended to be used only on react-native apps, but with minimal configuration you can also use them in web. See [webpack section of react-native-vector-icons readme](https://github.com/oblador/react-native-vector-icons#web-with-webpack). Idea is that you directly import the fonts from the module then add them to your css bundling process.  
 
 ## Platform specific code:
 
-### Bundling
-...
+Most of the platform specific code are in separate files with their respective postfixes, as in `*.native.tsx` `*.web.tsx`. But there are some other cases where platform specific behaviour is so minimal that the logic for switching behaviour for the current platform could be in the same component. The common places this was done were;
 
+- Rendering links
+- Platform specific typo: "Click" vs "Tap"
+
+Most of these could be implemented using react-natives `Platform.OS` API. `react-native-web` adds `web` platform to this OS object. So you can check via `Platform.OS === 'web'` or `Platform.select({web: ..., default: ...})`. See [react-native's own documentation about how to implement platform specific code](https://reactnative.dev/docs/platform-specific-code) for tips on how to use this api.
+
+Rendering links can be rather complicated depending on what kind of behaviour you want to achieve in each platform. What I intended to have was that similar to what we have on html as `<a href="/other">Other Page</a>` or `<a href="https://somewhere.else">Somewhere Else</a>`. On web this works out of the box with one catch. If you navigate internally using `/other` href, the page will reload and the app state will be reset. So you should use `react-router`'s `Link` api. However you can't replace all `a`'s with `Link`s because can't use it when navigating to external urls since router doesn't recognize them as paths. 
+
+Having these kinds of links in native side is whole another story because, concept of a browser doesn't exist, anchor tags also don't exist. What we have at native side is routing using `react-navigation` and rendering regular react-native buttons and triggering `Linking.openURL(href)`. This is such a typical case for platform specific implementation and would be repeated all over the code base so made sense for creating a `LinkText` component that behaves differently on each platform yet used the same way in components. See `LinkText.tsx` in the [source code][card-quest-source]. This component only handles the rendering of a anchor style text button and opens urls but can't handle the internal page routing. Page routing in native app requires `react-navigation`'s `useNavigation()` hook so I made a `ScreenLinkText` component based on `LinkText` which is visually the same yet it takes `screen` and `tab` names then figures out how to navigate based on them. Usage looks like this `<ScreenLinkText tab="GameTab" screen="GameScreen">`. See the component to check how they are implemented. Setting up type checking for tab and screen based deep navigation is tricky, I suggest referring to [typescript documentation of react-navigation](https://reactnavigation.org/docs/typescript/).
+ 
 ### Routing
 
 I choose to use [react-navigation](https://reactnavigation.org/) for native, [react-router](https://reactrouter.com/) for web,
@@ -194,10 +204,13 @@ But there is usually couple ways to do implement routing;
   - @react-navigation/web for web                       (**buggy, experimental**)
   - @react-navigation/native for native                 (**excellent**)
 
-- Use react-navigation for native, react-router for web
+- Use react-navigation/native for native, react-router-dom for web
   - best of choices on each platform!                   (**nice!**)
 
-Last option was the way I implemented it. Check `App.native.ts` and `App.web.ts` in the [project source][card-quest-source] to see how they are put together.
+Last option was the way I implemented it. Separating page contents from the page containers and the navigation / routing implementation allowed this option to be taken. Using [react-navigation/native](https://reactnavigation.org/docs/getting-started/) and [react-router-dom](https://v5.reactrouter.com/web/guides/quick-start) separately on web and native resulted with the best ux in each target. Check `App.native.ts` and `App.web.ts` in the [project source][card-quest-source] to see how they were put together.
+
+### Bundling
+...
 
 ### Linking
 ... part 2?
