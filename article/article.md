@@ -265,11 +265,11 @@ See `webpack.config.js` and `metro.config.js` to check how they are configured i
 
 This part covers how the project was put together and what kind of choices I made, among other options. Other topics are more like implementation details. So I'm planning to cover these topics in separate articles. Some of these are already implemented. You can check how they are also built-in [the source code](card-quest-source);
 
-### Linking:
+### Linking
 
 How to handle platform-specific page routes, tab bars, and navigation stacks are managed. This is briefly covered in the _"Platform-specific code"_ section.
 
-### Dialogs:
+### Dialogs
 
 When the app shows dialogs, the web app displays the same content in a ["Reach UI" dialog](https://reach.tech/dialog/), but the native app displays it in [react-native-bottom-sheet](https://gorhom.github.io/react-native-bottom-sheet/). I will be going into detail about their usage.
 
