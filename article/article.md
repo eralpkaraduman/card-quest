@@ -1,31 +1,31 @@
 # React Native Web Article series
 
-# Part 1: Cross platform mobile & web code sharing setup.
+# Part 1: Cross-platform mobile & web code sharing setup.
 
-I have been working on [a demo project called Card Quest][card-quest-source] to explore and learn about sharing code between react-native mobile apps and react web sites.
+I have been working on [a demo project called Card Quest][card-quest-source] to explore and learn about sharing code between react-native mobile apps and react websites.
 
 The project consists of a website and a mobile app with a simple card game. Having a game in it demonstrates some "business logic" code that can be reused across platforms. Since I could not come up with a better idea, I decided to implement [a card game called Donsol](https://boardgamegeek.com/boardgame/197004/donsol). 
 
 What the product does and what kind of game it has in it are not essential as the main focus of this experiment is its implementation. So I won't go into much detail about the game and its rules. However, the special thing about Donsol was that it is a single-player solitaire style turn-based card game, so there was no need to implement multi-player logic since that would be out of the scope of the experiment. You can go to [the project's site][card-quest-site] to learn more about the game and try it. The source code is available at [github.com/eralpkaraduman/card-quest][card-quest-source].
 
-Experiment is mainly about re-using ideally all of the code for the game and most of the UI code in the rest of the app on web and mobile platforms.
+The experiment is mainly about re-using ideally all of the code for the game and most of the UI code in the rest of the app on the web and mobile platforms.
 
 There is a technology called [react-native-web](https://necolas.github.io/react-native-web/), which is a great tool for the job, quoting from their website;
 
 > "A compatibility layer between React DOM and React Native. It can be used in new and existing apps, web-only and multi-platform apps.
 > React Native for Web uses React DOM to accurately render React Native compatible JavaScript code in a web browser."
 
-React-native-web is a good choice for moving already existing react-native mobile app code to run on web projects. Also it is good for starting a project with it with the goal of code-sharing in mind, which is what I did.
+React-native-web is a good choice for moving already existing react-native mobile app code to run on web projects. Also, it is good for starting a project with it with the goal of code-sharing in mind, which is what I did.
 
-There are several ways to share react-native code to web, some of which would be;
+There are several ways to share react-native code to the web, some of which would be;
 
 ## Option 1: Use Expo
-It has a web target already. [Expo](https://docs.expo.dev/workflow/web/) is a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms. If you want to get started quick, wouldn't need fine control, and ok with web app behaving like a mobile app, this is the way to go.
+It has a web target already. [Expo](https://docs.expo.dev/workflow/web/) is a framework and a platform for universal React applications. It is a set of tools and services built around React Native and native platforms. If you want to get started quickly, wouldn't need fine control, and ok with the web app behaving like a mobile app, this is the way to go.
   
-## Option 2: Monorepo with shared components module
-This is the most popular approach, you put web app and react-native app projects into a monorepo. Develop shared react-native code in a module in monorepo. Render shared code in web project through react-native-web. Quite solid approach, hoWever the downside is that you need be aware that shared code are in a npm module, working on it effectively would require you to set up symlinks etc.
+## Option 2: Mono repo with shared components module
+This is the most popular approach, you put web app and react-native app projects into a mono repo. Develop shared react-native code in a module in the mono repo. Render shared code in web project through react-native-web. Quite a solid approach, however, the downside is that you need be aware that shared code is in an npm module, working on it effectively would require you to set up symlinks, etc.
 
-There are many ways to set up monorepos, take a look at [monorepo.tools](https://monorepo.tools/) for tools and ideas. Here's how I did it;
+There are many ways to set up a mono repo, take a look at [mono repo.tools](https://monorepo.tools/) for tools and ideas. Here's how I did it;
 
   ```plaintext
   my-project/
@@ -42,16 +42,17 @@ There are many ways to set up monorepos, take a look at [monorepo.tools](https:/
   │  │  ├─ package.json
   ``` 
 
-## Option 3: Install react-dom into react-native project
-This is the way I experimented with in this project. Don't know if this is a good way yet. Aim of this is to see how far it goes, so far I'm really happy with the result.
+## Option 3: Install react-dom into the react-native project
 
-How it goes is that, you install a bundler into the project with a separate entry point than react-native's.
+This is the way I experimented with this project. Don't know if this is a good way yet. The aim of this is to see how far it goes, so far I'm really happy with the result.
+
+How it goes is that you install a bundler into the project with a separate entry point than the react-native's.
 Then you render shared react-native code in the project inside web components.
 
 I choose [webpack](https://webpack.js.org/) bundler for simplicity as it is out of the scope of this experiment. Webpack is not necessarily the fastest bundler but is a reliable one.
 
-Separated platform specific code by postfixing filenames like -> `.native.ts` & `.web.ts`
-Then setup webpack or metro configs to exclude one another.
+Separated platform-specific code by postfixing filenames like -> `.native.ts` & `.web.ts`.
+Then the setup webpack or metro configs to exclude one another's files.
 Shared code won't be postfixed at all `something.ts`
 
   ```plaintext
@@ -76,9 +77,9 @@ This approach is [also suggested by react-native-web project on this page](https
 
 ## Project structure
 
-I have designed the structure in a way so that web app feels like a regular website and the app feels like a regular mobile app. Which look and feel, ux and accessibility has to be built by platform specific parts. Which would be difficult to achieve with write once and target multiple platforms kind of approaches like what [Expo](https://expo.dev/) and [Flutter](https://flutter.dev/). Downside is that there's some configuration and code that is not shared and specific to either web and mobile. But they are very minimal and only responsible from presentation containment, so much more of the content and ui code of the app are shared.
+I have designed the structure in a way so that the web app feels like a regular website and the app feels like a regular mobile app. Which look and feel, UX and accessibility have to be built by platform-specific parts. This would be difficult to achieve with writing once and targeting multiple platforms kind of approaches like [Expo](https://expo.dev/) and [Flutter](https://flutter.dev/). The downside is that there's some configuration and code that is not shared and specific to either web or mobile. But they are very minimal and only responsible for presentation containment, so much more of the content and UI code of the app are shared.
 
-I'm planning to go into more detail with each of these points below as separate articles. But briefly here's summary of parts of shared, and platform specific code.
+I'm planning to go into more detail with each of these points below as separate articles. But briefly here's a summary of parts of shared, and platform-specific code.
 
 ![screenshot](./react-native-web-code-share.jpg)
 
@@ -86,45 +87,45 @@ I'm planning to go into more detail with each of these points below as separate 
 
 ### Game logic
 
-Game logic is implemented in a way that it is unaware of react or react-native, so that it can be re-used in multiple ways even beyond react. Game logic consists of several plain typescript classes and decoupled from visualization. It is only responsible from keeping track of the game state and checking rules.
+Game logic is implemented in a way that it is unaware of react or react-native so that it can be re-used in multiple ways even beyond react. Game logic consists of several plain typescript classes decoupled from visualization. It is only responsible for keeping track of the game state and checking rules.
 
-Game implementation details are beyond this article's focus so onl point that matters is that it's code is detached from view layer and that is how it can work between platforms. But if you are interested about the implementation, see these parts in the [source code][card-quest-source];
+Game implementation details are beyond this article's focus so the only point that matters is that its code is detached from the view layer and that is how it can work between platforms. But if you are interested in the implementation, see these parts in the [source code][card-quest-source];
 
 - `GameController`: the game rules & state implementation.
 - `EventDispatcher`: custom event dispatcher implementation to notify the listeners (not related to react, anything can listen)
 - `Observable`: custom observable implementation to track state changes
-- `GameEventHistory`: Keeps a log of events happened in the game.
+- `GameEventHistory`: Keeps a log of events that happened in the game.
 - `resolveGameCardPlay`: Predicts results ahead of playing a particular card.
-- `DonsolCardDescriptor`: Describes what does a particular game card to in plain text.
-- `DonsolEventDescriptor`: Describes a game event in plain human readable text.
+- `DonsolCardDescriptor`: Describes what a particular game card to in the plain text.
+- `DonsolEventDescriptor`: Describes a game event in plain human-readable text.
 
 ### Game presentation
 
-Presentation layer of the game is implemented as react-native components and very well aware of react compared to how game logic is decoupled from react. However this part doesn't know about how the game rules or the state manipulation works. A good way to implement games with react is to keep game logic away from react as much as possible, and using react only as renderer.
+The presentation layer of the game is implemented as react-native components and very well aware of react compared to how game logic is decoupled from react. However, this part doesn't know about how the game rules or the state manipulation works. A good way to implement games with react is to keep game logic away from react as much as possible and use react only as a renderer.
 
-- `GameControllerProvider`: binds game controller to react's context api.
+- `GameControllerProvider`: binds the game controller to react's context API.
 - `useGameController`: the react hook that allows components to register event listeners.
-- `GameView`: Main component that renders the current game state, responds to user input. See this component to get the gist of the implementation.
-- `GameRoom`: Renders the cards in current dungeon room.
-- `PlayerStatus`: Renders the health value, shield and health bars.
-- `BattleLogView`: Renders the list of events happened in the game.
+- `GameView`: The main component that renders the current game state, responds to user input. See this component to get the gist of the implementation.
+- `GameRoom`: Renders the cards in the current dungeon room.
+- `PlayerStatus`: Renders the health value, the shield, and the health bars.
+- `BattleLogView`: Renders the list of events that happened in the game.
 
 
 ### Page contents
 
-Container of the pages or screens have as little code as possible so that platform specific code is minimal. They only set up scrolling containers, avoid device specific margins etc. The main contents are implemented as separate components.
+The container of the pages or screens has as little code as possible so that platform-specific code is minimal. They only set up scrolling containers, avoid device-specific margins, etc. The main contents are implemented as separate components.
 
-For example for "Home" screen there are separate container components for each platform;
+For example for the "Home" screen there are separate container components for each platform;
 - `HomeScreen.web.tsx`: Adds a title text above.
 - `HomeScreen.native.tsx`: Wraps with scrolling container.
 
-And for the actual content we have `HomeContent.tsx` which is included in both of the containers above. 
+And for the actual content, we have `HomeContent.tsx` which is included in both of the containers above. 
 
 ### UI theme & styling
 
-All the styles, fonts and dimensions are shared across targets. There's a common `theme.ts` file implemented based on [styled-components](https://styled-components.com/). See `global.d.ts`, there's the re-declaration of `DefaultTheme` from `styled-components`. This allows us to type-check the theme values. Since most of the UI code is shared and implemented in `react-native-web`. It was simpler to just use `styled-components/native` in almost every component except the few ones specific to web. See how re-declaration of theme types are implemented here at [styled-components documentation](https://styled-components.com/docs/api#create-a-declarations-file) 
+All the styles, fonts, and dimensions are shared across targets. There's a common `theme.ts` file implemented based on [styled-components](https://styled-components.com/). See, `global.d.ts`, there's the re-declaration of `DefaultTheme` from `styled-components`. This allows us to type-check the theme values. Since most of the UI code is shared and implemented in `react-native-web`. It was simpler to just use `styled-components/native` in almost every component except the few ones specific to web. See how re-declaration of theme types are implemented here at [styled-components documentation](https://styled-components.com/docs/api#create-a-declarations-file) 
 
-### Fonts, icons and images
+### Fonts, icons, and images
 
 I used the same assets in both targets. Images work without any extra effort. But font icons needed little bit more setup. I used [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons) which is intended to be used only on react-native apps, but with minimal configuration you can also use them in web. See [webpack section of react-native-vector-icons readme](https://github.com/oblador/react-native-vector-icons#web-with-webpack). Idea is that you directly import the fonts from the module then add them to your css bundling process.  
 
