@@ -211,11 +211,11 @@ But there is usually a couple of other ways to do implement routing;
   - react-router-native for native                      (**page transitions are not good**)
   - react-router-dom for web                            (**excellent**)
 
-- User react-navigation on both targets
-  - @react-navigation/web for web                       (**buggy, experimental**)
-  - @react-navigation/native for native                 (**excellent**)
+- Use "react-navigation" on both targets
+  - "@react-navigation/web" for web                       (**buggy, experimental**)
+  - "@react-navigation/native" for native                 (**excellent**)
 
-- Use react-navigation/native for native, react-router-dom for web
+- Use "@react-navigation/native" for native, "react-router-dom" for web
   - best of choices on each platform!                   (**nice!**)
 
 The last option was the way I implemented it. Separating page contents from the page containers and the navigation/routing implementation allowed this option to be taken. Using [react-navigation/native](https://reactnavigation.org/docs/getting-started/) and [react-router-dom](https://v5.reactrouter.com/web/guides/quick-start) separately on web and native resulted in the best UX in each target. Check `App.native.ts` and `App.web.ts` in the [project's source][card-quest-source] to see how they were put together.
@@ -284,7 +284,9 @@ When the app shows dialogs, the web app displays the same content in a ["Reach U
 
 This is missing for now, but I'm planning to experiment with cross-platform animations or platform-specific ones coming from some form of configuration base. Don't know which tools I will use for this yet, but once I implement the animations will write about them.
 
-This project has been just an experiment and hasn't been tested on a real-life consumer-facing application, so beware that most of what I have been talking about are not best practices. However, all these choices worked very nicely, so I'm hopeful that they can work well on a production app. If you choose to take a similar path for implementing cross-platform apps, please let me know! You can reach me from [eralp.dev](https://eralp.dev).
+This project has been just an experiment and hasn't been tested on a real-life consumer-facing application, so beware that most of what I have been talking about are not best practices. However, all these choices worked very nicely, so I'm optimistic that they can also work well on a production app. For those considering a way to share code between apps, I can say that I'm happy with this path I took. There is a lot of configuration to be done, and there are numerous ways to do it. But worth taking the time and setting this up, in my opinion. Adding shared cross-platform content gets easier once you figure out how to design the platform-specific containers. Considering that a significant part of most apps is their content, this path could be an excellent way to save time.
+
+If you choose to take a similar path for implementing cross-platform apps, please let me know! You can reach me from [eralp.dev](https://eralp.dev).
 
 
 [card-quest-source]: https://github.com/eralpkaraduman/card-quest
