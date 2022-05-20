@@ -6,6 +6,8 @@ I have been working on [a demo project called Card Quest][card-quest-source] to 
 
 The project consists of a website and a mobile app with a simple card game. Having a game in it demonstrates some "business logic" code that can be reused across platforms. Since I could not come up with a better idea, I decided to implement [a card game called Donsol](https://boardgamegeek.com/boardgame/197004/donsol). 
 
+![screenshot](./home.png)
+
 What the product does and what kind of game it has in it are not essential as the main focus of this experiment is its implementation. So I won't go into much detail about the game and its rules. However, the special thing about Donsol was that it is a single-player solitaire style turn-based card game, so there was no need to implement multi-player logic since that would be out of the scope of the experiment. You can go to [the project's site][card-quest-site] to learn more about the game and try it. The source code is available at [github.com/eralpkaraduman/card-quest][card-quest-source].
 
 The experiment mainly uses all of the code ideally for the game and most of the UI code in the rest of the app on the web and mobile platforms.
@@ -81,8 +83,6 @@ I have designed the structure so that the web app feels like a regular website a
 
 I plan to go into more detail with each of these points below as separate articles. But briefly, here's a summary of parts of shared and platform-specific code.
 
-![screenshot](./react-native-web-code-share.jpg)
-
 ## Shared code
 
 ### Game logic
@@ -90,6 +90,8 @@ I plan to go into more detail with each of these points below as separate articl
 Game logic is implemented so that it is unaware of react or react-native so that it can be reused in multiple ways even beyond react. Game logic consists of several plain typescript classes decoupled from visualization. It is only responsible for keeping track of the game state and checking rules.
 
 Game implementation details are beyond this article's focus, so the only point that matters is that its code is detached from the view layer, which is how it can work between platforms. But if you are interested in the implementation, see these parts in the [source code][card-quest-source];
+
+![screenshot](./game.png)
 
 - `GameController`: the game rules & state implementation.
 - `EventDispatcher`: custom event dispatcher implementation to notify the listeners (not related to react, anything can listen)
@@ -142,6 +144,8 @@ Rendering links can be rather complicated depending on what kind of behavior you
 
 Having these kinds of links on the native side is another whole story because the concept of a browser doesn't exist, and anchor tags also don't exist. What we have on the native side is routing using `react-navigation` and rendering regular react-native buttons, and triggering `Linking.openURL(href)`. This is such a typical case for platform-specific implementation and would be repeated all over the code base, so it made sense to create a `LinkText` component that behaves differently on each platform yet is used the same way in components. See `LinkText.tsx` the [source code][card-quest-source]. This component only handles rendering an anchor-style text button and opens URLs but can't handle the internal page routing. Page routing on the native app requires `react-navigation`'s `useNavigation()` hook, so I made a `ScreenLinkText` component based on `LinkText`, which is visually the same, yet it takes `screen` and `tab` names then figure out how to navigate based on them. Usage looks like this `<ScreenLinkText tab="GameTab" screen="GameScreen">`. See the component to check how they are implemented. Setting up type checking for tab and screen-based deep navigation is tricky. I suggest referring to [typescript documentation of react-navigation](https://reactnavigation.org/docs/typescript/).
  
+![screenshot](./cards.png)
+
 ### UI containment
 
 UI containment is designed so that web app and native app have their own separate layout systems that work best for either web or mobile. For example, the web has a responsive sidebar, native has a bottom tab bar.
@@ -194,6 +198,8 @@ BODY
 └───────────────────┘
     TAB NAVIGATOR
 ```
+
+![screenshot](./battle-log.png)
 
 ### Routing
 
@@ -273,7 +279,6 @@ How to handle platform-specific page routes, tab bars, and navigation stacks are
 ### Dialogs
 
 When the app shows dialogs, the web app displays the same content in a ["Reach UI" dialog](https://reach.tech/dialog/), but the native app displays it in [react-native-bottom-sheet](https://gorhom.github.io/react-native-bottom-sheet/). I will be going into detail about their usage.
-
 
 ### Animations
 
