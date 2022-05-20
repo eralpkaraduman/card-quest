@@ -12,5 +12,8 @@ react-native & react-native-web code sharing demo app
 ## Running react-native app
 - `yarn ios` or `yarn android`
 
-![screenshot](article/react-native-web-code-share.jpg)
+![screenshot](article/game.png)
+![screenshot](article/home.png)
+![screenshot](article/cards.png)
+![screenshot](article/battle-log.png)
 
