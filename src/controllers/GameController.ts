@@ -171,7 +171,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
 
   private fightMonster(monster: DonsolCard) {
     const hurt = this.blockMonsterWithShield(monster);
-    this._health.update(prev => prev - hurt);
+    this._health.update(prev => Math.max(0, prev - hurt));
     this._history.add('Fight', {monster, hurt});
   }
 
@@ -233,7 +233,7 @@ export class GameController extends EventDispatcher<GameEventListener> {
   private drinkPotion(card: DonsolCard) {
     // if player drinks potions back to back, gets sick, potion doesn't effect
     const gainedHealth = this.prevCardWasPotion ? 0 : card.effect;
-    // player can't gain more healt than max
+    // player can't gain more health than max
     this._health.update(prev => Math.min(MAX_HEALTH, prev + gainedHealth));
     this._history.add('DrinkPotion', {gainedHealth});
   }

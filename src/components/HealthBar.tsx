@@ -2,7 +2,7 @@ import {MAX_HEALTH} from '@controllers/GameController';
 import {useGameController} from '@controllers/GameControllerProvider';
 import React, {ReactElement, useState} from 'react';
 import styled from 'styled-components/native';
-import {animated, to, useSpring} from '@react-spring/native';
+import {animated, useSpring} from '@react-spring/native';
 
 const Container = styled.View`
   display: flex;
@@ -25,20 +25,8 @@ const BarFill = styled.View`
   display: flex;
   flex-direction: row;
   background-color: ${({theme}) => theme.colors.red};
-  width: 100%;
   height: 100%;
 `;
-
-function AnimatedBarFill({amount}: {amount: number}): ReactElement {
-  const {scaleX} = useSpring({
-    scaleX: amount,
-  });
-  return (
-    <animated.View style={{transform: [{scaleX}], flex: 1}}>
-      <BarFill />
-    </animated.View>
-  );
-}
 
 const Title = styled.Text`
   min-width: 50px;
@@ -51,6 +39,9 @@ const Title = styled.Text`
 export function HealthBar(): ReactElement {
   const game = useGameController();
   const [health, setHealth] = useState<number>(game.health);
+  const {width} = useSpring({
+    width: `${(100 / MAX_HEALTH) * health}%`,
+  });
 
   React.useEffect(() => {
     const removeEventListener = game.addEventListener({
@@ -68,7 +59,9 @@ export function HealthBar(): ReactElement {
     <Container>
       <Title>{`🩸${Math.max(0, health)} / ${MAX_HEALTH}`}</Title>
       <Bar>
-        <AnimatedBarFill amount={health / MAX_HEALTH} />
+        <animated.View style={{width}}>
+          <BarFill />
+        </animated.View>
       </Bar>
     </Container>
   );
