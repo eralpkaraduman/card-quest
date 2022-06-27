@@ -1,5 +1,7 @@
 # card-quest
 
+Play it at https://card-quest.netlify.app !
+
 react-native & react-native-web code sharing demo app
 
 ## Prerequisites
