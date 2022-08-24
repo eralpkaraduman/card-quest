@@ -1,8 +1,8 @@
 # card-quest
 
-Play it at https://card-quest.netlify.app !
+Demo project for my [react-native & react-native-web code sharing article](https://eralp.dev/react-native-mobile-and-web-code-sharing/#Platform%20Specific%20Code)
 
-react-native & react-native-web code sharing demo app
+Play it at https://card-quest.netlify.app !
 
 ## Prerequisites
 - `yarn install`
