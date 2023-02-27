@@ -24,7 +24,8 @@ export function HomeContent(): React.ReactElement {
 
       <BodyText>
         Welcome to Card Quest! This is a react-native-web experiment with a game
-        in it. Game is an implementation of the card game Donsol.Head over to{' '}
+        in it. Made as a tech demo for this <LinkText href="https://eralp.dev/react-native-mobile-and-web-code-sharing">this article in my blog</LinkText>.
+        It is about sharing code between react-native mobile app and an web site. Head over to there to read about it's technical implementation. Game is an implementation of the card game Donsol. You can go to{' '}
         <ScreenLinkText tab="GameTab" screen="GameScreen">
           Game Screen
         </ScreenLinkText>{' '}
